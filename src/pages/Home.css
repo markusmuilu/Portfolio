@@ -1,0 +1,143 @@
+/* Layout */
+.cv-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f6fa;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.cv-sidebar {
+  width: 300px;
+  background-color: #141b29;
+  color: #fff;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.cv-photo {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.sidebar-section h3 {
+  margin-bottom: 10px;
+  color: #fff;
+  border-bottom: 1px solid #ffffff40;
+  padding-bottom: 5px;
+}
+
+.sidebar-section ul {
+  padding-left: 18px;
+}
+
+.sidebar-section li {
+  margin-bottom: 8px;
+}
+
+/* Main Content */
+.cv-main {
+  flex: 1;
+  padding: 40px;
+  color: #222;
+}
+
+.cv-main header h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #001b44;
+}
+
+.cv-main header h2 {
+  margin-top: 5px;
+  color: #444;
+}
+
+.cv-section {
+  margin-top: 30px;
+}
+
+.cv-section h3 {
+  color: #001b44;
+  margin-bottom: 10px;
+}
+
+.cv-section ul {
+  padding-left: 20px;
+}
+
+.cv-section h4 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #333;
+}
+/* --- CV BOX SECTIONS --- */
+
+.cv-box {
+  background: #ffffff;
+  border-left: 6px solid #001B44;   /* left colored line */
+  padding: 20px 25px;
+  margin-bottom: 35px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Title bar */
+.cv-box-title {
+  font-size: 24px;
+  color: #222;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #d4d9e2; /* clean underline */
+}
+
+/* Entry inside the box */
+.cv-entry {
+  margin-bottom: 20px;
+}
+
+.cv-entry h4 {
+  font-size: 18px;
+  margin: 0 0 4px 0;
+  color: #001B44;
+  font-weight: 600;
+}
+
+.cv-entry-dates {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.cv-project-tags {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.cv-entry ul, .cv-box > ul {
+  padding-left: 20px;
+}
+
+.cv-entry ul li, .cv-box ul li {
+  margin-bottom: 6px;
+}
+
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .cv-layout {
+    flex-direction: column;
+  }
+
+  .cv-sidebar {
+    width: 100%;
+  }
+}
