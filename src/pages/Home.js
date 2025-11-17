@@ -2,150 +2,272 @@ import "./Home.css";
 
 export default function Home() {
   return (
-    <div className="cv-layout">
-      
-      {/* LEFT SIDEBAR */}
-      <aside className="cv-sidebar">
-        <img src="/CV_kuva.jpeg" alt="Profile" className="cv-photo" />
+    <div className="home-root">
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-left">
+          <img src="/CV_kuva.jpeg" alt="Profile" className="hero-photo" />
 
-        <div className="sidebar-section">
-          <h3>Contact Information</h3>
-          <p><strong>Phone</strong><br />+358 44 317 0803</p>
-          <p><strong>Email</strong><br />markus.muilu@aalto.fi</p>
-          <p><strong>Address</strong><br />Espoo, Finland</p>
+          <div className="hero-content">
+            <p className="hero-kicker">Information Technology student · ML and Cloud</p>
+            <h1 className="hero-title">Markus Muilu</h1>
+            <p className="hero-lead">
+              I design and build production-level machine learning systems, cloud backends,
+              and data pipelines. I enjoy turning messy data and ideas into something
+              reliable, automated, and scalable.
+            </p>
+
+            <div className="hero-buttons">
+              <a href="mailto:markus.muilu@aalto.fi" className="hero-btn primary">
+                Contact me
+              </a>
+              <a href="#projects" className="hero-btn ghost">
+                View NBA project
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div className="sidebar-section">
-          <h3>Achievements</h3>
-          <ul>
-            <li>Top of the line in IRUK 114 course and ranked 3rd overall</li>
-            <li>Best Leader of the Air Force Academy batch 2/2022</li>
-            <li>Player in 2022 Men’s U20 European Championship</li>
-            <li>Player in 2021 Men’s U18 Nordic Championship</li>
-            <li>Huawei Seeds for the Future 2024  
-              — People’s Choice Award, 3rd in Europe
-            </li>
-          </ul>
+        <div className="hero-side">
+          <div className="hero-card">
+            <h2>Quick facts</h2>
+            <ul>
+              <li>Aalto University IT student, GPA 4.39</li>
+              <li>ICT trainee at Elo, working in Dynamics 365</li>
+              <li>Built a full NBA prediction MLOps pipeline</li>
+            </ul>
+          </div>
+          <div className="hero-card subtle">
+            <h3>Currently focused on</h3>
+            <p>Production ML, cloud infrastructure, clean API design.</p>
+          </div>
         </div>
+      </section>
 
-        <div className="sidebar-section">
-          <h3>Technical Skills</h3>
-          <ul>
-            <li>Python, JavaScript, SQL, C/C++, React, Scala</li>
-            <li>AWS (EC2, S3), Azure DevOps, Docker, Linux, REST APIs, Supabase</li>
-            <li>Feature Engineering, ML Models, Pipelines, Power BI</li>
-            <li>Git/GitHub, FastAPI, VS Code, Dynamics 365</li>
-          </ul>
+
+      {/* HIGHLIGHTS */}
+      <section className="section" id="highlights">
+        <h2 className="section-title">Highlights</h2>
+        <div className="cards-grid">
+          <div className="info-card">
+            <h3>Academic</h3>
+            <p>
+              Bachelor of Electrical Engineering and Information Technology at Aalto.
+              Minor in Computer Science, 165 credits completed.
+            </p>
+            <ul>
+              <li>Strong focus on ML, networking, and cloud computing</li>
+            </ul>
+          </div>
+
+          <div className="info-card">
+            <h3>Leadership and teamwork</h3>
+            <p>
+              Reserve Officer Training at the Air Force Academy and a long sports
+              background in basketball.
+            </p>
+            <ul>
+              <li>Best Officer Candidate and Leader of batch 2/2022</li>
+              <li>Led a 10 day field exercise for 300 conscripts</li>
+              <li>Played in U20 European and U18 Nordic Championships</li>
+            </ul>
+          </div>
+
+          <div className="info-card">
+            <h3>Global tech exposure</h3>
+            <p>
+              Huawei Seeds for the Future 2024 alumnus with hands on exposure to
+              cloud, 5G, and global collaboration.
+            </p>
+            <ul>
+              <li>People&apos;s Choice Award in European Tech4Good</li>
+              <li>Third place out of 22 teams</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <div className="sidebar-section">
-          <h3>Languages</h3>
-          <ul>
-            <li>Finnish:       Native</li>
-            <li>English:       Fluent</li>
-          </ul>
+      {/* SKILLS */}
+      <section className="section" id="skills">
+        <h2 className="section-title">Skills</h2>
+        <div className="skills-wrap">
+          <div className="skills-group">
+            <h3>Core stack</h3>
+            <div className="chips">
+              <span>Python</span>
+              <span>JavaScript</span>
+              <span>SQL</span>
+              <span>React</span>
+              <span>FastAPI</span>
+            </div>
+          </div>
+
+          <div className="skills-group">
+            <h3>Cloud and DevOps</h3>
+            <div className="chips">
+              <span>AWS EC2 and S3</span>
+              <span>Docker</span>
+              <span>Linux</span>
+              <span>Azure DevOps</span>
+            </div>
+          </div>
+
+          <div className="skills-group">
+            <h3>Data and ML</h3>
+            <div className="chips">
+              <span>Feature engineering</span>
+              <span>ML model training</span>
+              <span>Data pipelines</span>
+              <span>Power BI</span>
+            </div>
+          </div>
+
+          <div className="skills-group">
+            <h3>Tools</h3>
+            <div className="chips">
+              <span>Git and GitHub</span>
+              <span>VS Code</span>
+              <span>Dynamics 365</span>
+            </div>
+          </div>
         </div>
-      </aside>
+      </section>
 
-      {/* MAIN CONTENT */}
-      <main className="cv-main">
-        <header>
-          <h1>Markus Muilu</h1>
-          <h2>Information Technology Student at Aalto University</h2>
-        </header>
+      {/* EDUCATION */}
+      <section className="section" id="education">
+        <h2 className="section-title">Education</h2>
+        <div className="timeline">
+          <div className="timeline-item">
+            <div className="timeline-dot" />
+            <div className="timeline-content">
+              <h3>Aalto University</h3>
+              <p className="timeline-dates">2023 to 2026</p>
+              <p>Bachelor of Electrical Engineering and Information Technology.</p>
+              <ul>
+                <li>Minor in Computer Science</li>
+                <li>165 credits after fall, currently GPA 4.39</li>
+                <li>Networking, Signal Processing, Data Analytics, ML, Cloud Computing</li>
+              </ul>
+            </div>
+          </div>
 
-        <section className="cv-section">
-          <h3>About Me</h3>
-          <p>
-            Third-year Information Technology student at Aalto University with a current GPA of 4.39 
-            and 165 completed credits after this fall. I am responsible, calm, goal-oriented, and proactive, 
-            with a strong interest in applying technology to solve real-world problems. A quick learner who enjoys taking 
-            responsibility and continuously challenging myself in both academic and work environments.
+          <div className="timeline-item">
+            <div className="timeline-dot" />
+            <div className="timeline-content">
+              <h3>Air Force Academy, Tikkakoski</h3>
+              <p className="timeline-dates">2022 to 2023</p>
+              <ul>
+                <li>Reserve Officer Training</li>
+                <li>Best in Communications Line</li>
+                <li>Best Officer Candidate and leader of batch 2/2022</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="timeline-item">
+            <div className="timeline-dot" />
+            <div className="timeline-content">
+              <h3>Schildtin lukio, Jyväskylä</h3>
+              <p className="timeline-dates">2019 to 2022</p>
+              <p>High school diploma, sports line.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EXPERIENCE */}
+      <section className="section" id="experience">
+        <h2 className="section-title">Experience</h2>
+        <div className="cards-stack">
+          <div className="exp-card">
+            <div className="exp-header">
+              <h3>ICT Trainee · Elo</h3>
+              <span className="exp-location">Espoo · 2025 to present</span>
+            </div>
+            <p>
+              Started in disability pensions and moved into Dynamics 365 CRM development.
+              I work on keeping data and tools reliable for the business.
+            </p>
+            <ul>
+              <li>Maintain and improve Elo&apos;s Dynamics 365 Sales system</li>
+              <li>Monitor and validate dataflows</li>
+              <li>Test new features with vendors and internal teams</li>
+              <li>Provide guidance and support for business users</li>
+            </ul>
+          </div>
+
+          <div className="exp-card">
+            <div className="exp-header">
+              <h3>Electronic Mechanician · Vaisala</h3>
+              <span className="exp-location">Vantaa · May 2024 to Feb 2025</span>
+            </div>
+            <p>
+              Worked in production building and testing weather and air quality devices.
+            </p>
+            <ul>
+              <li>Assembled measurement devices and installed software</li>
+              <li>Tested components under different conditions</li>
+              <li>Learned six full production processes in a short time</li>
+            </ul>
+          </div>
+
+          <div className="exp-card subtle">
+            <div className="exp-header">
+              <h3>Other roles</h3>
+            </div>
+            <ul>
+              <li>Warehouse worker, Stockmann (Summer 2023)</li>
+              <li>Entrepreneur, Aurinkosähkövene JKL (Summer 2021)</li>
+              <li>Course maintenance, Muurame Golf (Summer 2020)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* PROJECTS */}
+      <section className="section" id="projects">
+        <h2 className="section-title">Projects</h2>
+
+        <div className="project-card">
+          <div className="project-header">
+            <h3>NBA game prediction pipeline</h3>
+            <span className="project-tag">End to end ML and MLOps</span>
+          </div>
+
+          <p className="project-lead">
+            A full production style machine learning system that predicts NBA game outcomes
+            and feeds results into Power BI dashboards.
           </p>
-        </section>
 
-        {/* EDUCATION */}
-        <section className="cv-box">
-          <h3 className="cv-box-title">Education</h3>
-
-          <div className="cv-entry">
-            <h4>Aalto University, Bachelor of Electrical Engineering and Information Technology</h4>
-            <p className="cv-entry-dates">2023 to 2026</p>
-            <ul>
-              <li>Minor in Computer Science</li>
-              <li>Completed 165 credits, GPA 4.39</li>
-              <li>Courses: Networking, Signal Processing, Data Analytics, Machine Learning, Cloud Computing, Programming</li>
-            </ul>
+          <div className="project-tech">
+            <span>Python</span>
+            <span>FastAPI</span>
+            <span>Docker</span>
+            <span>AWS EC2</span>
+            <span>AWS S3</span>
+            <span>Power BI</span>
+            <span>React</span>
           </div>
 
-          <div className="cv-entry">
-            <h4>Air Force Academy, Tikkakoski, Reserve Officer Training</h4>
-            <p className="cv-entry-dates">2022 to 2023</p>
-            <ul>
-              <li>Awarded Best in Communications Line</li>
-              <li>Best Officer Candidate and Leader of the 2/22 batch</li>
-              <li>Served as camp leader for a 10 day field training exercise with over 300 conscripts</li>
-            </ul>
-          </div>
-
-          <div className="cv-entry">
-            <h4>Schildtin lukio, Jyväskylä, High School Diploma</h4>
-            <p className="cv-entry-dates">2019 to 2022</p>
-          </div>
-        </section>
-
-        {/* EXPERIENCE */}
-        <section className="cv-box">
-          <h3 className="cv-box-title">Experience</h3>
-
-          <div className="cv-entry">
-            <h4>ICT-Trainee, Elo, Espoo</h4>
-            <p className="cv-entry-dates">2025 to Present</p>
-            <ul>
-              <li>Processed pension applications and provided customer support</li>
-              <li>Moved into Dynamics 365 CRM development after strong performance</li>
-              <li>Maintained dataflows, tested new features, and collaborated with vendors and internal teams</li>
-              <li>Provided user support and training for business teams</li>
-            </ul>
-          </div>
-
-          <div className="cv-entry">
-            <h4>Electronic Mechanician, Vaisala, Vantaa</h4>
-            <p className="cv-entry-dates">May 2024 to February 2025</p>
-            <ul>
-              <li>Assembled weather and air-quality measurement devices</li>
-              <li>Installed software on embedded systems</li>
-              <li>Learned and worked within six complete production processes</li>
-            </ul>
-          </div>
-
-          <h4>Additional Roles</h4>
-          <ul>
-            <li>Warehouse Worker, Stockmann (Summer 2023)</li>
-            <li>Entrepreneur, Aurinkosähkövene JKL (Summer 2021)</li>
-            <li>Course Maintenance, Muurame Golf (Summer 2020)</li>
+          <ul className="project-list">
+            <li>Built a data pipeline for game, team, and historical performance data</li>
+            <li>Created preprocessing and feature engineering for model training</li>
+            <li>Trained and evaluated models for win probability prediction</li>
+            <li>Dockerized a FastAPI backend and deployed it on AWS EC2</li>
+            <li>Designed an automated prediction flow with a bootstrap container</li>
+            <li>Stored data and predictions in S3 for analytics and history</li>
+            <li>Published results to Power BI and a React frontend for live viewing</li>
           </ul>
-        </section>
+        </div>
+      </section>
 
-        {/* PROJECTS */}
-        <section className="cv-box">
-          <h3 className="cv-box-title">Projects</h3>
-
-          <div className="cv-entry">
-            <h4>Predicting NBA - End to End Machine Learning Pipeline</h4>
-            <p className="cv-project-tags">Machine Learning, Data Pipelines, Cloud Development</p>
-            <ul>
-              <li>Designed and built a complete machine learning pipeline for NBA game predictions</li>
-              <li>Created data ingestion, preprocessing, feature engineering, and training stages</li>
-              <li>Developed a FastAPI backend, packaged with Docker and deployed to AWS EC2</li>
-              <li>Implemented an automated prediction system with a bootstrap container</li>
-              <li>Built S3 based storage architecture and Power BI analytics dashboards</li>
-              <li>Developed a React frontend for live predictions</li>
-              <li>Used GitHub for version control, workflow automation and continuous development</li>
-            </ul>
-          </div>
-        </section>
-      </main>
+      {/* FOOTER */}
+      <footer className="footer">
+        <p>
+          Feel free to reach out at{" "}
+          <a href="mailto:markus.muilu@aalto.fi">markus.muilu@aalto.fi</a>.
+        </p>
+      </footer>
     </div>
   );
 }

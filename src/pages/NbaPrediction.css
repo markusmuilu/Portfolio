@@ -1,0 +1,118 @@
+.nba-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: #e5e7eb;
+}
+
+/* Title */
+.nba-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #60a5fa;
+}
+
+/* TLDR Card */
+.tldr-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.8);
+}
+
+.tldr-card h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #93c5fd;
+}
+
+.tldr-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+/* Predictor Card */
+.predictor-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.8);
+}
+
+.predictor-card h2 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  color: #93c5fd;
+}
+
+.predictor-inputs {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.predictor-inputs select {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  color: #e5e7eb;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.predictor-inputs button {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: #0b1120;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.predictor-inputs button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(59, 130, 246, 0.6);
+}
+
+.prediction-output {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #dbeafe;
+}
+
+/* Power BI */
+.pbi-section {
+  margin-top: 40px;
+}
+
+.pbi-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #93c5fd;
+}
+
+.pbi-wrapper {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.9);
+}
+
+.pbi-wrapper iframe {
+  width: 100%;
+  height: 75vh;
+  border-radius: 12px;
+  border: none;
+}
