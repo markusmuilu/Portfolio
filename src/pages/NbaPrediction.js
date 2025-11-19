@@ -49,7 +49,7 @@ export default function NbaPrediction() {
 
     try {
       const res = await fetch(
-        `http://ec2-98-81-17-109.compute-1.amazonaws.com/predict?team1=${teamA}&team2=${teamB}`
+        `http://16.171.238.233:8000/predict?team1=${teamA}&team2=${teamB}`
 
       );
       const data = await res.json();
@@ -78,7 +78,38 @@ export default function NbaPrediction() {
         </p>
       </section>
 
-      
+      {/*PREDICTOR SECTION (RESTORED) */}
+      <section className="predictor-card">
+        <h2>Try the Live Predictor</h2>
+
+        <div className="predictor-inputs">
+          {/* Team A */}
+          <select value={teamA} onChange={(e) => setTeamA(e.target.value)}>
+            <option value="">Select Team A</option>
+            {Object.entries(teams).map(([abbr, name]) => (
+              <option key={abbr} value={abbr}>
+                {name}
+              </option>
+            ))}
+          </select>
+
+          {/* Team B */}
+          <select value={teamB} onChange={(e) => setTeamB(e.target.value)}>
+            <option value="">Select Team B</option>
+            {Object.entries(teams).map(([abbr, name]) => (
+              <option key={abbr} value={abbr}>
+                {name}
+              </option>
+            ))}
+          </select>
+
+          {/* Predict Button */}
+          <button onClick={handlePredict}>Predict</button>
+        </div>
+
+        {/* Prediction Result */}
+        {prediction && <div className="prediction-output">{prediction}</div>}
+      </section>
 
       {/* POWER BI */}
       <section className="pbi-section">
