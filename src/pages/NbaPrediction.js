@@ -74,9 +74,19 @@ export default function NbaPrediction() {
           This project predicts NBA game outcomes using a full Machine Learning pipeline 
           deployed on AWS. It collects game and team statistics, engineers features, trains 
           models, and serves predictions through a Dockerized FastAPI backend on EC2. 
-          Results are stored in S3 and visualized in a Power BI dashboard. Read more about it in my github.
+          Results are stored in S3 and visualized in a Power BI dashboard. Read more about it on my{" "}
+          <a 
+            href="https://github.com/markusmuilu/Predicting-Nba" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            GitHub
+          </a>
+          .
         </p>
       </section>
+
 
       {/*PREDICTOR SECTION (RESTORED) */}
       <section className="predictor-card">
