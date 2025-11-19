@@ -49,7 +49,7 @@ export default function NbaPrediction() {
 
     try {
       const res = await fetch(
-        `http://16.171.238.233:8000/predict?team1=${teamA}&team2=${teamB}`
+        `https://api.markusmuilu.page/predict?team1=${teamA}&team2=${teamB}`
 
       );
       const data = await res.json();
