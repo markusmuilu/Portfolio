@@ -21,7 +21,7 @@ export default function Home() {
               <a href="mailto:markus.muilu@aalto.fi" className="hero-btn primary">
                 Contact me
               </a>
-              <a href="#projects" className="hero-btn ghost">
+              <a href="https://www.markusmuilu.page/nba_prediction" className="hero-btn ghost">
                 View NBA project
               </a>
             </div>
