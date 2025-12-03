@@ -145,7 +145,7 @@ export default function Home() {
               <p>Bachelor of Electrical Engineering and Information Technology.</p>
               <ul>
                 <li>Minor in Computer Science</li>
-                <li>165 credits after fall, currently GPA 4.43</li>
+                <li>167 credits after fall, currently GPA 4.43</li>
                 <li>Networking, Signal Processing, Data Analytics, ML, Cloud Computing</li>
               </ul>
             </div>
