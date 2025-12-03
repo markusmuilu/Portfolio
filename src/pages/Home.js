@@ -32,7 +32,7 @@ export default function Home() {
           <div className="hero-card">
             <h2>Quick facts</h2>
             <ul>
-              <li>Aalto University IT student, GPA 4.39</li>
+              <li>Aalto University IT student, GPA 4.43</li>
               <li>ICT trainee at Elo, working in Dynamics 365</li>
               <li>Built a full NBA prediction MLOps pipeline</li>
             </ul>
@@ -53,7 +53,7 @@ export default function Home() {
             <h3>Academic</h3>
             <p>
               Bachelor of Electrical Engineering and Information Technology at Aalto.
-              Minor in Computer Science, 165 credits completed.
+              Minor in Computer Science, 167 credits completed after the fall semester.
             </p>
             <ul>
               <li>Strong focus on ML, networking, and cloud computing</li>
