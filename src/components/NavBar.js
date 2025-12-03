@@ -11,6 +11,7 @@ export default function Navbar() {
       <ul className="navbar-links">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/nba_prediction">NBA Prediction</Link></li>
+        <li><Link to="/github">GitHub</Link></li>
       </ul>
     </nav>
   );
