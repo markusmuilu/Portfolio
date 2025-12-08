@@ -1,0 +1,57 @@
+/* Dark blurred background */
+.contact-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Popup card */
+.contact-card {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: 14px;
+  padding: 24px 28px;
+  width: 300px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  animation: fadeIn 0.25s ease;
+  color: #e5e7eb;
+}
+
+.contact-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.contact-card p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.close-btn {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px;
+  background: rgba(59, 130, 246, 0.85);
+  border: none;
+  color: #0b1120;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background: rgba(96, 165, 250, 1);
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

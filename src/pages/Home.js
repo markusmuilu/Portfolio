@@ -1,6 +1,10 @@
 import "./Home.css";
+import { useState } from "react";
+import ContactCard from "../components/ContactCard";
 
 export default function Home() {
+  const [openContact, setOpenContact] = useState(false);
+
   return (
     <div className="home-root">
       {/* HERO */}
@@ -18,9 +22,13 @@ export default function Home() {
             </p>
 
             <div className="hero-buttons">
-              <a href="mailto:markus.muilu@aalto.fi" className="hero-btn primary">
+              <button 
+                className="hero-btn primary"
+                onClick={() => setOpenContact(true)}
+              >
                 Contact me
-              </a>
+              </button>
+
               <a href="https://www.markusmuilu.page/nba_prediction" className="hero-btn ghost">
                 View NBA project
               </a>
@@ -42,6 +50,9 @@ export default function Home() {
             <p>Production ML, cloud infrastructure, clean API design.</p>
           </div>
         </div>
+
+        {/* CONTACT POPUP */}
+        <ContactCard open={openContact} onClose={() => setOpenContact(false)} />
       </section>
 
 
@@ -128,6 +139,14 @@ export default function Home() {
               <span>Git and GitHub</span>
               <span>VS Code</span>
               <span>Dynamics 365</span>
+            </div>
+          </div>
+
+          <div className="skills-group">
+            <h3>Languages</h3>
+            <div className="chips">
+              <span>Finnish - Native</span>
+              <span>English - Fluent</span>
             </div>
           </div>
         </div>
@@ -230,9 +249,19 @@ export default function Home() {
 
         <div className="project-card">
           <div className="project-header">
-            <h3>NBA game prediction pipeline</h3>
+          <h3>NBA game prediction pipeline</h3>
+
+          <div className="project-controls">
             <span className="project-tag">End to end ML and MLOps</span>
+
+            <a
+              href="https://www.markusmuilu.page/nba_prediction"
+              className="hero-btn ghost"
+            >
+              View Project
+            </a>
           </div>
+        </div>
 
           <p className="project-lead">
             A full production style machine learning system that predicts NBA game outcomes

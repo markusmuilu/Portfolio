@@ -7,7 +7,7 @@ export default function Github() {
       <h1>My GitHub</h1>
 
       <p>
-        Building new projects that I showcase on my GitHub. I'm currently learning Computer Vision and exploring how to apply it to a basketball-related project.
+        Building new projects that I showcase on my GitHub. 
         Feel free to follow my progress and check out what I'm working on:
       </p>
 
