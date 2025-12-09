@@ -40,12 +40,16 @@ export default function NbaPrediction() {
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
   const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   async function handlePredict() {
     if (!teamA || !teamB || teamA === teamB) {
       setPrediction("Please select two different teams.");
       return;
     }
+
+    setLoading(true);
+    setPrediction(null);
 
     try {
       const res = await fetch(
@@ -58,6 +62,8 @@ export default function NbaPrediction() {
       );
     } catch {
       setPrediction("Prediction service unavailable right now");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -88,7 +94,7 @@ export default function NbaPrediction() {
       </section>
 
 
-      {/*PREDICTOR SECTION (RESTORED) */}
+      {/*PREDICTOR */}
       <section className="predictor-card">
         <h2>Try the Live Predictor</h2>
 
@@ -114,11 +120,18 @@ export default function NbaPrediction() {
           </select>
 
           {/* Predict Button */}
-          <button onClick={handlePredict}>Predict</button>
+          <button onClick={handlePredict} disabled={loading}>
+            {loading ? "Predicting…" : "Predict"}
+          </button>
         </div>
 
         {/* Prediction Result */}
-        {prediction && <div className="prediction-output">{prediction}</div>}
+        {loading && (
+          <div className="prediction-output">Making magic (Prediction)</div>
+        )}
+        {prediction && !loading && (
+          <div className="prediction-output">{prediction}</div>
+        )}
       </section>
 
       {/* POWER BI */}
