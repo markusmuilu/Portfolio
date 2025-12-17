@@ -137,6 +137,7 @@ export default function NbaPrediction() {
       {/* POWER BI */}
       <section className="pbi-section">
         <h2 className="pbi-title">Live Power BI Analytics</h2>
+        <p className="pbi-info"> Note: The probability for predictions in Custom NN Version 1 has not yet been calibrated. Therefore the version shows high confidence for every prediction and the confidence should be only used for ranking predictions in this version. </p>
         <PowerBIReport />
       </section>
     </div>
