@@ -40,7 +40,7 @@ export default function Home() {
           <div className="hero-card">
             <h2>Quick facts</h2>
             <ul>
-              <li>Aalto University IT student, GPA 4.43</li>
+              <li>Aalto University IT student, GPA 4.45</li>
               <li>ICT trainee at Elo, working in Dynamics 365</li>
               <li>Built a full NBA prediction MLOps pipeline</li>
             </ul>
