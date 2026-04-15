@@ -53,7 +53,7 @@ export default function NbaPrediction() {
 
     try {
       const res = await fetch(
-        "https://predicting-nba.fly.dev/predict?team1=${teamA}&team2=${teamB}"
+        'https://predicting-nba.fly.dev/predict?team1=${teamA}&team2=${teamB}'
       );
       const data = await res.json();
       setPrediction(
