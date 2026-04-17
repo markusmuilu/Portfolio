@@ -22,7 +22,7 @@ This frontend provides:
 - **Live predictor** — select two teams, get a real-time prediction from the deployed Fly.io API
 - **Streamlit analytics dashboard** — embedded from `nba-ml-dashboard.streamlit.app`, showing model performance, team stats, upset analysis, and betting simulation across 5 tabs
 
-The backend and ML pipeline live in a separate repository. The Streamlit dashboard replaced Power BI as the analytics layer — it is free, live, and self-hosted on Streamlit Community Cloud.
+The backend and ML pipeline live in a separate repository. The analytics layer was originally built with **Power BI** and the backend ran on **AWS EC2** with **AWS S3** for storage. Both have since been replaced — the dashboard is now a custom Streamlit app embedded from Streamlit Community Cloud, and the backend runs on Fly.io with Cloudflare R2 storage.
 
 ---
 
