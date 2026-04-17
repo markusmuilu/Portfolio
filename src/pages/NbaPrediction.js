@@ -1,66 +1,60 @@
 import { useState } from "react";
-import PowerBIReport from "../components/PowerBIReport";
 import "./NbaPrediction.css";
 
+const teams = {
+  "ATL": "Atlanta Hawks",
+  "BOS": "Boston Celtics",
+  "BKN": "Brooklyn Nets",
+  "CHA": "Charlotte Hornets",
+  "CHI": "Chicago Bulls",
+  "CLE": "Cleveland Cavaliers",
+  "DAL": "Dallas Mavericks",
+  "DEN": "Denver Nuggets",
+  "DET": "Detroit Pistons",
+  "GSW": "Golden State Warriors",
+  "HOU": "Houston Rockets",
+  "IND": "Indiana Pacers",
+  "LAC": "LA Clippers",
+  "LAL": "LA Lakers",
+  "MEM": "Memphis Grizzlies",
+  "MIA": "Miami Heat",
+  "MIL": "Milwaukee Bucks",
+  "MIN": "Minnesota Timberwolves",
+  "NOP": "New Orleans Pelicans",
+  "NYK": "New York Knicks",
+  "OKC": "Oklahoma City Thunder",
+  "ORL": "Orlando Magic",
+  "PHI": "Philadelphia 76ers",
+  "PHX": "Phoenix Suns",
+  "POR": "Portland Trail Blazers",
+  "SAC": "Sacramento Kings",
+  "SAS": "San Antonio Spurs",
+  "TOR": "Toronto Raptors",
+  "UTA": "Utah Jazz",
+  "WAS": "Washington Wizards",
+};
+
 export default function NbaPrediction() {
-  const teams = {
-    "ATL": "Atlanta Hawks",
-    "BOS": "Boston Celtics",
-    "BKN": "Brooklyn Nets",
-    "CHA": "Charlotte Hornets",
-    "CHI": "Chicago Bulls",
-    "CLE": "Cleveland Cavaliers",
-    "DAL": "Dallas Mavericks",
-    "DEN": "Denver Nuggets",
-    "DET": "Detroit Pistons",
-    "GSW": "Golden State Warriors",
-    "HOU": "Houston Rockets",
-    "IND": "Indiana Pacers",
-    "LAC": "LA Clippers",
-    "LAL": "LA Lakers",
-    "MEM": "Memphis Grizzlies",
-    "MIA": "Miami Heat",
-    "MIL": "Milwaukee Bucks",
-    "MIN": "Minnesota Timberwolves",
-    "NOP": "New Orleans Pelicans",
-    "NYK": "New York Knicks",
-    "OKC": "Oklahoma City Thunder",
-    "ORL": "Orlando Magic",
-    "PHI": "Philadelphia 76ers",
-    "PHX": "Phoenix Suns",
-    "POR": "Portland Trail Blazers",
-    "SAC": "Sacramento Kings",
-    "SAS": "San Antonio Spurs",
-    "TOR": "Toronto Raptors",
-    "UTA": "Utah Jazz",
-    "WAS": "Washington Wizards"
-  };
-
-
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handlePredict() {
-    if (!teamA || !teamB || teamA === teamB) {
-      setPrediction("Please select two different teams.");
-      return;
-    }
-
+    if (!teamA || !teamB) { setError("Please select both teams."); return; }
+    if (teamA === teamB) { setError("Please select two different teams."); return; }
+    setError("");
     setLoading(true);
     setPrediction(null);
-
     try {
       const res = await fetch(
         `https://predicting-nba.fly.dev/predict?team1=${teamA}&team2=${teamB}`
       );
       const data = await res.json();
-      setPrediction(
-        `Predicted winner: ${data.winner} (confidence ${data.confidence}%)`
-      );
+      setPrediction(data);
     } catch {
-      setPrediction("Prediction service unavailable right now");
+      setPrediction({ winner: null, confidence: null });
     } finally {
       setLoading(false);
     }
@@ -69,76 +63,192 @@ export default function NbaPrediction() {
   return (
     <div className="nba-page">
 
-      {/* TITLE */}
-      <h1 className="nba-title">NBA Game Prediction Project</h1>
-
-      {/* TLDR */}
-      <section className="tldr-card">
-        <h2>TL;DR Summary</h2>
-        <p>
-          This project predicts NBA game outcomes using a full Machine Learning pipeline 
-          deployed on AWS. It collects game and team statistics, engineers features, trains 
-          models, and serves predictions through a Dockerized FastAPI backend on EC2. 
-          Results are stored in S3 and visualized in a Power BI dashboard. Read more about it on my{" "}
-          <a 
-            href="https://github.com/markusmuilu/Predicting-Nba" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="github-link"
-          >
-            GitHub
-          </a>
-          .
+      {/* HERO BANNER */}
+      <section className="nba-hero">
+        <div className="nba-hero-glow-a" />
+        <div className="nba-hero-glow-b" />
+        <span className="nba-eyebrow">End-to-end ML system</span>
+        <h1 className="nba-hero-title">NBA Game Prediction</h1>
+        <p className="nba-hero-sub">
+          A fully automated machine learning pipeline — data ingestion, feature engineering,
+          model training, and daily inference — all running in production on Fly.io.
         </p>
+        <div className="nba-hero-actions">
+          <a
+            href="https://github.com/markusmuilu/Predicting-Nba"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nba-btn primary"
+          >
+            View on GitHub
+          </a>
+          <a
+            href="https://nba-ml-dashboard.streamlit.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nba-btn ghost"
+          >
+            Open Dashboard ↗
+          </a>
+        </div>
       </section>
 
+      {/* STATS ROW */}
+      <div className="stats-row">
+        <div className="stat-card">
+          <span className="stat-num">5</span>
+          <span className="stat-label">Seasons of data</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-num">4</span>
+          <span className="stat-label">Model versions</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-num">Daily</span>
+          <span className="stat-label">Automated predictions</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-num">Live</span>
+          <span className="stat-label">API on Fly.io</span>
+        </div>
+      </div>
 
-      {/*PREDICTOR */}
+      {/* PREDICTOR */}
       <section className="predictor-card">
-        <h2>Try the Live Predictor</h2>
-
-        <div className="predictor-inputs">
-          {/* Team A */}
-          <select value={teamA} onChange={(e) => setTeamA(e.target.value)}>
-            <option value="">Select Team A</option>
-            {Object.entries(teams).map(([abbr, name]) => (
-              <option key={abbr} value={abbr}>
-                {name}
-              </option>
-            ))}
-          </select>
-
-          {/* Team B */}
-          <select value={teamB} onChange={(e) => setTeamB(e.target.value)}>
-            <option value="">Select Team B</option>
-            {Object.entries(teams).map(([abbr, name]) => (
-              <option key={abbr} value={abbr}>
-                {name}
-              </option>
-            ))}
-          </select>
-
-          {/* Predict Button */}
-          <button onClick={handlePredict} disabled={loading}>
-            {loading ? "Predicting…" : "Predict"}
-          </button>
+        <div className="predictor-header">
+          <div>
+            <h2>Try the Live Predictor</h2>
+            <p className="predictor-desc">Select two teams and get a real-time win probability from the deployed model.</p>
+          </div>
+          <span className="live-badge">
+            <span className="live-dot" />
+            Live API
+          </span>
         </div>
 
-        {/* Prediction Result */}
-        {loading && (
-          <div className="prediction-output">Making magic (Prediction)</div>
-        )}
+        <div className="predictor-inputs">
+          <div className="team-select-wrap">
+            <label htmlFor="teamA">Home Team</label>
+            <select id="teamA" value={teamA} onChange={(e) => setTeamA(e.target.value)}>
+              <option value="">Select team…</option>
+              {Object.entries(teams).map(([abbr, name]) => (
+                <option key={abbr} value={abbr}>{name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="vs-divider">VS</div>
+
+          <div className="team-select-wrap">
+            <label htmlFor="teamB">Away Team</label>
+            <select id="teamB" value={teamB} onChange={(e) => setTeamB(e.target.value)}>
+              <option value="">Select team…</option>
+              {Object.entries(teams).map(([abbr, name]) => (
+                <option key={abbr} value={abbr}>{name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {error && <p className="predictor-error">{error}</p>}
+
+        <button className="predict-btn" onClick={handlePredict} disabled={loading}>
+          {loading ? (
+            <><span className="btn-spinner" />Predicting…</>
+          ) : (
+            "Predict Winner"
+          )}
+        </button>
+
         {prediction && !loading && (
-          <div className="prediction-output">{prediction}</div>
+          <div className="prediction-result">
+            {prediction.winner ? (
+              <>
+                <span className="result-label">Predicted winner</span>
+                <span className="result-winner">{prediction.winner}</span>
+                {prediction.confidence != null && (
+                  <div className="confidence-wrap">
+                    <div className="confidence-track">
+                      <div
+                        className="confidence-bar"
+                        style={{ width: `${Math.min(prediction.confidence, 100)}%` }}
+                      />
+                    </div>
+                    <span className="confidence-text">
+                      {Number(prediction.confidence).toFixed(1)}% confidence
+                    </span>
+                  </div>
+                )}
+              </>
+            ) : (
+              <span className="result-error">Prediction service unavailable right now.</span>
+            )}
+          </div>
         )}
       </section>
 
-      {/* POWER BI */}
-      <section className="pbi-section">
-        <h2 className="pbi-title">Live Power BI Analytics</h2>
-        <p className="pbi-info"> Note: The probability for predictions in Custom NN Version 1 has not yet been calibrated. Therefore the version shows high confidence for every prediction and the confidence should be only used for ranking predictions in this version. </p>
-        <PowerBIReport />
+      {/* STREAMLIT DASHBOARD */}
+      <section className="dashboard-section">
+        <div className="dash-header">
+          <div>
+            <h2 className="dash-title">Live Analytics Dashboard</h2>
+            <p className="dash-sub">
+              5 tabs — model performance, team stats, upset analysis, betting simulation, and today&apos;s predictions.
+            </p>
+          </div>
+          <a
+            href="https://nba-ml-dashboard.streamlit.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nba-btn ghost"
+          >
+            Full screen ↗
+          </a>
+        </div>
+
+        <div className="browser-frame">
+          <div className="browser-bar">
+            <span className="browser-dots">
+              <span /><span /><span />
+            </span>
+            <span className="browser-url">nba-ml-dashboard.streamlit.app</span>
+          </div>
+          <iframe
+            src="https://nba-ml-dashboard.streamlit.app/?embed=true"
+            title="NBA Analytics Dashboard"
+            allowFullScreen
+            className="dash-iframe"
+          />
+        </div>
       </section>
+
+      {/* SYSTEM OVERVIEW */}
+      <section className="system-section">
+        <h2 className="system-title">System Overview</h2>
+        <div className="system-grid">
+          <div className="system-card">
+            <span className="system-icon">⚡</span>
+            <h3>Data Pipeline</h3>
+            <p>Multi-season game log ingestion from PBPStats with 6-hour caching. Automated feature engineering with corrected defensive rating formula.</p>
+          </div>
+          <div className="system-card">
+            <span className="system-icon">🧠</span>
+            <h3>ML Model</h3>
+            <p>Logistic Regression serialized as a skops bundle (model + scaler). Chosen for calibration stability and real-world reliability over experimental neural network versions.</p>
+          </div>
+          <div className="system-card">
+            <span className="system-icon">🔄</span>
+            <h3>Daily Automation</h3>
+            <p>Scheduler runs at 12:00 Helsinki time — resolves finished games via ESPN, archives results to history, and generates predictions with odds from The Odds API.</p>
+          </div>
+          <div className="system-card">
+            <span className="system-icon">☁️</span>
+            <h3>Infrastructure</h3>
+            <p>FastAPI on Fly.io. All state in Cloudflare R2 — training data, features, model bundle, predictions, history. Zero database. Zero egress fees.</p>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

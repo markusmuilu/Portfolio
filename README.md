@@ -1,45 +1,66 @@
 # Portfolio Frontend
 
-This repository contains the frontend for my personal portfolio website.
+React portfolio website for Markus Muilu — an IT student at Aalto University focused on ML and cloud engineering.
 
-The application is built with React and serves primarily as a **presentation layer** for my projects, including an NBA win probability prediction system. It focuses on showcasing results and visualizations rather than performing any data processing or machine learning itself.
+Live at **markusmuilu.page**
 
 ---
 
 ## Purpose
 
-- Present personal projects in a clean, accessible way
-- Embed and showcase analytics dashboards (e.g. Power BI)
-- Provide context and navigation around backend systems
-
-This frontend is intentionally lightweight and decoupled from backend logic.
+- Present professional background, skills, education, and experience
+- Showcase the NBA prediction ML project with a live predictor and analytics dashboard
+- Link out to GitHub and provide contact information
 
 ---
 
 ## NBA Prediction Project
 
-One of the showcased projects is an NBA win probability prediction system.
+The featured project is a fully automated NBA win probability prediction system.
 
-In this frontend:
-- Predictions and analytics are **displayed only**
-- No models are trained
-- No predictions are generated
-- No betting or recommendations are provided
+This frontend provides:
+- **Live predictor** — select two teams, get a real-time prediction from the deployed Fly.io API
+- **Streamlit analytics dashboard** — embedded from `nba-ml-dashboard.streamlit.app`, showing model performance, team stats, upset analysis, and betting simulation across 5 tabs
 
-All computation and automation happen in a separate backend project.
+The backend and ML pipeline live in a separate repository. The Streamlit dashboard replaced Power BI as the analytics layer — it is free, live, and self-hosted on Streamlit Community Cloud.
 
 ---
 
 ## Tech Stack
 
-- React
-- JavaScript
-- CSS
-- Power BI (embedded dashboards)
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + React Router 7 |
+| Build | Create React App 5 |
+| Styling | Vanilla CSS — dark navy theme, CSS custom properties, glassmorphism |
+| Font | Inter (Google Fonts) |
+| State | React `useState` (local only) |
+| Analytics | Streamlit Community Cloud (iframe embed) |
+| Prediction API | FastAPI on Fly.io — `predicting-nba.fly.dev` |
+
+---
+
+## Routes
+
+| Path | Description |
+|---|---|
+| `/` | Portfolio homepage — hero, highlights, skills, education, experience, projects |
+| `/nba_prediction` | NBA project page — live predictor, Streamlit dashboard, system overview |
+| `/github` | Redirect to GitHub profile |
+
+---
+
+## Running Locally
+
+```bash
+npm install
+npm start
+```
+
+Runs on `localhost:3000`. No environment variables needed — the prediction API URL is hardcoded.
 
 ---
 
 ## Notes
 
-This repository exists to support **visualization and presentation** as part of a broader end-to-end portfolio.  
-It is not intended to be a standalone analytics or prediction system.
+This frontend is intentionally lightweight and decoupled from backend logic. All ML computation, automation, and data storage happen in the backend project.
