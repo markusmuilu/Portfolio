@@ -42,19 +42,33 @@ export default function NbaPrediction() {
   const [error, setError] = useState("");
 
   async function handlePredict() {
+    if (loading) return;
     if (!teamA || !teamB) { setError("Please select both teams."); return; }
     if (teamA === teamB) { setError("Please select two different teams."); return; }
     setError("");
     setLoading(true);
     setPrediction(null);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     try {
       const res = await fetch(
-        `https://predicting-nba.fly.dev/predict?team1=${teamA}&team2=${teamB}`
+        `https://predicting-nba.fly.dev/predict?team1=${teamA}&team2=${teamB}`,
+        { signal: controller.signal }
       );
+      clearTimeout(timeoutId);
+      if (!res.ok) throw new Error("not_ok");
       const data = await res.json();
       setPrediction(data);
-    } catch {
-      setPrediction({ winner: null, confidence: null });
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (err.name === "AbortError") {
+        setError("Prediction is taking too long — please try again in a moment.");
+      } else {
+        setError("Prediction service unavailable right now.");
+      }
+      setPrediction(null);
     } finally {
       setLoading(false);
     }
@@ -217,6 +231,7 @@ export default function NbaPrediction() {
             src="https://nba-ml-dashboard.streamlit.app/?embed=true"
             title="NBA Analytics Dashboard"
             allowFullScreen
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
             className="dash-iframe"
           />
         </div>
