@@ -110,20 +110,20 @@ export default function NbaPrediction() {
       {/* STATS ROW */}
       <div className="stats-row">
         <div className="stat-card">
-          <span className="stat-num">5</span>
-          <span className="stat-label">Seasons of data</span>
+          <span className="stat-num">1000+</span>
+          <span className="stat-label">Predicted games</span>
         </div>
-        <div className="stat-card">
-          <span className="stat-num">4</span>
-          <span className="stat-label">Model versions</span>
-        </div>
-        <div className="stat-card">
+<div className="stat-card">
           <span className="stat-num">Daily</span>
           <span className="stat-label">Automated predictions</span>
         </div>
         <div className="stat-card">
           <span className="stat-num">Live</span>
           <span className="stat-label">API on Fly.io</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-num">Open</span>
+          <span className="stat-label">Source on GitHub</span>
         </div>
       </div>
 

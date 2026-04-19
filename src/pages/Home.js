@@ -27,6 +27,9 @@ export default function Home() {
           <img src="/CV_kuva.jpeg" alt="Profile" className="hero-photo" />
 
           <div className="hero-content">
+            <div className="status-badge upcoming">
+              Starting at Elo as Junior Data Scientist · May 2026
+            </div>
             <p className="hero-kicker">Information Technology · ML · Cloud</p>
             <h1 className="hero-title">Markus Muilu</h1>
             <p className="hero-lead">
@@ -50,8 +53,8 @@ export default function Home() {
           <div className="hero-card">
             <h2>Quick facts</h2>
             <ul>
-              <li>Aalto University IT student, GPA 4.45</li>
-              <li>ICT trainee at Elo, working in Dynamics 365</li>
+              <li>Aalto University IT student, GPA 4.46</li>
+              <li>Junior Data Scientist at Elo starting May 2026</li>
               <li>Built a full NBA prediction MLOps pipeline</li>
             </ul>
           </div>
@@ -72,8 +75,8 @@ export default function Home() {
             <div className="card-accent blue" />
             <h3>Academic</h3>
             <p>
-              Bachelor of Electrical Engineering and Information Technology at Aalto.
-              Minor in Computer Science, 167 credits completed after the fall semester.
+              Bachelor of Electrical Engineering (major in Information Technology) at Aalto University School of Electrical Engineering.
+              Minor in Computer Science, 167 credits completed.
             </p>
             <ul>
               <li>Strong focus on ML, networking, and cloud computing</li>
@@ -127,6 +130,8 @@ export default function Home() {
           <div className="skills-group">
             <h3>Cloud and DevOps</h3>
             <div className="chips teal">
+              <span>AWS EC2</span>
+              <span>AWS S3</span>
               <span>Fly.io</span>
               <span>Cloudflare R2</span>
               <span>Docker</span>
@@ -142,6 +147,7 @@ export default function Home() {
               <span>scikit-learn</span>
               <span>Data pipelines</span>
               <span>Streamlit</span>
+              <span>Power BI</span>
             </div>
           </div>
 
@@ -173,10 +179,10 @@ export default function Home() {
             <div className="timeline-content">
               <h3>Aalto University</h3>
               <p className="timeline-dates">2023 — 2026</p>
-              <p>Bachelor of Electrical Engineering and Information Technology.</p>
+              <p>Bachelor of Electrical Engineering, major in Information Technology.</p>
               <ul>
                 <li>Minor in Computer Science</li>
-                <li>167 credits after fall, GPA 4.43</li>
+                <li>167 credits, GPA 4.46 — finishing last course and bachelor's thesis</li>
                 <li>Networking, Signal Processing, Data Analytics, ML, Cloud Computing</li>
               </ul>
             </div>
@@ -212,12 +218,21 @@ export default function Home() {
         <div className="cards-stack">
           <div className="exp-card reveal">
             <div className="exp-header">
+              <div>
+                <h3>Junior Data Scientist · Elo</h3>
+                <p className="exp-next">Starting May 2026</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="exp-card reveal">
+            <div className="exp-header">
               <h3>ICT Trainee · Elo</h3>
               <span className="exp-location">Espoo · 2025 — present</span>
             </div>
             <p>
               Started in disability pensions and moved into Dynamics 365 CRM development.
-              I work on keeping data and tools reliable for the business.
+              Working on keeping data and tools reliable for the business.
             </p>
             <ul>
               <li>Maintain and improve Elo&apos;s Dynamics 365 Sales system</li>
@@ -279,11 +294,14 @@ export default function Home() {
             <span>Python</span>
             <span>FastAPI</span>
             <span>Docker</span>
+            <span>scikit-learn</span>
+            <span>React</span>
             <span>Fly.io</span>
             <span>Cloudflare R2</span>
-            <span>scikit-learn</span>
             <span>Streamlit</span>
-            <span>React</span>
+            <span>AWS EC2</span>
+            <span>AWS S3</span>
+            <span>Power BI</span>
           </div>
 
           <ul className="project-list">
