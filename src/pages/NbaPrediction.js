@@ -58,6 +58,7 @@ export default function NbaPrediction() {
         { signal: controller.signal }
       );
       clearTimeout(timeoutId);
+      if (res.status === 429) throw new Error("rate_limited");
       if (!res.ok) throw new Error("not_ok");
       const data = await res.json();
       setPrediction(data);
@@ -65,6 +66,8 @@ export default function NbaPrediction() {
       clearTimeout(timeoutId);
       if (err.name === "AbortError") {
         setError("Prediction is taking too long — please try again in a moment.");
+      } else if (err.message === "rate_limited") {
+        setError("Please wait a minute before making another prediction.");
       } else {
         setError("Prediction service unavailable right now.");
       }
