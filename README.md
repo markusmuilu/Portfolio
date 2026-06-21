@@ -10,6 +10,7 @@ Live at **markusmuilu.page**
 
 - Present professional background, skills, education, and experience
 - Showcase the NBA prediction ML project with a live predictor and analytics dashboard
+- Showcase the bachelor's thesis — gym exercise recognition with LightGBM vs Random Forest
 - Link out to GitHub and provide contact information
 
 ---
@@ -46,7 +47,8 @@ The backend and ML pipeline live in a separate repository. The analytics layer w
 |---|---|
 | `/` | Portfolio homepage — hero, highlights, skills, education, experience, projects |
 | `/nba_prediction` | NBA project page — live predictor, Streamlit dashboard, system overview |
-| `/github` | Redirect to GitHub profile |
+| `/thesis` | Bachelor's thesis page — results chart, method overview, links to GitHub and PDF |
+| `/github` | GitHub page — featured repositories with descriptions and links |
 
 ---
 
