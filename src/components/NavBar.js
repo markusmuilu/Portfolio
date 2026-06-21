@@ -22,6 +22,11 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+          <Link to="/thesis" className={pathname === "/thesis" ? "active" : ""}>
+            Bachelor's Thesis
+          </Link>
+        </li>
+        <li>
           <Link to="/github" className={pathname === "/github" ? "active" : ""}>GitHub</Link>
         </li>
       </ul>

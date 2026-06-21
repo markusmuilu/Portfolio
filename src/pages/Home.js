@@ -45,6 +45,9 @@ export default function Home() {
               <Link to="/nba_prediction" className="hero-btn ghost">
                 View NBA project
               </Link>
+              <Link to="/thesis" className="hero-btn ghost">
+                View Thesis
+              </Link>
             </div>
           </div>
         </div>
@@ -145,6 +148,8 @@ export default function Home() {
             <div className="chips violet">
               <span>Feature engineering</span>
               <span>scikit-learn</span>
+              <span>LightGBM</span>
+              <span>Random Forest</span>
               <span>Data pipelines</span>
               <span>Streamlit</span>
               <span>Power BI</span>
@@ -314,6 +319,41 @@ export default function Home() {
           </ul>
         </div>
       </section>
+
+        <div className="project-card thesis-project-card">
+          <div className="project-header">
+            <h3>Gym Exercise Recognition — Bachelor's Thesis</h3>
+            <div className="project-controls">
+              <span className="project-tag thesis-tag">ML Research · Grade 5</span>
+              <Link to="/thesis" className="hero-btn ghost">
+                View Project
+              </Link>
+            </div>
+          </div>
+
+          <p className="project-lead">
+            Investigated whether LightGBM achieves higher macro F1-scores than Random Forest
+            on a gym exercise recognition dataset. Evaluated across wrist, leg, and pocket sensor
+            positions on 10 subjects performing 11 exercises using Leave-One-Group-Out
+            cross-validation. LGBM outperformed RF across all positions with a wrist F1 of 0.889.
+          </p>
+
+          <div className="project-tech">
+            <span>Python</span>
+            <span>LightGBM</span>
+            <span>scikit-learn</span>
+            <span>pandas</span>
+            <span>NumPy</span>
+            <span>Jupyter</span>
+          </div>
+
+          <ul className="project-list">
+            <li>Feature engineering with 4-second sliding windows, 39 features, 117 437 samples</li>
+            <li>Grid search hyperparameter tuning across 5 parameters per model</li>
+            <li>LGBM trains in under half the time of RF while outperforming it across all positions</li>
+            <li>Full LOGO-CV evaluation — each fold holds out one subject entirely</li>
+          </ul>
+        </div>
 
       {/* FOOTER */}
       <footer className="footer">
