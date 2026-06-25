@@ -28,12 +28,13 @@ export default function Home() {
               <span className="status-dot" />
               Junior Data Scientist · Elo
             </div>
-            <p className="hero-kicker">Information Technology · ML · Cloud</p>
+            <p className="hero-kicker">Machine Learning · Data Science · Cloud</p>
             <h1 className="hero-title">Markus Muilu</h1>
             <p className="hero-lead">
-              I design and build production-level machine learning systems, cloud backends,
-              and data pipelines. I enjoy turning messy data and ideas into something
-              reliable, automated, and scalable.
+              I build and deploy production machine learning systems, data pipelines,
+              and cloud backends. Currently at Elo building production ML pipelines in
+              Azure and Databricks, graduating from Aalto this summer and starting my
+              M.Sc. in ML, DS &amp; AI in autumn.
             </p>
 
             <div className="hero-buttons">
@@ -54,14 +55,15 @@ export default function Home() {
           <div className="hero-card">
             <h2>Quick facts</h2>
             <ul>
-              <li>Aalto University IT student, GPA 4.46</li>
-              <li>Junior Data Scientist at Elo (May 2026)</li>
-              <li>Built a full NBA prediction MLOps pipeline</li>
+              <li>Aalto University, B.Sc. GPA 4.57 — graduating summer 2026</li>
+              <li>M.Sc. in ML, DS &amp; AI at Aalto starting autumn 2026</li>
+              <li>Building production ML pipelines at Elo (Azure / Databricks)</li>
+              <li>NBA prediction: 670+ games, 68.2% accuracy</li>
             </ul>
           </div>
           <div className="hero-card">
             <h3>Currently focused on</h3>
-            <p>Production ML, cloud infrastructure, clean API design.</p>
+            <p>Production ML, Databricks / PySpark, agentic AI systems.</p>
           </div>
         </div>
 
@@ -76,10 +78,11 @@ export default function Home() {
             <div className="card-accent blue" />
             <h3>Academic</h3>
             <p>
-              Bachelor of Electrical Engineering (major in Information Technology) at Aalto University School of Electrical Engineering.
-              Minor in Computer Science, 167 credits completed.
+              Bachelor of Electrical Engineering (Information Technology) at Aalto University,
+              graduating summer 2026. Starting M.Sc. in Machine Learning, Data Science and AI at Aalto in autumn 2026.
             </p>
             <ul>
+              <li>B.Sc. GPA 4.57 · Thesis grade 5 · 182 ECTS</li>
               <li>Strong focus on ML, networking, and cloud computing</li>
             </ul>
           </div>
@@ -121,8 +124,9 @@ export default function Home() {
             <h3>Core stack</h3>
             <div className="chips blue">
               <span>Python</span>
-              <span>JavaScript</span>
               <span>SQL</span>
+              <span>JavaScript</span>
+              <span>Scala</span>
               <span>React</span>
               <span>FastAPI</span>
             </div>
@@ -131,32 +135,39 @@ export default function Home() {
           <div className="skills-group">
             <h3>Cloud and DevOps</h3>
             <div className="chips teal">
+              <span>Azure Data Factory</span>
+              <span>Azure DevOps</span>
               <span>AWS EC2</span>
               <span>AWS S3</span>
               <span>Fly.io</span>
               <span>Cloudflare R2</span>
               <span>Docker</span>
               <span>Linux</span>
-              <span>Azure DevOps</span>
+              <span>Supabase</span>
             </div>
           </div>
 
           <div className="skills-group">
             <h3>Data and ML</h3>
             <div className="chips violet">
-              <span>Feature engineering</span>
+              <span>PySpark</span>
               <span>scikit-learn</span>
               <span>LightGBM</span>
-              <span>Random Forest</span>
+              <span>Hyperopt / TPE</span>
+              <span>SHAP</span>
+              <span>Feature engineering</span>
               <span>Data pipelines</span>
-              <span>Streamlit</span>
               <span>Power BI</span>
+              <span>Streamlit</span>
             </div>
           </div>
 
           <div className="skills-group">
             <h3>Tools</h3>
             <div className="chips slate">
+              <span>Databricks</span>
+              <span>MLflow</span>
+              <span>Delta Lake</span>
               <span>Git and GitHub</span>
               <span>VS Code</span>
               <span>Dynamics 365</span>
@@ -181,12 +192,21 @@ export default function Home() {
             <div className="timeline-dot" />
             <div className="timeline-content">
               <h3>Aalto University</h3>
+              <p className="timeline-dates">2026 — 2028 (expected)</p>
+              <p>M.Sc. in Machine Learning, Data Science and Artificial Intelligence.</p>
+            </div>
+          </div>
+
+          <div className="timeline-item reveal">
+            <div className="timeline-dot" />
+            <div className="timeline-content">
+              <h3>Aalto University</h3>
               <p className="timeline-dates">2023 — 2026</p>
-              <p>Bachelor of Electrical Engineering, major in Information Technology.</p>
+              <p>Bachelor of Electrical Engineering, Information Technology — graduating summer 2026.</p>
               <ul>
-                <li>Minor in Computer Science</li>
-                <li>167 credits, GPA 4.46 — finishing last course and bachelor&apos;s thesis</li>
-                <li>Networking, Signal Processing, Data Analytics, ML, Cloud Computing</li>
+                <li>Minor in Computer Science · 182 ECTS · GPA 4.57</li>
+                <li>Thesis grade 5: <em>Improving Gym Exercise Recognition with Light Gradient Boosting</em></li>
+                <li>Machine Learning, Data Analytics, Networking, Signal Processing, Cloud Computing</li>
               </ul>
             </div>
           </div>
@@ -198,7 +218,7 @@ export default function Home() {
               <p className="timeline-dates">2022 — 2023</p>
               <ul>
                 <li>Reserve Officer Training</li>
-                <li>Best in Communications Line</li>
+                <li>Top-ranked in Communications Line, 3rd overall in IRUK 114</li>
                 <li>Best Officer Candidate and leader of batch 2/2022</li>
               </ul>
             </div>
@@ -221,27 +241,28 @@ export default function Home() {
         <div className="cards-stack">
           <div className="exp-card reveal">
             <div className="exp-header">
-              <div>
-                <h3>Junior Data Scientist · Elo</h3>
-                <p className="exp-next">May 2026 — present</p>
-              </div>
+              <h3>Junior Data Scientist · Elo</h3>
+              <span className="exp-location">Espoo · May 2026 — present</span>
             </div>
+            <ul>
+              <li>Building and deploying production ML model training pipelines in Azure / Databricks</li>
+              <li>Developed and deployed a customer activity scoring model and workability index into daily production automation via Azure Data Factory</li>
+              <li>Migrated existing Power BI DAX logic into Azure Data Factory pipelines</li>
+            </ul>
           </div>
 
           <div className="exp-card reveal">
             <div className="exp-header">
               <h3>ICT Trainee · Elo</h3>
-              <span className="exp-location">Espoo · 2025 — 2026</span>
+              <span className="exp-location">Espoo · May 2025 — April 2026</span>
             </div>
             <p>
-              Started in disability pensions and moved into Dynamics 365 CRM development.
-              Working on keeping data and tools reliable for the business.
+              Started in disability pensions and transitioned to Dynamics 365 CRM development after strong performance.
             </p>
             <ul>
-              <li>Maintain and improve Elo&apos;s Dynamics 365 Sales system</li>
-              <li>Monitor and validate dataflows</li>
-              <li>Test new features with vendors and internal teams</li>
-              <li>Provide guidance and support for business users</li>
+              <li>Maintained and developed Elo&apos;s Microsoft Dynamics 365 Sales system</li>
+              <li>Monitored and validated dataflows, performed system testing with vendors</li>
+              <li>Collaborated with external vendors and internal business units</li>
             </ul>
           </div>
 
@@ -279,7 +300,7 @@ export default function Home() {
           <div className="project-header">
             <h3>NBA game prediction pipeline</h3>
             <div className="project-controls">
-              <span className="project-tag">End-to-end ML · MLOps</span>
+              <span className="project-tag">End-to-end ML · MLOps · Live</span>
               <Link to="/nba_prediction" className="hero-btn ghost">
                 View Project
               </Link>
@@ -288,9 +309,9 @@ export default function Home() {
 
           <p className="project-lead">
             A fully automated, containerized machine learning system that predicts NBA game
-            outcomes daily. Data is ingested, engineered, and fed to a logistic regression model.
-            Predictions, odds, and historical results are stored in Cloudflare R2 and visualised
-            in a live Streamlit analytics dashboard.
+            outcomes daily. Tracked 670+ real predictions throughout the NBA regular season,
+            achieving 68.2% accuracy and +1.1% ROI against live Pinnacle moneyline odds at
+            the 61%+ confidence threshold.
           </p>
 
           <div className="project-tech">
@@ -308,15 +329,45 @@ export default function Home() {
           </div>
 
           <ul className="project-list">
-            <li>Multi-season data pipeline from PBPStats with 6-hour caching</li>
-            <li>Feature engineering with corrected defensive rating formula</li>
-            <li>Logistic regression model serialized as a skops bundle</li>
+            <li>670+ real predictions tracked throughout the 2024–25 NBA regular season</li>
+            <li>68.2% accuracy — beats the always-home baseline by 12.6 percentage points</li>
+            <li>+1.1% ROI benchmarked against live Pinnacle moneyline odds at 61%+ confidence</li>
+            <li>Dockerized FastAPI backend on AWS EC2 with S3 and Cloudflare R2 storage</li>
             <li>Daily automation: resolve games, archive history, generate new predictions</li>
-            <li>Odds fetched from The Odds API for comparison and visualization</li>
             <li>Streamlit dashboard with model performance, team stats, and betting simulation</li>
           </ul>
         </div>
       </section>
+
+      <div className="project-card" style={{ marginTop: 18 }}>
+        <div className="project-header">
+          <h3>AI-powered training planner</h3>
+          <div className="project-controls">
+            <span className="project-tag">Agentic AI · Full-stack</span>
+          </div>
+        </div>
+
+        <p className="project-lead">
+          A full-stack training planner integrating Oura and Strava APIs with an agentic Claude AI layer
+          that generates personalised weekly training recommendations based on recovery data and activity history.
+          In active personal use and continuously iterated.
+        </p>
+
+        <div className="project-tech">
+          <span>React 19</span>
+          <span>Vite</span>
+          <span>Tailwind</span>
+          <span>Supabase</span>
+          <span>Vercel</span>
+          <span>Claude API</span>
+        </div>
+
+        <ul className="project-list">
+          <li>Oura and Strava API integration with OAuth + CSRF handling and PWA support</li>
+          <li>Agentic Claude layer with tool use for structured weekly plan generation</li>
+          <li>In active personal use for weekly training planning</li>
+        </ul>
+      </div>
 
       <div className="project-card thesis-project-card">
         <div className="project-header">

@@ -3,6 +3,17 @@ import "./GitHub.css";
 
 const repos = [
   {
+    name: "Predicting-Nba",
+    description:
+      "End-to-end MLOps pipeline that predicts NBA game outcomes daily. Tracked 670+ real predictions, achieving 68.2% accuracy and +1.1% ROI against live Pinnacle moneyline odds.",
+    tags: ["Python", "FastAPI", "Docker", "scikit-learn", "Fly.io", "AWS"],
+    accent: "blue",
+    href: "https://github.com/markusmuilu/Predicting-Nba",
+    internal: "/nba_prediction",
+    internalLabel: "View showcase",
+    badge: "Live in production",
+  },
+  {
     name: "gym-exercise-recognition",
     description:
       "Bachelor's thesis — compared LightGBM vs Random Forest for gym exercise recognition across wrist, leg, and pocket sensor positions. LGBM achieved 0.889 macro F1 on the wrist.",
@@ -14,20 +25,20 @@ const repos = [
     badge: "Grade 5 · Aalto 2026",
   },
   {
-    name: "Predicting-Nba",
+    name: "training-planner",
     description:
-      "End-to-end MLOps pipeline that predicts NBA game outcomes daily. Data ingestion, feature engineering, logistic regression model, and a live Streamlit dashboard — all running in production.",
-    tags: ["Python", "FastAPI", "Docker", "scikit-learn", "Fly.io", "AWS"],
-    accent: "blue",
-    href: "https://github.com/markusmuilu/Predicting-Nba",
-    internal: "/nba_prediction",
-    internalLabel: "View showcase",
-    badge: "Live in production",
+      "Full-stack AI training planner integrating Oura and Strava APIs with an agentic Claude AI layer for personalised weekly training recommendations. In active personal use.",
+    tags: ["React 19", "Vite", "Tailwind", "Supabase", "Claude API"],
+    accent: "teal",
+    href: "https://github.com/markusmuilu/training-planner",
+    internal: null,
+    internalLabel: null,
+    badge: "Work in progress",
   },
   {
     name: "Portfolio",
     description:
-      "This portfolio site — built with React. Dark-themed, fully responsive, with animated scroll reveals, a live NBA predictor, and project showcases.",
+      "This portfolio site — built with React. Dark-themed, fully responsive, with a live NBA predictor and project showcases.",
     tags: ["React", "JavaScript", "CSS"],
     accent: "teal",
     href: "https://github.com/markusmuilu/Portfolio",
