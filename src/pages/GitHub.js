@@ -42,9 +42,6 @@ export default function Github() {
     <div className="gh-page">
       {/* HERO */}
       <section className="gh-hero">
-        <div className="gh-glow-a" />
-        <div className="gh-glow-b" />
-
         <div className="gh-hero-inner">
           <div className="gh-avatar-wrap">
             <img
@@ -75,7 +72,7 @@ export default function Github() {
 
       {/* FEATURED REPOS */}
       <section className="gh-repos-section">
-        <h2 className="gh-section-title">Featured Repositories</h2>
+        <p className="gh-section-title">Featured Repositories</p>
 
         <div className="gh-repos-grid">
           {repos.map((repo) => (

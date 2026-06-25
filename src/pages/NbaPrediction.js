@@ -82,8 +82,6 @@ export default function NbaPrediction() {
 
       {/* HERO BANNER */}
       <section className="nba-hero">
-        <div className="nba-hero-glow-a" />
-        <div className="nba-hero-glow-b" />
         <span className="nba-eyebrow">End-to-end ML system</span>
         <h1 className="nba-hero-title">NBA Game Prediction</h1>
         <p className="nba-hero-sub">
@@ -242,7 +240,7 @@ export default function NbaPrediction() {
 
       {/* SYSTEM OVERVIEW */}
       <section className="system-section">
-        <h2 className="system-title">System Overview</h2>
+        <p className="system-title">System Overview</p>
         <div className="system-grid">
           <div className="system-card">
             <span className="system-icon">⚡</span>
