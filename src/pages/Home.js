@@ -246,7 +246,7 @@ export default function Home() {
             </div>
             <ul>
               <li>Building and deploying production ML model training pipelines in Azure / Databricks</li>
-              <li>Developed and deployed a customer activity scoring model and workability index into daily production automation via Azure Data Factory</li>
+              <li>Developed and deployed a customer activity score and workability index into daily production automation via Azure Data Factory</li>
               <li>Migrated existing Power BI DAX logic into Azure Data Factory pipelines</li>
             </ul>
           </div>
