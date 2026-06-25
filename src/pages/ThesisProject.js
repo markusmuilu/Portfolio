@@ -24,17 +24,13 @@ export default function ThesisProject() {
 
       {/* HERO */}
       <section className="thesis-hero">
-        <div className="thesis-glow-a" />
-        <div className="thesis-glow-b" />
-
         <div className="thesis-eyebrow-row">
           <span className="thesis-eyebrow">Bachelor's Thesis · Aalto University 2026</span>
           <span className="thesis-grade-badge">Grade 5 / 5</span>
         </div>
 
         <h1 className="thesis-hero-title">
-          Improving Gym Exercise Recognition<br />
-          <span className="thesis-hero-accent">with Light Gradient Boosting</span>
+          Improving Gym Exercise Recognition with Light Gradient Boosting
         </h1>
 
         <p className="thesis-hero-sub">
