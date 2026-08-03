@@ -81,7 +81,7 @@ export default function ThesisProject() {
 
       {/* RESULTS COMPARISON */}
       <section className="thesis-results-section">
-        <h2 className="thesis-section-title">LGBM vs Random Forest — Macro F1</h2>
+        <h2 className="thesis-section-title">LGBM vs Random Forest: Macro F1</h2>
         <p className="thesis-section-sub">
           Final results after hyperparameter tuning via grid search on wrist position.
           LGBM outperforms RF across all three sensor positions.
@@ -147,7 +147,7 @@ export default function ThesisProject() {
             <h3>Feature Engineering</h3>
             <p>
               4-second sliding windows with 2-second overlap. Mean, min, max, standard
-              deviation, and MAD extracted per channel — yielding 39 features and
+              deviation, and MAD extracted per channel, yielding 35 features and
               117 437 labelled samples.
             </p>
           </div>

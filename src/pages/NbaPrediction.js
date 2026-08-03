@@ -65,7 +65,7 @@ export default function NbaPrediction() {
     } catch (err) {
       clearTimeout(timeoutId);
       if (err.name === "AbortError") {
-        setError("Prediction is taking too long — please try again in a moment.");
+        setError("Prediction is taking too long. Please try again in a moment.");
       } else if (err.message === "rate_limited") {
         setError("Please wait a minute before making another prediction.");
       } else {
@@ -85,8 +85,8 @@ export default function NbaPrediction() {
         <span className="nba-eyebrow">End-to-end ML system</span>
         <h1 className="nba-hero-title">NBA Game Prediction</h1>
         <p className="nba-hero-sub">
-          A fully automated machine learning pipeline — data ingestion, feature engineering,
-          model training, and daily inference — all running in production on Fly.io.
+          A fully automated machine learning pipeline: data ingestion, feature engineering,
+          model training, and daily inference, all running in production on Fly.io.
         </p>
         <div className="nba-hero-actions">
           <a
@@ -208,7 +208,7 @@ export default function NbaPrediction() {
           <div>
             <h2 className="dash-title">Live Analytics Dashboard</h2>
             <p className="dash-sub">
-              5 tabs — model performance, team stats, upset analysis, betting simulation, and today&apos;s predictions.
+              5 tabs: model performance, team stats, upset analysis, betting simulation, and today&apos;s predictions.
             </p>
           </div>
           <a
@@ -255,12 +255,12 @@ export default function NbaPrediction() {
           <div className="system-card">
             <span className="system-icon">🔄</span>
             <h3>Daily Automation</h3>
-            <p>Scheduler runs at 12:00 Helsinki time — resolves finished games via ESPN, archives results to history, and generates predictions with odds from The Odds API.</p>
+            <p>Scheduler runs at 12:00 Helsinki time, resolving finished games via ESPN, archives results to history, and generates predictions with odds from The Odds API.</p>
           </div>
           <div className="system-card">
             <span className="system-icon">☁️</span>
             <h3>Infrastructure</h3>
-            <p>FastAPI on Fly.io. All state in Cloudflare R2 — training data, features, model bundle, predictions, history. Zero database. Zero egress fees.</p>
+            <p>FastAPI on Fly.io. All state in Cloudflare R2: training data, features, model bundle, predictions, history. Zero database. Zero egress fees.</p>
           </div>
         </div>
       </section>

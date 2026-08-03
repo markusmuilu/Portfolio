@@ -16,7 +16,7 @@ const repos = [
   {
     name: "gym-exercise-recognition",
     description:
-      "Bachelor's thesis — compared LightGBM vs Random Forest for gym exercise recognition across wrist, leg, and pocket sensor positions. LGBM achieved 0.889 macro F1 on the wrist.",
+      "Bachelor's thesis. Compared LightGBM vs Random Forest for gym exercise recognition across wrist, leg, and pocket sensor positions. LGBM achieved 0.889 macro F1 on the wrist.",
     tags: ["Python", "LightGBM", "scikit-learn", "Jupyter"],
     accent: "violet",
     href: "https://github.com/markusmuilu/gym-exercise-recognition",
@@ -38,7 +38,7 @@ const repos = [
   {
     name: "Portfolio",
     description:
-      "This portfolio site — built with React. Dark-themed, fully responsive, with a live NBA predictor and project showcases.",
+      "This portfolio site, built with React. Dark-themed, fully responsive, with a live NBA predictor and project showcases.",
     tags: ["React", "JavaScript", "CSS"],
     accent: "teal",
     href: "https://github.com/markusmuilu/Portfolio",

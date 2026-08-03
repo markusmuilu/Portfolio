@@ -33,7 +33,7 @@ export default function Home() {
             <p className="hero-lead">
               I build and deploy production machine learning systems, data pipelines,
               and cloud backends. Currently at Elo building production ML pipelines in
-              Azure and Databricks, graduating from Aalto this summer and starting my
+              Azure and Databricks, graduated from Aalto in June and starting my
               M.Sc. in ML, DS &amp; AI in autumn.
             </p>
 
@@ -55,7 +55,7 @@ export default function Home() {
           <div className="hero-card">
             <h2>Quick facts</h2>
             <ul>
-              <li>Aalto University, B.Sc. GPA 4.57 — graduating summer 2026</li>
+              <li>Aalto University, B.Sc. GPA 4.57, graduated June 2026 with honours</li>
               <li>M.Sc. in ML, DS &amp; AI at Aalto starting autumn 2026</li>
               <li>Building production ML pipelines at Elo (Azure / Databricks)</li>
               <li>NBA prediction: 670+ games, 68.2% accuracy</li>
@@ -79,7 +79,7 @@ export default function Home() {
             <h3>Academic</h3>
             <p>
               Bachelor of Electrical Engineering (Information Technology) at Aalto University,
-              graduating summer 2026. Starting M.Sc. in Machine Learning, Data Science and AI at Aalto in autumn 2026.
+              graduated June 2026 with honours. Starting M.Sc. in Machine Learning, Data Science and AI at Aalto in autumn 2026.
             </p>
             <ul>
               <li>B.Sc. GPA 4.57 · Thesis grade 5 · 182 ECTS</li>
@@ -177,8 +177,8 @@ export default function Home() {
           <div className="skills-group">
             <h3>Languages</h3>
             <div className="chips slate">
-              <span>Finnish — Native</span>
-              <span>English — Fluent</span>
+              <span>Finnish: Native</span>
+              <span>English: Fluent</span>
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@ export default function Home() {
             <div className="timeline-dot" />
             <div className="timeline-content">
               <h3>Aalto University</h3>
-              <p className="timeline-dates">2026 — 2028 (expected)</p>
+              <p className="timeline-dates">2026-2028 (expected)</p>
               <p>M.Sc. in Machine Learning, Data Science and Artificial Intelligence.</p>
             </div>
           </div>
@@ -201,8 +201,8 @@ export default function Home() {
             <div className="timeline-dot" />
             <div className="timeline-content">
               <h3>Aalto University</h3>
-              <p className="timeline-dates">2023 — 2026</p>
-              <p>Bachelor of Electrical Engineering, Information Technology — graduating summer 2026.</p>
+              <p className="timeline-dates">2023-2026</p>
+              <p>Bachelor of Electrical Engineering, Information Technology, graduated June 2026 with honours.</p>
               <ul>
                 <li>Minor in Computer Science · 182 ECTS · GPA 4.57</li>
                 <li>Thesis grade 5: <em>Improving Gym Exercise Recognition with Light Gradient Boosting</em></li>
@@ -215,7 +215,7 @@ export default function Home() {
             <div className="timeline-dot" />
             <div className="timeline-content">
               <h3>Air Force Academy, Tikkakoski</h3>
-              <p className="timeline-dates">2022 — 2023</p>
+              <p className="timeline-dates">2022-2023</p>
               <ul>
                 <li>Reserve Officer Training</li>
                 <li>Top-ranked in Communications Line, 3rd overall in IRUK 114</li>
@@ -228,7 +228,7 @@ export default function Home() {
             <div className="timeline-dot" />
             <div className="timeline-content">
               <h3>Schildtin lukio, Jyväskylä</h3>
-              <p className="timeline-dates">2019 — 2022</p>
+              <p className="timeline-dates">2019-2022</p>
               <p>High school diploma, sports line.</p>
             </div>
           </div>
@@ -242,7 +242,7 @@ export default function Home() {
           <div className="exp-card reveal">
             <div className="exp-header">
               <h3>Junior Data Scientist · Elo</h3>
-              <span className="exp-location">Espoo · May 2026 — present</span>
+              <span className="exp-location">Espoo · May 2026 - present</span>
             </div>
             <ul>
               <li>Building and deploying production ML model training pipelines in Azure / Databricks</li>
@@ -254,7 +254,7 @@ export default function Home() {
           <div className="exp-card reveal">
             <div className="exp-header">
               <h3>ICT Trainee · Elo</h3>
-              <span className="exp-location">Espoo · May 2025 — April 2026</span>
+              <span className="exp-location">Espoo · May 2025 - April 2026</span>
             </div>
             <p>
               Started in disability pensions and transitioned to Dynamics 365 CRM development after strong performance.
@@ -269,7 +269,7 @@ export default function Home() {
           <div className="exp-card reveal">
             <div className="exp-header">
               <h3>Electronic Mechanician · Vaisala</h3>
-              <span className="exp-location">Vantaa · May 2024 — Feb 2025</span>
+              <span className="exp-location">Vantaa · May 2024 - Feb 2025</span>
             </div>
             <p>Worked in production building and testing weather and air quality devices.</p>
             <ul>
@@ -329,8 +329,8 @@ export default function Home() {
           </div>
 
           <ul className="project-list">
-            <li>670+ real predictions tracked throughout the 2024–25 NBA regular season</li>
-            <li>68.2% accuracy — beats the always-home baseline by 12.6 percentage points</li>
+            <li>670+ real predictions tracked throughout the 2024-25 NBA regular season</li>
+            <li>68.2% accuracy, beating the always-home baseline by 12.6 percentage points</li>
             <li>+1.1% ROI benchmarked against live Pinnacle moneyline odds at 61%+ confidence</li>
             <li>Dockerized FastAPI backend on AWS EC2 with S3 and Cloudflare R2 storage</li>
             <li>Daily automation: resolve games, archive history, generate new predictions</li>
@@ -371,7 +371,7 @@ export default function Home() {
 
       <div className="project-card thesis-project-card">
         <div className="project-header">
-          <h3>Gym Exercise Recognition — Bachelor&apos;s Thesis</h3>
+          <h3>Gym Exercise Recognition: Bachelor&apos;s Thesis</h3>
           <div className="project-controls">
             <span className="project-tag thesis-tag">ML Research · Grade 5</span>
             <Link to="/thesis" className="hero-btn ghost">
@@ -397,10 +397,10 @@ export default function Home() {
         </div>
 
         <ul className="project-list">
-          <li>Feature engineering with 4-second sliding windows, 39 features, 117 437 samples</li>
+          <li>Feature engineering with 4-second sliding windows, 35 features, 117 437 samples</li>
           <li>Grid search hyperparameter tuning across 5 parameters per model</li>
           <li>LGBM trains in under half the time of RF while outperforming it across all positions</li>
-          <li>Full LOGO-CV evaluation — each fold holds out one subject entirely</li>
+          <li>Full LOGO-CV evaluation: each fold holds out one subject entirely</li>
         </ul>
       </div>
 
