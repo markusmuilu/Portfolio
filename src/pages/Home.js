@@ -369,6 +369,47 @@ export default function Home() {
         </ul>
       </div>
 
+      <div className="project-card" style={{ marginTop: 18 }}>
+        <div className="project-header">
+          <h3>Building automation bridge</h3>
+          <div className="project-controls">
+            <span className="project-tag">Embedded · Modbus RTU · Live</span>
+            <a
+              href="https://github.com/markusmuilu/fidelix-modbus-bridge"
+              className="hero-btn ghost"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View Project
+            </a>
+          </div>
+        </div>
+
+        <p className="project-lead">
+          A Modbus RTU bridge between a Fidelix FX-2020 building automation controller and
+          Home Assistant, running unattended in an occupied house. Reads 32 temperature
+          sensors across three analogue cards and drives 24 heating circuits, with a
+          closed-loop thermostat that holds each zone at its setpoint while leaning on cheap
+          electricity. Published as a redacted snapshot.
+        </p>
+
+        <div className="project-tech">
+          <span>Python</span>
+          <span>Modbus RTU</span>
+          <span>pymodbus</span>
+          <span>AppDaemon</span>
+          <span>Home Assistant</span>
+          <span>Nord Pool spot prices</span>
+        </div>
+
+        <ul className="project-list">
+          <li>Read-modify-write on registers shared with the building controller, with a manual interlock on outputs whose operation cannot be undone</li>
+          <li>Adopt-on-startup: hardware state is read into the controller rather than asserted onto it, so a restart never actuates anything</li>
+          <li>Out-of-range sensor readings reported as faults rather than clamped, after a clamped value would have driven a room continuously</li>
+          <li>Offline test harnesses that exercise the bit arithmetic and the interlock without hardware</li>
+        </ul>
+      </div>
+
       <div className="project-card thesis-project-card">
         <div className="project-header">
           <h3>Gym Exercise Recognition: Bachelor&apos;s Thesis</h3>
