@@ -1,7 +1,7 @@
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1200;
   background: rgba(2, 6, 23, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -32,7 +32,8 @@
   padding: 0;
 }
 
-.navbar-links a {
+.navbar-links a,
+.navbar-drawer a {
   color: #64748b;
   text-decoration: none;
   font-size: 14px;
@@ -55,7 +56,8 @@
   transition: width 0.25s ease;
 }
 
-.navbar-links a:hover {
+.navbar-links a:hover,
+.navbar-drawer a:hover {
   color: #e2e8f0;
 }
 
@@ -64,13 +66,153 @@
   width: 100%;
 }
 
-.navbar-links a.active {
+.navbar-links a.active,
+.navbar-drawer a.active {
   color: var(--blue-light);
+}
+
+/* ── HAMBURGER ────────────────────────────────────────────────────────── */
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin-right: -8px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 0 auto;
+  border-radius: 2px;
+  background: #cbd5e1;
+  transition: transform 0.25s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.navbar-toggle:hover .toggle-bar {
+  background: var(--blue-light);
+}
+
+.navbar-toggle:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.navbar-toggle.open .toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-toggle.open .toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggle.open .toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── DRAWER ───────────────────────────────────────────────────────────── */
+.navbar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 1100;
+}
+
+.navbar-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.navbar-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(78vw, 300px);
+  padding: 84px 28px 32px;
+  background: rgba(9, 15, 33, 0.98);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-left: 1px solid var(--border);
+  box-shadow: -20px 0 50px rgba(2, 6, 23, 0.6);
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  visibility: hidden;
+  z-index: 1150;
+}
+
+.navbar-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.navbar-drawer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-drawer li + li {
+  border-top: 1px solid var(--border);
+}
+
+.navbar-drawer a {
+  display: block;
+  padding: 16px 2px;
+  font-size: 15px;
+  padding-bottom: 16px;
+}
+
+.navbar-drawer a.active {
+  border-left: 2px solid var(--blue-light);
+  padding-left: 12px;
+  margin-left: -14px;
+}
+
+.navbar-drawer a:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .navbar { padding: 0 20px; }
+  .navbar-links { display: none; }
+  .navbar-toggle { display: flex; }
+}
+
+/* Above the breakpoint the drawer is unreachable, so keep it out of the DOM
+   flow entirely rather than relying on the transform alone. */
+@media (min-width: 861px) {
+  .navbar-drawer,
+  .navbar-backdrop { display: none; }
 }
 
 @media (max-width: 640px) {
   .navbar { padding: 0 16px; }
-  .navbar-links { gap: 20px; }
   .logo { font-size: 15px; }
-  .navbar-links a { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-drawer,
+  .navbar-backdrop,
+  .toggle-bar {
+    transition: none;
+  }
 }
