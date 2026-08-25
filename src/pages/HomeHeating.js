@@ -61,7 +61,7 @@ export default function HomeHeating() {
       {/* HERO */}
       <section className="hh-hero">
         <div className="hh-eyebrow-row">
-          <span className="hh-eyebrow">Building automation · Modbus RTU · Running unattended</span>
+          <span className="hh-eyebrow">Building automation · Modbus RTU</span>
           <span className="hh-badge">Public snapshot</span>
         </div>
 

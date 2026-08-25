@@ -8,6 +8,7 @@
 
 /* ── HERO ─────────────────────────────────────────────────────────────── */
 .thesis-hero {
+  text-align: center;
   margin-bottom: 48px;
   padding: 40px 0 0;
 }
@@ -15,6 +16,7 @@
 .thesis-eyebrow-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 18px;
@@ -51,7 +53,7 @@
 }
 
 .thesis-hero-sub {
-  margin: 0 0 28px;
+  margin: 0 auto 28px;
   max-width: 680px;
   font-size: 15px;
   color: var(--text-muted);
@@ -60,6 +62,7 @@
 
 .thesis-hero-actions {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -363,6 +366,11 @@
   .thesis-hero-title { font-size: 32px; }
   .thesis-stats-row  { grid-template-columns: repeat(2, 1fr); }
   .result-row        { grid-template-columns: 60px 1fr; }
+}
+
+@media (max-width: 640px) {
+  .thesis-page { padding-top: 40px; }
+  .thesis-hero { padding: 40px 0 0; }
 }
 
 @media (max-width: 480px) {

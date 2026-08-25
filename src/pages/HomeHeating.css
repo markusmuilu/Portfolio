@@ -8,6 +8,7 @@
 
 /* HERO */
 .hh-hero {
+  text-align: center;
   margin-bottom: 48px;
   padding: 40px 0 0;
 }
@@ -15,6 +16,7 @@
 .hh-eyebrow-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 18px;
@@ -51,8 +53,8 @@
 }
 
 .hh-hero-sub {
-  margin: 0 0 28px;
-  max-width: 720px;
+  margin: 0 auto 28px;
+  max-width: 700px;
   font-size: 15px;
   color: var(--text-muted);
   line-height: 1.75;
@@ -60,6 +62,7 @@
 
 .hh-hero-actions {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -469,6 +472,11 @@
   .hh-stats-row  { grid-template-columns: repeat(2, 1fr); }
   .hh-lead-card  { padding: 24px 20px; }
   .hh-story-card { padding: 22px 20px; }
+}
+
+@media (max-width: 640px) {
+  .hh-page { padding-top: 40px; }
+  .hh-hero { padding: 40px 0 0; }
 }
 
 @media (max-width: 480px) {
