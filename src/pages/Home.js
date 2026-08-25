@@ -374,14 +374,9 @@ export default function Home() {
           <h3>Building automation bridge</h3>
           <div className="project-controls">
             <span className="project-tag">Embedded · Modbus RTU · Live</span>
-            <a
-              href="https://github.com/markusmuilu/fidelix-modbus-bridge"
-              className="hero-btn ghost"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Link to="/home_heating" className="hero-btn ghost">
               View Project
-            </a>
+            </Link>
           </div>
         </div>
 

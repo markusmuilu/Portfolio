@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import NbaPrediction from "./pages/NbaPrediction";
 import Github from "./pages/GitHub";
 import ThesisProject from "./pages/ThesisProject";
+import HomeHeating from "./pages/HomeHeating";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/nba_prediction" element={<NbaPrediction />} />
         <Route path="/thesis" element={<ThesisProject />} />
+        <Route path="/home_heating" element={<HomeHeating />} />
         <Route path="/github" element={<Github />} />
       </Routes>
     </Router>
