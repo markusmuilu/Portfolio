@@ -44,11 +44,11 @@
 }
 
 .thesis-hero-title {
-  font-size: 46px;
+  font-size: 52px;
   font-weight: 700;
   letter-spacing: -0.03em;
   margin: 0 0 16px;
-  line-height: 1.15;
+  line-height: 1.1;
   color: #f1f5f9;
 }
 
@@ -362,18 +362,22 @@
 }
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+/* Title scale mirrors NbaPrediction.css so the three project heroes match. */
+@media (max-width: 900px) {
+  .thesis-hero-title { font-size: 40px; }
+}
+
 @media (max-width: 720px) {
-  .thesis-hero-title { font-size: 32px; }
   .thesis-stats-row  { grid-template-columns: repeat(2, 1fr); }
   .result-row        { grid-template-columns: 60px 1fr; }
 }
 
 @media (max-width: 640px) {
+  .thesis-hero-title { font-size: 32px; }
   .thesis-page { padding-top: 40px; }
   .thesis-hero { padding: 40px 0 0; }
 }
 
 @media (max-width: 480px) {
   .thesis-stats-row { grid-template-columns: 1fr 1fr; }
-  .thesis-hero-title { font-size: 26px; }
 }

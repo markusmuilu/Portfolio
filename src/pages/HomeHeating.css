@@ -44,11 +44,11 @@
 }
 
 .hh-hero-title {
-  font-size: 46px;
+  font-size: 52px;
   font-weight: 700;
   letter-spacing: -0.03em;
   margin: 0 0 16px;
-  line-height: 1.15;
+  line-height: 1.1;
   color: #f1f5f9;
 }
 
@@ -457,6 +457,11 @@
 }
 
 /* RESPONSIVE */
+/* Title scale mirrors NbaPrediction.css so the three project heroes match. */
+@media (max-width: 900px) {
+  .hh-hero-title { font-size: 40px; }
+}
+
 @media (max-width: 860px) {
   .hh-compare {
     grid-template-columns: 1fr;
@@ -468,18 +473,17 @@
 }
 
 @media (max-width: 720px) {
-  .hh-hero-title { font-size: 32px; }
   .hh-stats-row  { grid-template-columns: repeat(2, 1fr); }
   .hh-lead-card  { padding: 24px 20px; }
   .hh-story-card { padding: 22px 20px; }
 }
 
 @media (max-width: 640px) {
+  .hh-hero-title { font-size: 32px; }
   .hh-page { padding-top: 40px; }
   .hh-hero { padding: 40px 0 0; }
 }
 
 @media (max-width: 480px) {
-  .hh-hero-title { font-size: 26px; }
   .hh-stats-row  { grid-template-columns: 1fr 1fr; }
 }
