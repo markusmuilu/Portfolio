@@ -1,108 +1,9 @@
 .thesis-page {
   min-height: 100vh;
-  padding: 80px 20px 80px;
+  padding: 60px 20px 80px;
   max-width: 1120px;
   margin: 0 auto;
   color: var(--text);
-}
-
-/* ── HERO ─────────────────────────────────────────────────────────────── */
-.thesis-hero {
-  text-align: center;
-  margin-bottom: 48px;
-  padding: 40px 0 0;
-}
-
-.thesis-eyebrow-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
-.thesis-eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.thesis-grade-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--violet);
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(167, 139, 250, 0.08);
-  border: 1px solid rgba(167, 139, 250, 0.25);
-  letter-spacing: 0.02em;
-}
-
-.thesis-hero-title {
-  font-size: 52px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin: 0 0 16px;
-  line-height: 1.1;
-  color: #f1f5f9;
-}
-
-.thesis-hero-sub {
-  margin: 0 auto 28px;
-  max-width: 680px;
-  font-size: 15px;
-  color: var(--text-muted);
-  line-height: 1.75;
-}
-
-.thesis-hero-actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.thesis-btn {
-  padding: 10px 22px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  text-decoration: none;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s, border-color 0.2s, color 0.2s;
-  display: inline-flex;
-  align-items: center;
-}
-
-.thesis-btn.primary {
-  background: var(--violet);
-  color: #fff;
-  border-color: var(--violet);
-}
-
-.thesis-btn.primary:hover {
-  background: #c4b5fd;
-  border-color: #c4b5fd;
-  transform: translateY(-1px);
-}
-
-.thesis-btn.ghost {
-  background: rgba(15, 23, 42, 0.6);
-  color: var(--text);
-  border-color: rgba(148, 163, 184, 0.3);
-}
-
-.thesis-btn.ghost:hover {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: var(--violet);
-  color: var(--violet);
 }
 
 /* ── STATS ROW ────────────────────────────────────────────────────────── */
@@ -362,20 +263,13 @@
 }
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────── */
-/* Title scale mirrors NbaPrediction.css so the three project heroes match. */
-@media (max-width: 900px) {
-  .thesis-hero-title { font-size: 40px; }
-}
-
 @media (max-width: 720px) {
   .thesis-stats-row  { grid-template-columns: repeat(2, 1fr); }
   .result-row        { grid-template-columns: 60px 1fr; }
 }
 
 @media (max-width: 640px) {
-  .thesis-hero-title { font-size: 32px; }
   .thesis-page { padding-top: 40px; }
-  .thesis-hero { padding: 40px 0 0; }
 }
 
 @media (max-width: 480px) {

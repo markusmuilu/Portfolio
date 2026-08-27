@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ProjectHero from "../components/ProjectHero";
 import "./NbaPrediction.css";
 
 const teams = {
@@ -80,33 +81,22 @@ export default function NbaPrediction() {
   return (
     <div className="nba-page">
 
-      {/* HERO BANNER */}
-      <section className="nba-hero">
-        <span className="nba-eyebrow">End-to-end ML system</span>
-        <h1 className="nba-hero-title">NBA Game Prediction</h1>
-        <p className="nba-hero-sub">
-          A fully automated machine learning pipeline: data ingestion, feature engineering,
-          model training, and daily inference, all running in production on Fly.io.
-        </p>
-        <div className="nba-hero-actions">
-          <a
-            href="https://github.com/markusmuilu/Predicting-Nba"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nba-btn primary"
-          >
-            View on GitHub
-          </a>
-          <a
-            href="https://nba-ml-dashboard.streamlit.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nba-btn ghost"
-          >
-            Open Dashboard ↗
-          </a>
-        </div>
-      </section>
+      <ProjectHero
+        accent="blue"
+        eyebrow="End-to-end ML system"
+        title="NBA Game Prediction"
+        actions={[
+          {
+            label: "View on GitHub",
+            href: "https://github.com/markusmuilu/Predicting-Nba",
+            variant: "primary",
+          },
+          { label: "Open Dashboard ↗", href: "https://nba-ml-dashboard.streamlit.app/" },
+        ]}
+      >
+        A fully automated machine learning pipeline: data ingestion, feature engineering,
+        model training, and daily inference, all running in production on Fly.io.
+      </ProjectHero>
 
       {/* STATS ROW */}
       <div className="stats-row">

@@ -1,3 +1,4 @@
+import ProjectHero from "../components/ProjectHero";
 import "./ThesisProject.css";
 
 const results = [
@@ -22,42 +23,27 @@ export default function ThesisProject() {
   return (
     <div className="thesis-page">
 
-      {/* HERO */}
-      <section className="thesis-hero">
-        <div className="thesis-eyebrow-row">
-          <span className="thesis-eyebrow">Bachelor's Thesis · Aalto University 2026</span>
-          <span className="thesis-grade-badge">Grade 5 / 5</span>
-        </div>
-
-        <h1 className="thesis-hero-title">
-          Improving Gym Exercise Recognition with Light Gradient Boosting
-        </h1>
-
-        <p className="thesis-hero-sub">
-          Investigated whether LightGBM outperforms Random Forest on a wearable sensor dataset
-          of 10 subjects performing 11 gym exercises, evaluated across three sensor positions
-          using Leave-One-Group-Out cross-validation.
-        </p>
-
-        <div className="thesis-hero-actions">
-          <a
-            href="https://github.com/markusmuilu/gym-exercise-recognition"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="thesis-btn primary"
-          >
-            View on GitHub
-          </a>
-          <a
-            href="https://github.com/markusmuilu/gym-exercise-recognition/blob/main/thesis.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="thesis-btn ghost"
-          >
-            Read Thesis ↗
-          </a>
-        </div>
-      </section>
+      <ProjectHero
+        accent="violet"
+        eyebrow="Bachelor's Thesis · Aalto 2026"
+        badge="Grade 5 / 5"
+        title="Improving Gym Exercise Recognition with Light Gradient Boosting"
+        actions={[
+          {
+            label: "View on GitHub",
+            href: "https://github.com/markusmuilu/gym-exercise-recognition",
+            variant: "primary",
+          },
+          {
+            label: "Read Thesis ↗",
+            href: "https://github.com/markusmuilu/gym-exercise-recognition/blob/main/thesis.pdf",
+          },
+        ]}
+      >
+        Investigated whether LightGBM outperforms Random Forest on a wearable sensor dataset
+        of 10 subjects performing 11 gym exercises, evaluated across three sensor positions
+        using Leave-One-Group-Out cross-validation.
+      </ProjectHero>
 
       {/* STATS ROW */}
       <div className="thesis-stats-row">

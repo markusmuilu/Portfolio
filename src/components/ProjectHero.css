@@ -1,0 +1,138 @@
+/* One hero for every project page. Colour is the only per-page variable. */
+.project-hero {
+  text-align: center;
+  padding: 60px 20px 48px;
+  margin-bottom: 40px;
+}
+
+.project-hero.accent-blue {
+  --hero-accent: var(--text-accent);
+  --hero-accent-bg: rgba(165, 180, 252, 0.07);
+  --hero-accent-border: rgba(165, 180, 252, 0.18);
+  --hero-primary-bg: var(--blue);
+  --hero-primary-fg: #fff;
+  --hero-primary-hover: var(--blue-light);
+}
+
+.project-hero.accent-violet {
+  --hero-accent: var(--violet);
+  --hero-accent-bg: rgba(167, 139, 250, 0.08);
+  --hero-accent-border: rgba(167, 139, 250, 0.25);
+  --hero-primary-bg: var(--violet);
+  --hero-primary-fg: #fff;
+  --hero-primary-hover: #c4b5fd;
+}
+
+.project-hero.accent-teal {
+  --hero-accent: var(--teal);
+  --hero-accent-bg: rgba(45, 212, 191, 0.08);
+  --hero-accent-border: rgba(45, 212, 191, 0.25);
+  --hero-primary-bg: var(--teal);
+  --hero-primary-fg: #04211d;
+  --hero-primary-hover: #5eead4;
+}
+
+/* ── TAGS ─────────────────────────────────────────────────────────────── */
+.project-hero-tags {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.project-hero-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--hero-accent);
+  background: var(--hero-accent-bg);
+  border: 1px solid var(--hero-accent-border);
+  padding: 4px 14px;
+  border-radius: 999px;
+}
+
+/* ── TITLE AND SUB ────────────────────────────────────────────────────── */
+.project-hero-title {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 16px;
+  color: #f1f5f9;
+}
+
+.project-hero-sub {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 28px;
+  line-height: 1.7;
+}
+
+/* ── ACTIONS ──────────────────────────────────────────────────────────── */
+.project-hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.project-hero-btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s, border-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.project-hero-btn.primary {
+  background: var(--hero-primary-bg);
+  color: var(--hero-primary-fg);
+  border-color: var(--hero-primary-bg);
+}
+
+.project-hero-btn.primary:hover {
+  background: var(--hero-primary-hover);
+  border-color: var(--hero-primary-hover);
+  transform: translateY(-1px);
+}
+
+.project-hero-btn.ghost {
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.project-hero-btn.ghost:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: var(--hero-accent);
+  color: var(--hero-accent);
+  transform: translateY(-1px);
+}
+
+.project-hero-btn:focus-visible {
+  outline: 2px solid var(--hero-accent);
+  outline-offset: 2px;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .project-hero-title { font-size: 40px; }
+}
+
+@media (max-width: 640px) {
+  .project-hero { padding: 40px 0 32px; }
+  .project-hero-title { font-size: 32px; }
+  .project-hero-sub { font-size: 15px; }
+}

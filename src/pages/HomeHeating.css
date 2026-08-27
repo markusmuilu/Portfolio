@@ -1,108 +1,9 @@
 .hh-page {
   min-height: 100vh;
-  padding: 80px 20px 80px;
+  padding: 60px 20px 80px;
   max-width: 1120px;
   margin: 0 auto;
   color: var(--text);
-}
-
-/* HERO */
-.hh-hero {
-  text-align: center;
-  margin-bottom: 48px;
-  padding: 40px 0 0;
-}
-
-.hh-eyebrow-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
-.hh-eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.hh-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--teal);
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(45, 212, 191, 0.08);
-  border: 1px solid rgba(45, 212, 191, 0.25);
-  letter-spacing: 0.02em;
-}
-
-.hh-hero-title {
-  font-size: 52px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin: 0 0 16px;
-  line-height: 1.1;
-  color: #f1f5f9;
-}
-
-.hh-hero-sub {
-  margin: 0 auto 28px;
-  max-width: 700px;
-  font-size: 15px;
-  color: var(--text-muted);
-  line-height: 1.75;
-}
-
-.hh-hero-actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.hh-btn {
-  padding: 10px 22px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  text-decoration: none;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s, border-color 0.2s, color 0.2s;
-  display: inline-flex;
-  align-items: center;
-}
-
-.hh-btn.primary {
-  background: var(--teal);
-  color: #04211d;
-  border-color: var(--teal);
-}
-
-.hh-btn.primary:hover {
-  background: #5eead4;
-  border-color: #5eead4;
-  transform: translateY(-1px);
-}
-
-.hh-btn.ghost {
-  background: rgba(15, 23, 42, 0.6);
-  color: var(--text);
-  border-color: rgba(148, 163, 184, 0.3);
-}
-
-.hh-btn.ghost:hover {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: var(--teal);
-  color: var(--teal);
 }
 
 /* STATS ROW */
@@ -457,11 +358,6 @@
 }
 
 /* RESPONSIVE */
-/* Title scale mirrors NbaPrediction.css so the three project heroes match. */
-@media (max-width: 900px) {
-  .hh-hero-title { font-size: 40px; }
-}
-
 @media (max-width: 860px) {
   .hh-compare {
     grid-template-columns: 1fr;
@@ -479,9 +375,7 @@
 }
 
 @media (max-width: 640px) {
-  .hh-hero-title { font-size: 32px; }
   .hh-page { padding-top: 40px; }
-  .hh-hero { padding: 40px 0 0; }
 }
 
 @media (max-width: 480px) {

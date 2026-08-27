@@ -1,3 +1,4 @@
+import ProjectHero from "../components/ProjectHero";
 import "./HomeHeating.css";
 
 const REPO = "https://github.com/markusmuilu/fidelix-modbus-bridge";
@@ -58,37 +59,22 @@ export default function HomeHeating() {
   return (
     <div className="hh-page">
 
-      {/* HERO */}
-      <section className="hh-hero">
-        <div className="hh-eyebrow-row">
-          <span className="hh-eyebrow">Building automation · Modbus RTU</span>
-          <span className="hh-badge">Public snapshot</span>
-        </div>
-
-        <h1 className="hh-hero-title">Building Automation Bridge</h1>
-
-        <p className="hh-hero-sub">
-          A Modbus RTU bridge between a Fidelix FX-2020 building automation controller and Home
-          Assistant, running in an occupied house. It reads 32 temperature sensors across three
-          analogue cards, drives 24 heating circuits, and holds each zone at its setpoint while
-          leaning on cheap electricity. Fidelix has essentially no open-source Home Assistant
-          support, so most of what follows is not documented anywhere else.
-        </p>
-
-        <div className="hh-hero-actions">
-          <a href={REPO} target="_blank" rel="noopener noreferrer" className="hh-btn primary">
-            View on GitHub
-          </a>
-          <a
-            href={`${REPO}/tree/main/docs`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hh-btn ghost"
-          >
-            Read the write-ups ↗
-          </a>
-        </div>
-      </section>
+      <ProjectHero
+        accent="teal"
+        eyebrow="Building automation · Modbus RTU"
+        badge="Public snapshot"
+        title="Building Automation Bridge"
+        actions={[
+          { label: "View on GitHub", href: REPO, variant: "primary" },
+          { label: "Read the write-ups ↗", href: `${REPO}/tree/main/docs` },
+        ]}
+      >
+        A Modbus RTU bridge between a Fidelix FX-2020 building automation controller and Home
+        Assistant, running in an occupied house. It reads 32 temperature sensors across three
+        analogue cards, drives 24 heating circuits, and holds each zone at its setpoint while
+        leaning on cheap electricity. Fidelix has essentially no open-source Home Assistant
+        support, so most of what follows is not documented anywhere else.
+      </ProjectHero>
 
       {/* STATS ROW */}
       <div className="hh-stats-row">
