@@ -60,11 +60,12 @@ export default function HomeHeating() {
           { label: "Read the write-ups ↗", href: `${REPO}/tree/main/docs` },
         ]}
       >
-        Controls the heating in a house: 24 zones, each with its own temperature sensor and
-        setpoint, with the heating shifted into the cheaper hours of the Nord Pool spot price.
-        Any zone can be switched to manual, or back to a plain thermostat, at any time. It talks
-        to a Fidelix FX-2020 building automation controller over Modbus RTU, and runs unattended
-        in an occupied house.
+        The building&apos;s original control computer, a Windows CE machine, had failed. This is
+        its replacement, built from scratch: a Raspberry Pi running Home Assistant, with the whole
+        control layer written as AppDaemon apps in Python, driving the building&apos;s existing
+        Fidelix FX-2020 controller over Modbus RTU. It controls 24 heating zones and shifts the
+        heating into the cheaper hours of the Nord Pool spot price. It runs unattended in an
+        occupied house.
       </ProjectHero>
 
       {/* STATS ROW */}
@@ -86,6 +87,33 @@ export default function HomeHeating() {
           <span className="hh-stat-label">Thermostat hysteresis</span>
         </div>
       </div>
+
+      {/* WHAT IT REPLACED */}
+      <section className="hh-lead-section">
+        <span className="hh-story-kicker">What it replaced</span>
+        <h2 className="hh-section-title">Built from scratch on top of the existing wiring</h2>
+
+        <div className="hh-lead-card">
+          <p>
+            The Fidelix FX-2020 and everything wired to it, 24 heating circuits and their
+            sensors, were still good. What had failed was the Windows CE computer sitting on top
+            of it, and with it any way to see or change what the heating was doing.
+          </p>
+          <p>
+            Replacing the automation itself would have meant rewiring the house. Replacing the
+            computer meant learning to speak to the FX-2020 directly. Modbus RTU over a serial
+            line: raw registers, resistive sensor curves read through an NTC table, and output
+            cards shared with equipment that must not be disturbed. Fidelix has essentially no
+            open-source Home Assistant support, so the register layouts and the read-back
+            procedure had to be worked out against the live panel.
+          </p>
+          <p>
+            On top of that sits a Raspberry Pi running Home Assistant, and eleven AppDaemon apps
+            in Python: the bridge itself, the thermostats, the price optimiser, the mode
+            selector, and a watchdog that checks every signal is still arriving.
+          </p>
+        </div>
+      </section>
 
       {/* MODES */}
       <section className="hh-method-section">
@@ -114,9 +142,7 @@ export default function HomeHeating() {
             The repository is the real code with the building removed. It is not a library and
             not a deployable package. Zones are numbered, the controller&apos;s point tags are
             neutral, and the serial path, coordinates, addresses, tariff rates and credentials
-            are gone. The logic, the structure and the comments are as written. Fidelix has
-            essentially no open-source Home Assistant support, so the register layouts and the
-            resistive-input formula in the repository were not documented elsewhere.
+            are gone. The logic, the structure and the comments are as written.
           </p>
         </div>
       </section>
@@ -130,6 +156,7 @@ export default function HomeHeating() {
           <span>pymodbus</span>
           <span>AppDaemon</span>
           <span>Home Assistant</span>
+          <span>Raspberry Pi</span>
           <span>Nord Pool spot prices</span>
           <span>Offline test harnesses</span>
         </div>

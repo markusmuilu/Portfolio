@@ -381,10 +381,11 @@ export default function Home() {
         </div>
 
         <p className="project-lead">
-          Controls the heating in a house: 24 zones, each with its own temperature sensor and
-          setpoint, with the heating shifted into the cheaper hours of the Nord Pool spot price.
-          Any zone can be switched to manual at any time. Talks to a Fidelix FX-2020 building
-          automation controller over Modbus RTU and runs unattended in an occupied house.
+          The building&apos;s original control computer, a Windows CE machine, had failed. Built
+          the replacement from scratch: a Raspberry Pi running Home Assistant, with the whole
+          control layer written as AppDaemon apps in Python, driving the existing Fidelix FX-2020
+          controller over Modbus RTU. Controls 24 heating zones and shifts the heating into the
+          cheaper hours of the Nord Pool spot price. Runs unattended in an occupied house.
           Published as a redacted snapshot.
         </p>
 
@@ -394,13 +395,14 @@ export default function Home() {
           <span>pymodbus</span>
           <span>AppDaemon</span>
           <span>Home Assistant</span>
+          <span>Raspberry Pi</span>
           <span>Nord Pool spot prices</span>
         </div>
 
         <ul className="project-list">
           <li>Four control modes per zone: price optimised, plain thermostat, manual, and solar surplus</li>
           <li>Price optimisation stays closed-loop on temperature, so a zone is never left cold to chase a cheap hour</li>
-          <li>24 temperature sensors read off three analogue cards, on a 30-second control loop</li>
+          <li>24 temperature sensors read off three analogue cards over Modbus RTU, on a 30-second control loop</li>
           <li>Offline test harnesses that exercise the bit arithmetic without hardware</li>
         </ul>
       </div>
