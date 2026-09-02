@@ -60,12 +60,12 @@ export default function HomeHeating() {
           { label: "Read the write-ups ↗", href: `${REPO}/tree/main/docs` },
         ]}
       >
-        The building&apos;s original control computer, a Windows CE machine, had failed. This is
-        its replacement, built from scratch: a Raspberry Pi running Home Assistant, with the whole
-        control layer written as AppDaemon apps in Python, driving the building&apos;s existing
-        Fidelix FX-2020 controller over Modbus RTU. It controls 24 heating zones and shifts the
-        heating into the cheaper hours of the Nord Pool spot price. It runs unattended in an
-        occupied house.
+        The building&apos;s original control computer had failed, leaving one thermostat on the
+        wall for the whole house and rooms that could not be kept warm. This is its replacement,
+        built from scratch: a Raspberry Pi running Home Assistant, with the whole control layer
+        written as AppDaemon apps in Python, driving the building&apos;s existing Fidelix FX-2020
+        controller over Modbus RTU. It restored independent control of all 24 heating zones, and
+        shifts the heating into the cheaper hours of the Nord Pool spot price.
       </ProjectHero>
 
       {/* STATS ROW */}
@@ -97,7 +97,9 @@ export default function HomeHeating() {
           <p>
             The Fidelix FX-2020 and everything wired to it, 24 heating circuits and their
             sensors, were still good. What had failed was the Windows CE computer sitting on top
-            of it, and with it any way to see or change what the heating was doing.
+            of it, and with it per-circuit control of the heating. What was left was a single
+            thermostat on the wall governing the whole house. In a house with 24 separately
+            wired circuits that is not enough control to keep rooms warm, and they were cold.
           </p>
           <p>
             Replacing the automation itself would have meant rewiring the house. Replacing the

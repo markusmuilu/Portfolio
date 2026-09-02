@@ -381,12 +381,13 @@ export default function Home() {
         </div>
 
         <p className="project-lead">
-          The building&apos;s original control computer, a Windows CE machine, had failed. Built
-          the replacement from scratch: a Raspberry Pi running Home Assistant, with the whole
-          control layer written as AppDaemon apps in Python, driving the existing Fidelix FX-2020
-          controller over Modbus RTU. Controls 24 heating zones and shifts the heating into the
-          cheaper hours of the Nord Pool spot price. Runs unattended in an occupied house.
-          Published as a redacted snapshot.
+          The building&apos;s original control computer had failed, leaving one thermostat on the
+          wall for the whole house and rooms that could not be kept warm. Built the replacement
+          from scratch: a Raspberry Pi running Home Assistant, with the whole control layer
+          written as AppDaemon apps in Python, driving the existing Fidelix FX-2020 controller
+          over Modbus RTU. Restored independent control of all 24 heating zones and shifts the
+          heating into the cheaper hours of the Nord Pool spot price. Runs unattended in an
+          occupied house. Published as a redacted snapshot.
         </p>
 
         <div className="project-tech">
