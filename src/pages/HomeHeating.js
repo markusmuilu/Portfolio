@@ -9,7 +9,7 @@ const modes = [
     title: "Price optimised",
     body: (
       <>
-        Holds the room at its setpoint but chooses when to spend the energy, biasing the heating
+        Holds the zone at its setpoint but chooses when to spend the energy, biasing the heating
         toward the cheaper hours of the day&apos;s Nord Pool spot prices.
       </>
     ),
@@ -20,7 +20,7 @@ const modes = [
     body: (
       <>
         A plain setpoint thermostat that ignores price. This is the layer everything else sits on
-        top of, and what the room falls back to.
+        top of, and what a zone falls back to.
       </>
     ),
   },
@@ -29,8 +29,8 @@ const modes = [
     title: "Manual",
     body: (
       <>
-        The room&apos;s heating does what you set it to and stays there. No other controller
-        touches it while the room is in this mode.
+        The zone&apos;s heating does what you set it to and stays there. No other controller
+        touches it while the zone is in this mode.
       </>
     ),
   },
@@ -60,38 +60,38 @@ export default function HomeHeating() {
           { label: "Read the write-ups ↗", href: `${REPO}/tree/main/docs` },
         ]}
       >
-        Controls the heating in a house: 24 rooms, each held at its own setpoint, with the
-        heating shifted into the cheaper hours of the Nord Pool spot price. Any room can be
-        switched to manual, or back to a plain thermostat, at any time. It talks to a Fidelix
-        FX-2020 building automation controller over Modbus RTU, and runs unattended in an
-        occupied house.
+        Controls the heating in a house: 24 zones, each with its own temperature sensor and
+        setpoint, with the heating shifted into the cheaper hours of the Nord Pool spot price.
+        Any zone can be switched to manual, or back to a plain thermostat, at any time. It talks
+        to a Fidelix FX-2020 building automation controller over Modbus RTU, and runs unattended
+        in an occupied house.
       </ProjectHero>
 
       {/* STATS ROW */}
       <div className="hh-stats-row">
         <div className="hh-stat-card">
           <span className="hh-stat-num">24</span>
-          <span className="hh-stat-label">Heating circuits controlled</span>
-        </div>
-        <div className="hh-stat-card">
-          <span className="hh-stat-num">24</span>
-          <span className="hh-stat-label">Room temperature sensors</span>
+          <span className="hh-stat-label">Heating zones controlled</span>
         </div>
         <div className="hh-stat-card">
           <span className="hh-stat-num">4</span>
-          <span className="hh-stat-label">Control modes per room</span>
+          <span className="hh-stat-label">Control modes per zone</span>
         </div>
         <div className="hh-stat-card">
           <span className="hh-stat-num">30 s</span>
-          <span className="hh-stat-label">Sensor poll interval</span>
+          <span className="hh-stat-label">Control loop interval</span>
+        </div>
+        <div className="hh-stat-card">
+          <span className="hh-stat-num">0.5 °C</span>
+          <span className="hh-stat-label">Thermostat hysteresis</span>
         </div>
       </div>
 
       {/* MODES */}
       <section className="hh-method-section">
-        <h2 className="hh-section-title">Four modes, chosen per room</h2>
+        <h2 className="hh-section-title">Four modes, chosen per zone</h2>
         <p className="hh-section-sub">
-          Each room picks which controller drives its heating. The choice is the single source of
+          Each zone picks which controller drives its heating. The choice is the single source of
           truth, so nothing overrides anything and a switch you set stays where you set it.
         </p>
 

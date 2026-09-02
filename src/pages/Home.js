@@ -381,11 +381,11 @@ export default function Home() {
         </div>
 
         <p className="project-lead">
-          Controls the heating in a house: 24 rooms, each held at its own setpoint, with the
-          heating shifted into the cheaper hours of the Nord Pool spot price. Any room can be
-          switched to manual at any time. Talks to a Fidelix FX-2020 building automation
-          controller over Modbus RTU and runs unattended in an occupied house. Published as a
-          redacted snapshot.
+          Controls the heating in a house: 24 zones, each with its own temperature sensor and
+          setpoint, with the heating shifted into the cheaper hours of the Nord Pool spot price.
+          Any zone can be switched to manual at any time. Talks to a Fidelix FX-2020 building
+          automation controller over Modbus RTU and runs unattended in an occupied house.
+          Published as a redacted snapshot.
         </p>
 
         <div className="project-tech">
@@ -398,9 +398,9 @@ export default function Home() {
         </div>
 
         <ul className="project-list">
-          <li>Four control modes per room: price optimised, plain thermostat, manual, and solar surplus</li>
-          <li>Price optimisation stays closed-loop on temperature, so a room is never left cold to chase a cheap hour</li>
-          <li>24 temperature sensors read off three analogue cards, polled every 30 seconds</li>
+          <li>Four control modes per zone: price optimised, plain thermostat, manual, and solar surplus</li>
+          <li>Price optimisation stays closed-loop on temperature, so a zone is never left cold to chase a cheap hour</li>
+          <li>24 temperature sensors read off three analogue cards, on a 30-second control loop</li>
           <li>Offline test harnesses that exercise the bit arithmetic without hardware</li>
         </ul>
       </div>
