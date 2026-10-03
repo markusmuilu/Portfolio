@@ -26,3 +26,6 @@ theme.json
 
 # local Claude Code settings
 .claude/settings.local.json
+
+# prerender scratch
+/scripts/.ssr-bundle.mjs

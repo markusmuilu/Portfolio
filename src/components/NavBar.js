@@ -77,7 +77,7 @@ export default function Navbar() {
       {/* Portalled to the body on purpose: the bar's backdrop-filter makes it
           the containing block for fixed descendants, which would clip the
           drawer to the height of the bar. */}
-      {createPortal(
+      {typeof document !== "undefined" && createPortal(
         <>
           <div
             className={`navbar-backdrop${open ? " open" : ""}`}

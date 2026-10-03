@@ -7,9 +7,9 @@ import ThesisProject from "./pages/ThesisProject";
 import HomeHeating from "./pages/HomeHeating";
 import "./App.css";
 
-function App() {
+export function AppRoutes() {
   return (
-    <Router>
+    <>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -18,6 +18,14 @@ function App() {
         <Route path="/home_heating" element={<HomeHeating />} />
         <Route path="/github" element={<Github />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppRoutes />
     </Router>
   );
 }
