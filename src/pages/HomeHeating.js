@@ -57,15 +57,15 @@ export default function HomeHeating() {
       <Row label="Results so far" field="surface">
         <div className="hh-results">
           <div>
-            <h3 className="row-title">Paying below the day's average price</h3>
+            <h3 className="row-title">Heating in the cheaper hours</h3>
             <CompareBars
               rows={[
-                { label: "Rooms as thermostats, Aug to Sep", value: 1.5 },
-                { label: "All rooms on price control, Oct", value: 11, strong: true },
+                { label: "Day's average electricity price", value: 6.21 },
+                { label: "Average price the heating paid", value: 5.52, strong: true },
               ]}
-              max={12}
-              format={(v) => `${v}%`}
-              caption="How far below the day's average spot price the heating energy was bought. Spot price only; the October figure is the first week with every room on price control."
+              max={6.5}
+              format={(v) => `${v.toFixed(2)} c/kWh`}
+              caption="6 to 11 October, the first week with every room on price control: 168 kWh of heating, 11 % cheaper per kWh than buying the same energy at each day's average price, a saving of €1.15. Prices are spot plus transfer, without tax and the retailer's margin, which are the same in every hour. One mild week, so not a yearly figure."
             />
           </div>
           <div>
