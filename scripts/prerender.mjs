@@ -18,9 +18,9 @@ const pages = [
   },
   {
     path: "/nba_prediction",
-    title: "NBA Game Prediction Pipeline | Markus Muilu",
+    title: "NBA Game Prediction | Markus Muilu",
     description:
-      "End-to-end NBA game prediction pipeline: automated data ingestion, feature engineering, daily predictions, a live predictor and an analytics dashboard.",
+      "Predicts every NBA game before tip-off and keeps a public ledger: a PyTorch player model against a logistic regression shadow, with accuracy, log loss and what flat and Kelly stakes would have returned. Plus ratings for the Finnish men's leagues.",
   },
   {
     path: "/thesis",
@@ -36,8 +36,8 @@ const pages = [
   },
   {
     path: "/github",
-    title: "GitHub Projects | Markus Muilu",
-    description: "Selected code repositories by Markus Muilu: ML pipelines, thesis code and other projects.",
+    title: "Repositories | Markus Muilu",
+    description: "Public code by Markus Muilu: NBA game prediction, a building automation bridge over Modbus RTU, bachelor's thesis code and a training planner.",
   },
 ];
 
@@ -68,8 +68,7 @@ for (const page of pages) {
     `<meta property="og:title" content="${esc(page.title)}"/>` +
     `<meta property="og:description" content="${esc(page.description)}"/>` +
     `<meta property="og:url" content="${url}"/>` +
-    `<meta property="og:type" content="website"/>` +
-    `<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>`;
+    `<meta property="og:type" content="website"/>`;
   let html = template
     .replace(/<title>.*?<\/title>/s, "")
     .replace(/<meta name="description"[^>]*>/s, "")

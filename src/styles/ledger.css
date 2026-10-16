@@ -1,0 +1,364 @@
+/* Shared page structure. A page is a stack of full-width sections, each on its own ground
+   (page ground, surface, sky or navy). Sections are told apart by ground colour and space, not by lines. */
+
+.wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---------- fields ---------- */
+
+.field-sky {
+  background: var(--sky);
+  color: var(--sky-ink);
+  --ink: var(--sky-ink);
+  --muted: var(--sky-muted);
+}
+
+.field-navy {
+  background: var(--navy);
+  color: var(--navy-ink);
+  --ink: var(--navy-ink);
+  --bg: var(--navy);
+  --muted: var(--navy-muted);
+  --surface: var(--navy-surface);
+  --accent: #9cc3e6;
+  --hit: #9cc3e6;
+  --miss: #3a5069;
+}
+
+.field-surface { background: var(--tint); --surface: var(--bg); }
+
+/* ---------- page head ---------- */
+
+.head { padding: 64px 0 76px; }
+
+.head-grid { padding-left: calc(var(--label-col) + 48px + var(--gutter)); }
+
+.head h1 {
+  font-family: var(--display);
+  font-stretch: 115%;
+  font-weight: 800;
+  font-size: clamp(38px, 5.8vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  max-width: 15ch;
+}
+
+.lede {
+  margin-top: 24px;
+  max-width: 60ch;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.lede + .lede { margin-top: 12px; }
+.lede b { font-weight: 700; }
+
+.stack-line {
+  margin-top: 18px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.actions {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  background: var(--ink);
+  color: var(--bg);
+  transition: transform 0.15s ease;
+}
+
+.field-sky .btn { background: var(--sky-ink); color: var(--sky); }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+
+.btn.quiet,
+.field-sky .btn.quiet {
+  background: transparent;
+  color: inherit;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* ---------- sections ---------- */
+
+.row { padding: 72px 0 84px; }
+.row:not([class*="field-"]) + .row:not([class*="field-"]) { padding-top: 8px; }
+
+.row-grid {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  gap: 0 48px;
+}
+
+.row-head h2 {
+  font-family: var(--display);
+  font-stretch: 112%;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.row-note {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.row-body { min-width: 0; }
+
+.row-title {
+  font-family: var(--display);
+  font-stretch: 108%;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  max-width: 32ch;
+}
+
+.prose p { max-width: 64ch; }
+.prose p + p { margin-top: 14px; }
+
+.prose-lead,
+.prose-line { max-width: 64ch; margin-bottom: 24px; }
+
+.note {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 64ch;
+}
+
+/* ---------- entries (projects, jobs, schools): separated by space, not lines ---------- */
+
+.entries {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 36px;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 24px;
+}
+
+.entry h3 {
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.3;
+}
+
+.entry .when {
+  font-size: 15px;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.entry > p,
+.entry > ul,
+.entry > div { grid-column: 1 / -1; }
+
+.entry > p { max-width: 66ch; }
+
+.entry ul {
+  padding-left: 18px;
+  margin-top: 6px;
+  max-width: 66ch;
+}
+
+.entry li + li { margin-top: 4px; }
+.entry li::marker { color: var(--accent); }
+
+/* ---------- figures: a short line of facts under an entry ---------- */
+
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.figures b {
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- facts written as a short list ---------- */
+
+.facts {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 36px;
+  font-size: 18px;
+}
+
+.facts b {
+  font-family: var(--display);
+  font-stretch: 112%;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* ---------- tool groups ---------- */
+
+.groups { display: grid; gap: 16px; }
+
+.group {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 4px 20px;
+}
+
+.group h3 { font-size: 16px; font-weight: 700; padding-top: 1px; }
+
+.words-line { max-width: 70ch; }
+
+/* ---------- links ---------- */
+
+.link,
+.repo-name,
+.entry h3 a {
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.link:hover,
+.repo-name:hover,
+.entry h3 a:hover { text-decoration-thickness: 3px; }
+
+.link { font-weight: 600; }
+.repo-name { font-family: var(--mono); font-weight: 500; font-size: 17px; }
+.when-link { align-self: start; font-size: 15px; }
+
+/* ---------- segmented switch ---------- */
+
+.switch {
+  display: inline-flex;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 14px;
+}
+
+.field-sky .switch { background: rgba(14, 24, 34, 0.1); }
+
+.switch button {
+  appearance: none;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  min-height: 36px;
+  padding: 0 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.field-sky .switch button[aria-pressed="true"] { color: var(--sky); }
+.switch button:hover:not([aria-pressed="true"]) { background: rgba(127, 140, 155, 0.2); }
+
+/* ---------- footer ---------- */
+
+.foot {
+  background: var(--navy);
+  color: var(--navy-ink);
+  padding: 48px 0 64px;
+}
+
+.foot-grid {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  gap: 0 48px;
+}
+
+.foot-name {
+  font-family: var(--display);
+  font-stretch: 125%;
+  font-weight: 900;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.foot-lines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+
+.foot-lines a {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 860px) {
+  .head-grid { padding-left: var(--gutter); }
+  .head { padding: 40px 0 52px; }
+  .row { padding: 48px 0 56px; }
+  .row-grid,
+  .foot-grid { grid-template-columns: 1fr; }
+  .row-head { margin-bottom: 20px; }
+  .lede { font-size: 18px; }
+  .foot-name { margin-bottom: 12px; }
+  .group { grid-template-columns: 1fr; }
+  .entry { grid-template-columns: 1fr; }
+  .entry .when { padding-top: 0; }
+}
+
+.head h1.h1-long {
+  font-size: clamp(32px, 4.2vw, 50px);
+  max-width: 22ch;
+}
+
+/* ---------- comparison bars ---------- */
+.cbars { margin: 0; display: grid; gap: 14px; width: 100%; max-width: 520px; }
+.cbar { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 4px 12px; align-items: center; }
+.cbar-label { grid-column: 1 / -1; font-size: 15px; color: var(--muted); }
+.cbar-track { height: 18px; background: rgba(14, 24, 34, 0.08); border-radius: 3px; overflow: hidden; }
+.cbar-fill { display: block; height: 100%; background: var(--muted); opacity: 0.55; border-radius: 3px; }
+.cbar.strong .cbar-fill { background: var(--accent); opacity: 1; }
+.cbar-value { font-family: var(--display); font-weight: 800; font-size: 20px; text-align: right; font-variant-numeric: tabular-nums; }
+.cbar.strong .cbar-value { color: var(--accent); }
+.cbars figcaption { font-size: 14px; color: var(--muted); max-width: 60ch; }
+
+/* ---------- repository activity ---------- */
+.repo { background: #ffffff; border-radius: 10px; padding: 20px 22px; max-width: 760px; }
+.repo-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; align-items: baseline; }
+.repo-meta { display: flex; gap: 16px; font-size: 14px; color: var(--muted); }
+.repo-log { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 8px; }
+.repo-log li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; font-size: 15px; }
+.repo-log a { text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.repo-log a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.repo-log span { color: var(--muted); font-size: 14px; white-space: nowrap; }

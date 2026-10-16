@@ -1,24 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
-import "./NavBar.css";
+
 
 const links = [
   { to: "/", label: "Home" },
-  { to: "/nba_prediction", label: "NBA Prediction" },
-  { to: "/thesis", label: "Bachelor's Thesis" },
-  { to: "/home_heating", label: "Building Automation" },
-  { to: "/github", label: "GitHub" },
+  { to: "/home_heating", label: "Heating" },
+  { to: "/nba_prediction", label: "NBA" },
+  { to: "/thesis", label: "Thesis" },
+  { to: "/github", label: "Code" },
 ];
 
 export default function Navbar() {
-  const { pathname } = useLocation();
+  const { pathname: rawPath } = useLocation();
+  // A static host may serve /thesis as /thesis/, so compare without the trailing slash.
+  const pathname = rawPath.replace(/\/+$/, "") || "/";
   const [open, setOpen] = useState(false);
   const toggleRef = useRef(null);
   const panelRef = useRef(null);
 
   // Close on navigation, so tapping a link in the drawer does not leave it open.
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   // Escape closes, and the page behind the drawer should not scroll with it.
   useEffect(() => {
@@ -43,9 +47,10 @@ export default function Navbar() {
   }, [open]);
 
   return (
+    <div className="navbar-shell">
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/" className="logo-link">
+        <Link to="/" className="logo-link" aria-label="Markus Muilu, home">
           <span className="logo">Markus Muilu</span>
         </Link>
       </div>
@@ -53,7 +58,7 @@ export default function Navbar() {
       <ul className="navbar-links">
         {links.map(({ to, label }) => (
           <li key={to}>
-            <Link to={to} className={pathname === to ? "active" : ""}>
+            <Link to={to} className={pathname === to ? "active" : ""} aria-current={pathname === to ? "page" : undefined}>
               {label}
             </Link>
           </li>
@@ -109,5 +114,6 @@ export default function Navbar() {
         document.body
       )}
     </nav>
+    </div>
   );
 }

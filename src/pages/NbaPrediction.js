@@ -1,260 +1,348 @@
-import { useState } from "react";
-import ProjectHero from "../components/ProjectHero";
+import { useMemo, useState } from "react";
+import Row, { Head } from "../components/Row";
+import Tally from "../components/Tally";
+import LineChart from "../components/LineChart";
+import Finland from "../components/Finland";
+import Predictor from "../components/Predictor";
+import SeasonExplorer from "../components/SeasonExplorer";
+import RepoActivity from "../components/RepoActivity";
+import useJson from "../lib/useJson";
+import { MODELS, euro, flatLedger, kellyLedger, marketP, pct, played, priced, quality, shortDate, signedPct } from "../lib/ledger";
 import "./NbaPrediction.css";
 
-const teams = {
-  "ATL": "Atlanta Hawks",
-  "BOS": "Boston Celtics",
-  "BKN": "Brooklyn Nets",
-  "CHA": "Charlotte Hornets",
-  "CHI": "Chicago Bulls",
-  "CLE": "Cleveland Cavaliers",
-  "DAL": "Dallas Mavericks",
-  "DEN": "Denver Nuggets",
-  "DET": "Detroit Pistons",
-  "GSW": "Golden State Warriors",
-  "HOU": "Houston Rockets",
-  "IND": "Indiana Pacers",
-  "LAC": "LA Clippers",
-  "LAL": "LA Lakers",
-  "MEM": "Memphis Grizzlies",
-  "MIA": "Miami Heat",
-  "MIL": "Milwaukee Bucks",
-  "MIN": "Minnesota Timberwolves",
-  "NOP": "New Orleans Pelicans",
-  "NYK": "New York Knicks",
-  "OKC": "Oklahoma City Thunder",
-  "ORL": "Orlando Magic",
-  "PHI": "Philadelphia 76ers",
-  "PHX": "Phoenix Suns",
-  "POR": "Portland Trail Blazers",
-  "SAC": "Sacramento Kings",
-  "SAS": "San Antonio Spurs",
-  "TOR": "Toronto Raptors",
-  "UTA": "Utah Jazz",
-  "WAS": "Washington Wizards",
-};
+const REPO = "https://github.com/markusmuilu/Predicting-Nba";
 
 export default function NbaPrediction() {
-  const [teamA, setTeamA] = useState("");
-  const [teamB, setTeamB] = useState("");
-  const [prediction, setPrediction] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handlePredict() {
-    if (loading) return;
-    if (!teamA || !teamB) { setError("Please select both teams."); return; }
-    if (teamA === teamB) { setError("Please select two different teams."); return; }
-    setError("");
-    setLoading(true);
-    setPrediction(null);
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000);
-
-    try {
-      const res = await fetch(
-        `https://predicting-nba.fly.dev/predict?team1=${teamA}&team2=${teamB}`,
-        { signal: controller.signal }
-      );
-      clearTimeout(timeoutId);
-      if (res.status === 429) throw new Error("rate_limited");
-      if (!res.ok) throw new Error("not_ok");
-      const data = await res.json();
-      setPrediction(data);
-    } catch (err) {
-      clearTimeout(timeoutId);
-      if (err.name === "AbortError") {
-        setError("Prediction is taking too long. Please try again in a moment.");
-      } else if (err.message === "rate_limited") {
-        setError("Please wait a minute before making another prediction.");
-      } else {
-        setError("Prediction service unavailable right now.");
-      }
-      setPrediction(null);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const data = useJson("/data/nba-season.json");
+  const ok = data && !data.error;
+  const liveGames = data?.live?.games || [];
+  const hasLive = played(liveGames).length > 0;
+  const last = ok ? data.backtest.games : [];
+  const both = last.filter((g) => g.pm != null);
+  const liveRecord = ok ? quality(played(last), (g) => g.ps) : null;
+  const fromJan = ok ? quality(played(last).filter((g) => g.d >= "2026-01-09"), (g) => g.ps) : null;
+  const days = ok ? Math.ceil((new Date(`${data.live.opens}T00:00:00`) - new Date()) / 86400000) : null;
 
   return (
-    <div className="nba-page">
-
-      <ProjectHero
-        accent="blue"
-        eyebrow="End-to-end ML system"
-        title="NBA Game Prediction"
-        actions={[
-          {
-            label: "View on GitHub",
-            href: "https://github.com/markusmuilu/Predicting-Nba",
-            variant: "primary",
-          },
-          { label: "Open Dashboard ↗", href: "https://nba-ml-dashboard.streamlit.app/" },
-        ]}
-      >
-        A fully automated machine learning pipeline: data ingestion, feature engineering,
-        model training, and daily inference, all running in production on Fly.io.
-      </ProjectHero>
-
-      {/* STATS ROW */}
-      <div className="stats-row">
-        <div className="stat-card">
-          <span className="stat-num">1000+</span>
-          <span className="stat-label">Predicted games</span>
-        </div>
-<div className="stat-card">
-          <span className="stat-num">Daily</span>
-          <span className="stat-label">Automated predictions</span>
-        </div>
-        <div className="stat-card">
-          <span className="stat-num">Live</span>
-          <span className="stat-label">API on Fly.io</span>
-        </div>
-        <div className="stat-card">
-          <span className="stat-num">Open</span>
-          <span className="stat-label">Source on GitHub</span>
-        </div>
-      </div>
-
-      {/* PREDICTOR */}
-      <section className="predictor-card">
-        <div className="predictor-header">
-          <div>
-            <h2>Try the Live Predictor</h2>
-            <p className="predictor-desc">Select two teams and get a real-time win probability from the deployed model.</p>
-          </div>
-          <span className="live-badge">
-            <span className="live-dot" />
-            Live API
-          </span>
-        </div>
-
-        <div className="predictor-inputs">
-          <div className="team-select-wrap">
-            <label htmlFor="teamA">Home Team</label>
-            <select id="teamA" value={teamA} onChange={(e) => setTeamA(e.target.value)}>
-              <option value="">Select team…</option>
-              {Object.entries(teams).map(([abbr, name]) => (
-                <option key={abbr} value={abbr}>{name}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="vs-divider">VS</div>
-
-          <div className="team-select-wrap">
-            <label htmlFor="teamB">Away Team</label>
-            <select id="teamB" value={teamB} onChange={(e) => setTeamB(e.target.value)}>
-              <option value="">Select team…</option>
-              {Object.entries(teams).map(([abbr, name]) => (
-                <option key={abbr} value={abbr}>{name}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {error && <p className="predictor-error">{error}</p>}
-
-        <button className="predict-btn" onClick={handlePredict} disabled={loading}>
-          {loading ? (
-            <><span className="btn-spinner" />Predicting…</>
-          ) : (
-            "Predict Winner"
+    <div className="page nba">
+      <Head>
+        <div>
+          <h1>NBA game prediction</h1>
+          <p className="lede">
+            Predicts the winner of every NBA game before tip-off and keeps a record of each pick against the
+            bookmaker's price. For the 2026-27 season a PyTorch model built from each team's players becomes the main
+            model, and the logistic regression that predicted every game live last season keeps running beside it.
+          </p>
+          {liveRecord && (
+            <p className="lede">
+              Last season, live: the regression called <b>{pct(liveRecord.accuracy)}</b> of{" "}
+              {liveRecord.n.toLocaleString("en")} regular-season games, and <b>{pct(fromJan.accuracy)}</b> of the{" "}
+              {fromJan.n} from 9 January on.
+            </p>
           )}
-        </button>
+          <p className="stack-line">Python, PyTorch, FastAPI, Docker, Fly.io, Cloudflare R2</p>
+          <div className="actions">
+            <a className="btn" href="#season">
+              The 2026-27 season
+            </a>
+            <a className="btn quiet" href={REPO} target="_blank" rel="noopener noreferrer">
+              Code on GitHub
+            </a>
+          </div>
+        </div>
+      </Head>
 
-        {prediction && !loading && (
-          <div className="prediction-result">
-            {prediction.winner ? (
-              <>
-                <span className="result-label">Predicted winner</span>
-                <span className="result-winner">{prediction.winner}</span>
-                {prediction.confidence != null && (
-                  <div className="confidence-wrap">
-                    <div className="confidence-track">
-                      <div
-                        className="confidence-bar"
-                        style={{ width: `${Math.min(prediction.confidence, 100)}%` }}
-                      />
-                    </div>
-                    <span className="confidence-text">
-                      {Number(prediction.confidence).toFixed(1)}% confidence
-                    </span>
-                  </div>
-                )}
-              </>
-            ) : (
-              <span className="result-error">Prediction service unavailable right now.</span>
-            )}
+      <Row label="2026-27 season" sub={days > 0 ? `opens in ${days} day${days === 1 ? "" : "s"}` : "in progress"} field="navy" id="season">
+        {hasLive ? (
+          <Season games={liveGames} backtest={false} />
+        ) : (
+          <div className="upcoming">
+            <p className="upcoming-lead">
+              {ok ? (
+                <>
+                  The regular season opens on <b>{shortDate(data.live.opens)}</b>. From the first game, both models
+                  predict every game before tip-off, and each pick is logged here with the price at that moment and the
+                  result.
+                </>
+              ) : (
+                "Loading the season."
+              )}
+            </p>
+            <ul className="upcoming-models">
+              <li>
+                <span className="um-tag">Main</span>
+                <h3>PyTorch player model</h3>
+                <p>
+                  Each player's recent box-score form goes through the same small network, and a team is the average of
+                  its players weighted by expected minutes. A head that is antisymmetric in the two teams turns the pair
+                  into a home-win probability. It uses the roster from each team's previous game, since that is what is
+                  known before tip-off.
+                </p>
+                {both.length > 0 && <p className="um-fig">Backtest on last season: {pct(quality(both, (g) => g.pm).accuracy)} called right</p>}
+              </li>
+              <li>
+                <span className="um-tag">Shadow</span>
+                <h3>Logistic regression</h3>
+                <p>
+                  Team statistics from recent games. It ran in production through 2025-26 and predicted every game live,
+                  so it is the benchmark: the player model has to beat it on the same games to stay the main model.
+                </p>
+                {liveRecord && <p className="um-fig">Live last season: {pct(liveRecord.accuracy)} called right</p>}
+              </li>
+            </ul>
+            <ul className="upcoming-log">
+              <li><b>Before tip-off</b>both models' win probability for the home team</li>
+              <li><b>At the same moment</b>the bookmaker's price for both sides</li>
+              <li><b>After the game</b>the result, which model was right, and €1 and quarter-Kelly paper bets</li>
+            </ul>
           </div>
         )}
-      </section>
+      </Row>
 
-      {/* STREAMLIT DASHBOARD */}
-      <section className="dashboard-section">
-        <div className="dash-header">
-          <div>
-            <h2 className="dash-title">Live Analytics Dashboard</h2>
-            <p className="dash-sub">
-              5 tabs: model performance, team stats, upset analysis, betting simulation, and today&apos;s predictions.
+      <Row label="Last season" sub="2025-26, live and backtest" field="sky" id="results">
+        {!data && <p className="note">Loading the season.</p>}
+        {data?.error && <p className="note">The season data could not be loaded.</p>}
+        {ok && (
+          <>
+            <p className="prose-line">
+              The regression's numbers are its real live predictions, made before each game from 10 November. The player
+              model did not run last season: its numbers are a backtest on the same games, trained only on earlier
+              seasons. Live and backtest are not quite the same test, so read the gap as a direction, not a precise size.
             </p>
-          </div>
-          <a
-            href="https://nba-ml-dashboard.streamlit.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nba-btn ghost"
-          >
-            Full screen ↗
-          </a>
-        </div>
+            <Season games={both} backtest={true} />
+          </>
+        )}
+      </Row>
 
-        <div className="browser-frame">
-          <div className="browser-bar">
-            <span className="browser-dots">
-              <span /><span /><span />
-            </span>
-            <span className="browser-url">nba-ml-dashboard.streamlit.app</span>
+      <Row label="Follow a team" sub="2025-26" id="explore">
+        {ok ? <SeasonExplorer games={both} /> : <p className="note">Loading the season.</p>}
+      </Row>
+
+      <Row label="How it runs">
+        <ul className="entries">
+          <li className="entry">
+            <h3>Daily job</h3>
+            <p>
+              Resolves finished games from ESPN, archives them to the history, rebuilds features, and writes the day's
+              predictions with odds from The Odds API.
+            </p>
+          </li>
+          <li className="entry">
+            <h3>Storage and serving</h3>
+            <p>
+              A FastAPI service on Fly.io. All state lives in Cloudflare R2: training data, features, the model bundle,
+              predictions and history. There is no database.
+            </p>
+          </li>
+          <li className="entry">
+            <h3>This page</h3>
+            <p>
+              The ledger is computed in your browser from one row per game: the date, the teams, both models'
+              probabilities, the result and the stored prices.
+            </p>
+          </li>
+        </ul>
+      </Row>
+
+      <Row label="The code" sub="live from GitHub">
+        <RepoActivity repo="Predicting-Nba" />
+      </Row>
+
+      <Row label="Ask the model" sub="the deployed regression" field="surface">
+        <Predictor />
+      </Row>
+
+      <Row label="Finnish leagues" sub="a side project" field="sky" id="finland">
+        <p className="prose-line">
+          Team ratings for the Finnish men's leagues: Korisliiga and the two I divisioona groups in one model, the II
+          divisioona in another, built from final and quarter scores in the federation's results service.
+        </p>
+        <Finland />
+      </Row>
+    </div>
+  );
+}
+
+function Season({ games, backtest }) {
+  const [model, setModel] = useState("pm");
+  const s = useMemo(() => {
+    const done = played(games);
+    const withPrice = priced(games);
+    const row = (key) => ({
+      all: quality(done, (g) => g[key]),
+      priced: quality(withPrice, (g) => g[key]),
+      flat: flatLedger(withPrice, key),
+      kelly: kellyLedger(withPrice, key),
+    });
+    return {
+      done,
+      withPrice,
+      pm: row("pm"),
+      ps: row("ps"),
+      market: quality(withPrice, marketP),
+      marketFlat: flatLedger(
+        withPrice.map((g) => ({ ...g, mk: marketP(g) })),
+        "mk"
+      ),
+    };
+  }, [games]);
+
+  const pricedSpan = s.withPrice.length ? `${shortDate(s.withPrice[0].d)} to ${shortDate(s.withPrice[s.withPrice.length - 1].d)}` : "";
+
+  return (
+    <div className="season">
+      <p className="season-scope">
+        {s.done.length.toLocaleString("en")} games played. {s.withPrice.length} have a stored price
+        {pricedSpan && ` (${pricedSpan})`}, and the money columns use only those.
+      </p>
+
+      <div className="scroll-x">
+        <table className="scoreboard">
+          <thead>
+            <tr>
+              <th scope="col" />
+              <th scope="col" className="num">
+                Called right
+              </th>
+              <th scope="col" className="num">
+                Log loss
+              </th>
+              <th scope="col" className="num">
+                €1 on every pick
+              </th>
+              <th scope="col" className="num">
+                Quarter Kelly, €100
+              </th>
+              <th scope="col" className="num">
+                Worst drop
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {["pm", "ps"].map((k) => (
+              <tr key={k} className={k}>
+                <th scope="row">
+                  <span className="swatch" aria-hidden="true" />
+                  {MODELS[k].name}
+                  <span className="sub">{MODELS[k].long}</span>
+                </th>
+                <td className="num">
+                  {pct(s[k].all.accuracy)}
+                  <span className="sub">priced {pct(s[k].priced.accuracy)}</span>
+                </td>
+                <td className="num">
+                  {s[k].all.logLoss.toFixed(3)}
+                  <span className="sub">priced {s[k].priced.logLoss.toFixed(3)}</span>
+                </td>
+                <td className={`num ${s[k].flat.profit < 0 ? "neg" : ""}`}>
+                  {euro(s[k].flat.profit, true)}
+                  <span className="sub">
+                    ROI {signedPct(s[k].flat.roi)}
+                    {s[k].flat.interval && `, 95% ${signedPct(s[k].flat.interval[0], 0)} to ${signedPct(s[k].flat.interval[1], 0)}`}
+                  </span>
+                </td>
+                <td className={`num ${s[k].kelly.final < s[k].kelly.start ? "neg" : ""}`}>
+                  {euro(s[k].kelly.final)}
+                  <span className="sub">{s[k].kelly.bets} bets</span>
+                </td>
+                <td className="num neg">{pct(s[k].kelly.maxDrawdown, 0)}</td>
+              </tr>
+            ))}
+            <tr className="mk">
+              <th scope="row">
+                <span className="swatch" aria-hidden="true" />
+                Market
+                <span className="sub">Pinnacle price, margin removed</span>
+              </th>
+              <td className="num">
+                <span className="na">n/a</span>
+                <span className="sub">priced {pct(s.market.accuracy)}</span>
+              </td>
+              <td className="num">
+                <span className="na">n/a</span>
+                <span className="sub">priced {s.market.logLoss.toFixed(3)}</span>
+              </td>
+              <td className={`num ${s.marketFlat.profit < 0 ? "neg" : ""}`}>
+                {euro(s.marketFlat.profit, true)}
+                <span className="sub">€1 on every favourite</span>
+              </td>
+              <td className="num">
+                <span className="na">no bets</span>
+              </td>
+              <td className="num" />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className="tally-wrap">
+        <div className="tally-top">
+          <h3>Every game, one square</h3>
+          <div className="switch" role="group" aria-label="Model">
+            {["pm", "ps"].map((k) => (
+              <button key={k} type="button" aria-pressed={model === k} onClick={() => setModel(k)}>
+                {MODELS[k].name}
+              </button>
+            ))}
           </div>
-          <iframe
-            src="https://nba-ml-dashboard.streamlit.app/?embed=true"
-            title="NBA Analytics Dashboard"
-            allowFullScreen
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-            className="dash-iframe"
+        </div>
+        <Tally games={games} modelKey={model} />
+      </div>
+
+      {s.withPrice.length > 1 && (
+        <div className="charts">
+          <LineChart
+            title="€1 on every pick: running profit"
+            dates={s.withPrice.map((g) => g.d)}
+            base={0}
+            format={(v) => `${v < 0 ? "−" : ""}€${Math.abs(v).toFixed(0)}`}
+            series={[
+              { label: "Main", values: s.pm.flat.path, className: "pm" },
+              { label: "Shadow", values: s.ps.flat.path, className: "ps" },
+            ]}
+          />
+          <LineChart
+            title="Quarter Kelly: bankroll from €100"
+            dates={s.withPrice.map((g) => g.d)}
+            base={100}
+            format={(v) => `€${v.toFixed(0)}`}
+            series={[
+              { label: "Main", values: s.pm.kelly.path, className: "pm" },
+              { label: "Shadow", values: s.ps.kelly.path, className: "ps" },
+            ]}
           />
         </div>
-      </section>
+      )}
 
-      {/* SYSTEM OVERVIEW */}
-      <section className="system-section">
-        <p className="system-title">System Overview</p>
-        <div className="system-grid">
-          <div className="system-card">
-            <span className="system-icon">⚡</span>
-            <h3>Data Pipeline</h3>
-            <p>Multi-season game log ingestion from PBPStats with 6-hour caching. Automated feature engineering with corrected defensive rating formula.</p>
-          </div>
-          <div className="system-card">
-            <span className="system-icon">🧠</span>
-            <h3>ML Model</h3>
-            <p>Logistic Regression serialized as a skops bundle (model + scaler). Chosen for calibration stability and real-world reliability over experimental neural network versions.</p>
-          </div>
-          <div className="system-card">
-            <span className="system-icon">🔄</span>
-            <h3>Daily Automation</h3>
-            <p>Scheduler runs at 12:00 Helsinki time, resolving finished games via ESPN, archives results to history, and generates predictions with odds from The Odds API.</p>
-          </div>
-          <div className="system-card">
-            <span className="system-icon">☁️</span>
-            <h3>Infrastructure</h3>
-            <p>FastAPI on Fly.io. All state in Cloudflare R2: training data, features, model bundle, predictions, history. Zero database. Zero egress fees.</p>
-          </div>
-        </div>
-      </section>
-
+      <div className="reading">
+        <h3>Reading these numbers</h3>
+        <ul>
+          <li>
+            <b>Log loss</b> scores the probability, not only the pick. Lower is better, and 0.693 is a coin flip.
+          </li>
+          <li>
+            <b>Quarter Kelly</b> stakes a quarter of the Kelly fraction of the bankroll, only on a side the model rates
+            above the price. Flat staking puts €1 on the model's pick in every priced game.
+          </li>
+          {backtest && (
+            <>
+              <li>
+                The prices were stored when the daily job ran, around midday Finnish time, not at closing. They are
+                the only prices that exist for this season.
+              </li>
+              <li>
+                The market called these games better than either model. Where the models disagreed with it, they were
+                mostly backing underdogs the market had rated correctly, which is why Kelly staking loses faster than
+                flat stakes.
+              </li>
+              <li>
+                Confirming a 1% edge would take tens of thousands of bets. {s.withPrice.length} games can only rule out
+                large ones.
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
     </div>
   );
 }
