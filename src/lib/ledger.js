@@ -4,8 +4,8 @@
 // The same functions run on last season's backtest and on the live season.
 
 export const MODELS = {
-  pm: { name: "Main", long: "PyTorch player model, backtest" },
-  ps: { name: "Shadow", long: "Logistic regression, live" },
+  pm: { name: "Main", long: "PyTorch player model", last: "backtest" },
+  ps: { name: "Shadow", long: "Logistic regression", last: "live" },
 };
 
 const clip = (p) => Math.min(Math.max(p, 1e-9), 1 - 1e-9);

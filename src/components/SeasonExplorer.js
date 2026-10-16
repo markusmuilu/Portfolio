@@ -71,7 +71,7 @@ function TeamView({ games }) {
           <select value={model} onChange={(e) => setModel(e.target.value)}>
             {Object.entries(MODELS).map(([k, m]) => (
               <option key={k} value={k}>
-                {m.name}: {m.long}
+                {m.name}: {m.long}, {m.last}
               </option>
             ))}
           </select>

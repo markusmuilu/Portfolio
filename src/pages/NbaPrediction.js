@@ -6,17 +6,19 @@ import Finland from "../components/Finland";
 import Predictor from "../components/Predictor";
 import SeasonExplorer from "../components/SeasonExplorer";
 import RepoActivity from "../components/RepoActivity";
-import useJson from "../lib/useJson";
+import useJson, { LIVE_DATA } from "../lib/useJson";
 import { MODELS, euro, flatLedger, kellyLedger, marketP, pct, played, priced, quality, shortDate, signedPct } from "../lib/ledger";
 import "./NbaPrediction.css";
 
 const REPO = "https://github.com/markusmuilu/Predicting-Nba";
 
 export default function NbaPrediction() {
-  const data = useJson("/data/nba-season.json");
+  const data = useJson(`${LIVE_DATA}/nba-season.json`, "/data/nba-season.json");
   const ok = data && !data.error;
-  const liveGames = data?.live?.games || [];
+  const liveAll = data?.live?.games || [];
+  const liveGames = liveAll.filter((g) => g.pm != null && g.ps != null);
   const hasLive = played(liveGames).length > 0;
+  const upcoming = liveAll.filter((g) => g.hw == null).slice(-15);
   const last = ok ? data.backtest.games : [];
   const both = last.filter((g) => g.pm != null);
   const liveRecord = ok ? quality(played(last), (g) => g.ps) : null;
@@ -53,6 +55,7 @@ export default function NbaPrediction() {
       </Head>
 
       <Row label="2026-27 season" sub={days > 0 ? `opens in ${days} day${days === 1 ? "" : "s"}` : "in progress"} field="navy" id="season">
+        {upcoming.length > 0 && <Upcoming games={upcoming} />}
         {hasLive ? (
           <Season games={liveGames} backtest={false} />
         ) : (
@@ -192,7 +195,7 @@ function Season({ games, backtest }) {
   return (
     <div className="season">
       <p className="season-scope">
-        {s.done.length.toLocaleString("en")} games played. {s.withPrice.length} have a stored price
+        {s.done.length.toLocaleString("en")} {s.done.length === 1 ? "game" : "games"} played. {s.withPrice.length} have a stored price
         {pricedSpan && ` (${pricedSpan})`}, and the money columns use only those.
       </p>
 
@@ -224,7 +227,7 @@ function Season({ games, backtest }) {
                 <th scope="row">
                   <span className="swatch" aria-hidden="true" />
                   {MODELS[k].name}
-                  <span className="sub">{MODELS[k].long}</span>
+                  <span className="sub">{MODELS[k].long}{backtest ? `, ${MODELS[k].last}` : ""}</span>
                 </th>
                 <td className="num">
                   {pct(s[k].all.accuracy)}
@@ -342,6 +345,48 @@ function Season({ games, backtest }) {
             </>
           )}
         </ul>
+      </div>
+    </div>
+  );
+}
+
+// Games predicted but not played yet: both models' pick, and the price when the prediction was made.
+function Upcoming({ games }) {
+  const tip = (g) =>
+    g.t
+      ? new Date(g.t).toLocaleString("en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Helsinki" })
+      : shortDate(g.d);
+  const side = (g, p) => (p == null ? "n/a" : p >= 0.5 ? `${g.h} ${pct(p, 0)}` : `${g.a} ${pct(1 - p, 0)}`);
+  return (
+    <div className="next-games">
+      <h3 className="tv-h">Predicted, not played yet</h3>
+      <div className="scroll-x">
+        <table className="tv-table next-table">
+          <thead>
+            <tr>
+              <th scope="col">Tip-off (Finnish time)</th>
+              <th scope="col">Game</th>
+              <th scope="col">Main pick</th>
+              <th scope="col">Shadow pick</th>
+              <th scope="col" className="num">
+                Price home / away
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {games.map((g) => (
+              <tr key={g.d + g.h}>
+                <td>{tip(g)}</td>
+                <td>
+                  {g.a} at {g.h}
+                </td>
+                <td>{side(g, g.pm)}</td>
+                <td>{side(g, g.ps)}</td>
+                <td className="num">{g.oh ? `${g.oh.toFixed(2)} / ${g.oa.toFixed(2)}` : "not priced"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -395,3 +395,9 @@
 .fin-team { margin: 26px 0 18px; background: #ffffffaa; border-radius: 10px; padding: 18px; }
 .fin-pick { display: grid; gap: 6px; font-size: 14px; font-weight: 600; margin-bottom: 16px; max-width: 320px; }
 .fin-pick select { font: inherit; font-size: 15px; height: 42px; border: 0; border-radius: 6px; padding: 0 10px; background: #ffffff; color: var(--ink); }
+
+/* ---------- predicted, not played yet ---------- */
+.next-games { margin-bottom: 28px; }
+.next-games .tv-table { color: var(--navy-ink); max-width: none; min-width: 560px; }
+.next-games .tv-table th { color: var(--navy-muted); }
+.next-games .tv-table td { border-top-color: rgba(255, 255, 255, 0.12); }

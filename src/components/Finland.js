@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useJson from "../lib/useJson";
+import useJson, { LIVE_DATA } from "../lib/useJson";
 import { pct } from "../lib/ledger";
 
 const POOLS = [
@@ -16,7 +16,7 @@ const fixtureDate = (w) => {
 // and one team followed through its season. The II divisioona model learns from every region; the page shows the
 // southern group only.
 export default function Finland() {
-  const data = useJson("/data/finland.json");
+  const data = useJson(`${LIVE_DATA}/finland.json`, "/data/finland.json");
   const [pool, setPool] = useState("national");
   const [team, setTeam] = useState(null);
 
