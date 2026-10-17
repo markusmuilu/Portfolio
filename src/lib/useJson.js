@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
-// The daily job publishes the season data to the Predicting-Nba repository's `data` branch twice a day. Pages read
-// that first and fall back to the copy bundled with the site.
+// Live data, read first, with the copy bundled with the site as the fallback:
+// NBA_LIVE: the prediction service on Fly.io, updated every 15 minutes by the player model's loop.
+// LIVE_DATA: the Predicting-Nba repository's `data` branch, where the Finnish leagues Action publishes twice a day.
+export const NBA_LIVE = "https://predicting-nba.fly.dev/portfolio";
 export const LIVE_DATA = "https://raw.githubusercontent.com/markusmuilu/Predicting-Nba/data";
 
 // Fetches JSON from the first URL that answers. Returns null until it arrives (and during prerender), or { error }.

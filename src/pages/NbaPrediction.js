@@ -6,14 +6,14 @@ import Finland from "../components/Finland";
 import Predictor from "../components/Predictor";
 import SeasonExplorer from "../components/SeasonExplorer";
 import RepoActivity from "../components/RepoActivity";
-import useJson, { LIVE_DATA } from "../lib/useJson";
+import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
 import { MODELS, euro, flatLedger, kellyLedger, marketP, pct, played, priced, quality, shortDate, signedPct } from "../lib/ledger";
 import "./NbaPrediction.css";
 
 const REPO = "https://github.com/markusmuilu/Predicting-Nba";
 
 export default function NbaPrediction() {
-  const data = useJson(`${LIVE_DATA}/nba-season.json`, "/data/nba-season.json");
+  const data = useJson(`${NBA_LIVE}/nba-season.json`, `${LIVE_DATA}/nba-season.json`, "/data/nba-season.json");
   const ok = data && !data.error;
   const liveAll = data?.live?.games || [];
   const liveGames = liveAll.filter((g) => g.pm != null && g.ps != null);
