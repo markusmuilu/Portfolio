@@ -2,7 +2,10 @@ import { useMemo, useState } from "react";
 import Row, { Head } from "../components/Row";
 import Tally from "../components/Tally";
 import LineChart from "../components/LineChart";
-import Finland from "../components/Finland";
+import { Link } from "react-router-dom";
+import Decisions from "../components/Decisions";
+import Src, { SourceTable, SrcKey } from "../components/Src";
+import PlayerNet from "../components/PlayerNet";
 import Predictor from "../components/Predictor";
 import SeasonExplorer from "../components/SeasonExplorer";
 import RepoActivity from "../components/RepoActivity";
@@ -10,7 +13,6 @@ import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
 import { MODELS, euro, flatLedger, kellyLedger, marketP, pct, played, priced, quality, shortDate, signedPct } from "../lib/ledger";
 import "./NbaPrediction.css";
 
-const REPO = "https://github.com/markusmuilu/Predicting-Nba";
 
 export default function NbaPrediction() {
   const data = useJson(`${NBA_LIVE}/nba-season.json`, `${LIVE_DATA}/nba-season.json`, "/data/nba-season.json");
@@ -33,23 +35,28 @@ export default function NbaPrediction() {
           <p className="lede">
             Predicts the winner of every NBA game before tip-off and keeps a record of each pick against the
             bookmaker's price. For the 2026-27 season a PyTorch model built from each team's players becomes the main
-            model, and the logistic regression that predicted every game live last season keeps running beside it.
+            model, and the logistic regression that predicted every game before tip-off last season keeps running beside it.
           </p>
           {liveRecord && (
             <p className="lede">
-              Last season, live: the regression called <b>{pct(liveRecord.accuracy)}</b> of{" "}
+              <Src kind="live" lead />
+              Last season the regression called <b>{pct(liveRecord.accuracy)}</b> of{" "}
               {liveRecord.n.toLocaleString("en")} regular-season games, and <b>{pct(fromJan.accuracy)}</b> of the{" "}
               {fromJan.n} from 9 January on.
             </p>
           )}
+          <SrcKey />
           <p className="stack-line">Python, PyTorch, FastAPI, Docker, Fly.io, Cloudflare R2</p>
           <div className="actions">
             <a className="btn" href="#season">
               The 2026-27 season
             </a>
-            <a className="btn quiet" href={REPO} target="_blank" rel="noopener noreferrer">
-              Code on GitHub
+            <a className="btn quiet" href="#decisions">
+              How it was chosen
             </a>
+            <Link className="btn quiet" to="/finnish_basketball">
+              Finnish leagues
+            </Link>
           </div>
         </div>
       </Head>
@@ -81,16 +88,16 @@ export default function NbaPrediction() {
                   into a home-win probability. It uses the roster from each team's previous game, since that is what is
                   known before tip-off.
                 </p>
-                {both.length > 0 && <p className="um-fig">Backtest on last season: {pct(quality(both, (g) => g.pm).accuracy)} called right</p>}
+                {both.length > 0 && <p className="um-fig"><Src kind="backtest" lead />Last season: {pct(quality(both, (g) => g.pm).accuracy)} called right</p>}
               </li>
               <li>
                 <span className="um-tag">Shadow</span>
                 <h3>Logistic regression</h3>
                 <p>
-                  Team statistics from recent games. It ran in production through 2025-26 and predicted every game live,
+                  Team statistics from recent games. It ran in production through 2025-26 and predicted every game before tip-off,
                   so it is the benchmark: the player model has to beat it on the same games to stay the main model.
                 </p>
-                {liveRecord && <p className="um-fig">Live last season: {pct(liveRecord.accuracy)} called right</p>}
+                {liveRecord && <p className="um-fig"><Src kind="live" lead />Last season: {pct(liveRecord.accuracy)} called right</p>}
               </li>
             </ul>
             <ul className="upcoming-log">
@@ -102,32 +109,77 @@ export default function NbaPrediction() {
         )}
       </Row>
 
-      <Row label="Last season" sub="2025-26, live and backtest" field="sky" id="results">
+      <Row label="Pre-game or backtest" sub="what each number is" id="sources">
+        <SourceTable
+          rows={[
+            {
+              what: `Logistic regression, 2025-26${liveRecord ? `: ${pct(liveRecord.accuracy)} of ${liveRecord.n.toLocaleString("en")} games` : ""}`,
+              kind: "live",
+              detail:
+                "Predicted before each game from 10 November 2025 and stored. From 7 January the bookmaker's price at that moment was stored with it, which is where last season's money columns come from.",
+            },
+            {
+              what: `Player model, 2025-26${both.length ? `: ${pct(quality(both, (g) => g.pm).accuracy)} of ${both.length.toLocaleString("en")} games` : ""}`,
+              kind: "backtest",
+              detail:
+                "Trained on 2020-21 to 2023-24, with 2024-25 for choosing settings, so it never saw a 2025-26 game. It used each team's previous-game roster; the running version also removes players listed as out, which the injury test below shows helps.",
+            },
+            {
+              what: "How the model was chosen",
+              kind: "backtest",
+              detail: "Every chart there scores models on seasons they were not trained on.",
+            },
+            {
+              what: "2026-27 season",
+              kind: "live",
+              detail:
+                "Both models, predicted 60 to 75 minutes before tip-off with the price at that moment, stored, then scored against the result. The first games are on 20 October.",
+            },
+          ]}
+        >
+          <p>
+            A <b>pre-game</b> number comes from predictions made before each game and stored as they were. A{" "}
+            <b>backtest</b> scores a model afterwards, on games it was not trained on.
+          </p>
+          <p>
+            A backtest is the best test there is before a model goes live, but it can still flatter: the data was
+            cleaned after the fact, and the model was picked after seeing how earlier versions scored. A pre-game record has
+            neither advantage, so it counts for more. The player model has no pre-game record yet; it starts with the
+            2026-27 season.
+          </p>
+        </SourceTable>
+      </Row>
+
+      <Row label="Last season" sub="2025-26, pre-game and backtest" field="sky" id="results">
         {!data && <p className="note">Loading the season.</p>}
         {data?.error && <p className="note">The season data could not be loaded.</p>}
         {ok && (
           <>
             <p className="prose-line">
-              The regression's numbers are its real live predictions, made before each game from 10 November. The player
+              The regression's numbers are its real predictions, made and stored before each game from 10 November. The player
               model did not run last season: its numbers are a backtest on the same games, trained only on earlier
-              seasons. Live and backtest are not quite the same test, so read the gap as a direction, not a precise size.
+              seasons. A pre-game record and a backtest are not quite the same test, so read the gap as a direction, not a precise size.
             </p>
             <Season games={both} backtest={true} />
           </>
         )}
       </Row>
 
-      <Row label="Follow a team" sub="2025-26" id="explore">
-        {ok ? <SeasonExplorer games={both} /> : <p className="note">Loading the season.</p>}
+      <Row label="How the model works" sub="the main model, step by step" id="model">
+        <PlayerNet />
+      </Row>
+
+      <Row label="How the model was chosen" sub="backtests on past seasons" field="surface" id="decisions">
+        <Decisions />
       </Row>
 
       <Row label="How it runs">
         <ul className="entries">
           <li className="entry">
-            <h3>Daily job</h3>
+            <h3>Every 15 minutes</h3>
             <p>
-              Resolves finished games from ESPN, archives them to the history, rebuilds features, and writes the day's
-              predictions with odds from The Odds API.
+              Records finished games and their box scores from ESPN. Any game starting within 75 minutes is predicted by
+              both models after reading the ESPN injury list, and stored with the price from The Odds API.
             </p>
           </li>
           <li className="entry">
@@ -156,11 +208,19 @@ export default function NbaPrediction() {
       </Row>
 
       <Row label="Finnish leagues" sub="a side project" field="sky" id="finland">
-        <p className="prose-line">
-          Team ratings for the Finnish men's leagues: Korisliiga and the two I divisioona groups in one model, the II
-          divisioona in another, built from final and quarter scores in the federation's results service.
-        </p>
-        <Finland />
+        <div className="fin-card">
+          <p>
+            The same idea for Finnish men's basketball: win chances for every Korisliiga, I divisioona and southern II
+            divisioona game, from team ratings that update after each result.
+          </p>
+          <Link className="btn" to="/finnish_basketball">
+            Finnish predictions
+          </Link>
+        </div>
+      </Row>
+
+      <Row label="Follow a team" sub="2025-26: main is a backtest, shadow was predicted pre-game" id="explore">
+        {ok ? <SeasonExplorer games={both} /> : <p className="note">Loading the season.</p>}
       </Row>
     </div>
   );
@@ -227,7 +287,8 @@ function Season({ games, backtest }) {
                 <th scope="row">
                   <span className="swatch" aria-hidden="true" />
                   {MODELS[k].name}
-                  <span className="sub">{MODELS[k].long}{backtest ? `, ${MODELS[k].last}` : ""}</span>
+                  <Src kind={backtest ? MODELS[k].last : "live"} />
+                  <span className="sub">{MODELS[k].long}</span>
                 </th>
                 <td className="num">
                   {pct(s[k].all.accuracy)}
@@ -280,7 +341,10 @@ function Season({ games, backtest }) {
 
       <div className="tally-wrap">
         <div className="tally-top">
-          <h3>Every game, one square</h3>
+          <h3>
+            Every game, one square
+            <Src kind={backtest ? MODELS[model].last : "live"} />
+          </h3>
           <div className="switch" role="group" aria-label="Model">
             {["pm", "ps"].map((k) => (
               <button key={k} type="button" aria-pressed={model === k} onClick={() => setModel(k)}>
@@ -300,8 +364,8 @@ function Season({ games, backtest }) {
             base={0}
             format={(v) => `${v < 0 ? "−" : ""}€${Math.abs(v).toFixed(0)}`}
             series={[
-              { label: "Main", values: s.pm.flat.path, className: "pm" },
-              { label: "Shadow", values: s.ps.flat.path, className: "ps" },
+              { label: backtest ? "Main, backtest" : "Main", values: s.pm.flat.path, className: "pm" },
+              { label: backtest ? "Shadow, pre-game" : "Shadow", values: s.ps.flat.path, className: "ps" },
             ]}
           />
           <LineChart
@@ -310,8 +374,8 @@ function Season({ games, backtest }) {
             base={100}
             format={(v) => `€${v.toFixed(0)}`}
             series={[
-              { label: "Main", values: s.pm.kelly.path, className: "pm" },
-              { label: "Shadow", values: s.ps.kelly.path, className: "ps" },
+              { label: backtest ? "Main, backtest" : "Main", values: s.pm.kelly.path, className: "pm" },
+              { label: backtest ? "Shadow, pre-game" : "Shadow", values: s.ps.kelly.path, className: "ps" },
             ]}
           />
         </div>

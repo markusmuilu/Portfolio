@@ -145,3 +145,15 @@
   .pb-stats b { font-size: 20px; }
   .pb-visual .month-bars { grid-template-columns: repeat(7, minmax(0, 32px)); }
 }
+
+/* the Finnish side project: a slim link under the NBA block, easy to find without competing with it */
+.pextra {
+  display: flex; align-items: center; gap: 14px; margin-top: 12px; padding: 14px 20px;
+  background: #ffffff; border-radius: 10px; text-decoration: none; color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--sky); transition: box-shadow 0.15s ease;
+}
+.pextra:hover { box-shadow: inset 0 0 0 2px var(--accent); }
+.pextra-tag { font-size: 13px; font-weight: 700; background: var(--sky); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.pextra-text { flex: 1; font-weight: 600; }
+.pextra-go { font-size: 20px; color: var(--accent); }
+.pextra + .pblock { margin-top: 24px; }

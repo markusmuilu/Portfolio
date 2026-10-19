@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import LineChart from "./LineChart";
+import Src from "./Src";
 import { MODELS, euro, isHit, pct, played, priced, shortDate } from "../lib/ledger";
 
 // Two ways into the 2025-26 backtest: follow one team through its season, or change the betting rules and watch the
@@ -71,14 +72,17 @@ function TeamView({ games }) {
           <select value={model} onChange={(e) => setModel(e.target.value)}>
             {Object.entries(MODELS).map(([k, m]) => (
               <option key={k} value={k}>
-                {m.name}: {m.long}, {m.last}
+                {m.name}: {m.long}, {m.last === "live" ? "pre-game" : m.last}
               </option>
             ))}
           </select>
         </label>
       </div>
 
-      <h3 className="tv-h">How well each team's games were called</h3>
+      <h3 className="tv-h">
+        How well each team's games were called
+        <Src kind={MODELS[model].last} />
+      </h3>
       <p className="note">Tap a team to follow it below. Sorted by the share of its games the {MODELS[model].name.toLowerCase()} model called right.</p>
       <ol className="tv-rank">
         {ranked.map((r) => {

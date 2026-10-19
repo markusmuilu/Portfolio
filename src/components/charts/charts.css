@@ -1,0 +1,39 @@
+.ch { position: relative; margin: 0; background: #ffffff; border-radius: 10px; padding: 16px 18px 14px; }
+.ch svg { display: block; overflow: visible; }
+.ch figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); max-width: 70ch; }
+.ch-grid { stroke: #e3e8ee; stroke-width: 1; }
+.ch-axis { font-family: var(--mono); font-size: 12px; fill: var(--muted); }
+.ch-label { font-size: 14px; fill: var(--ink); }
+.ch-val { font-family: var(--mono); font-size: 12px; fill: var(--ink); }
+.ch-hit { fill: transparent; }
+.ch-row:hover .ch-hit { fill: rgba(31, 95, 176, 0.06); }
+.ch-ci { stroke: #b9c3ce; stroke-width: 2; stroke-linecap: round; }
+.ch-link { stroke: #b9c3ce; stroke-width: 2; }
+.ch-dot { stroke: #ffffff; stroke-width: 2; }
+.tone-main .ch-dot, .ch-dot.tone-main, .lg-dot.tone-main { fill: #1f5fb0; background: #1f5fb0; }
+.tone-second .ch-dot, .ch-dot.tone-second, .lg-dot.tone-second { fill: #00897b; background: #00897b; }
+.tone-other .ch-dot, .ch-dot.tone-other, .lg-dot.tone-other { fill: #8a97a6; background: #8a97a6; }
+.tone-main .ch-label { font-weight: 700; }
+.ch-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; margin-bottom: 6px; }
+.lg-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.ch-tip {
+  position: absolute; z-index: 5; pointer-events: none; max-width: 300px;
+  background: var(--ink); color: #ffffff; font-size: 13px; line-height: 1.35;
+  padding: 7px 10px; border-radius: 6px; transform: translateY(-100%);
+}
+
+.hm { display: grid; gap: 2px; font-variant-numeric: tabular-nums; }
+.hm-row { display: contents; }
+.hm-corner, .hm-head, .hm-rowhead { font-size: 12px; color: var(--muted); padding: 4px 6px; }
+.hm-head { text-align: center; }
+.hm-rowhead { text-align: right; }
+.hm-cell { font-family: var(--mono); font-size: 12px; text-align: center; padding: 8px 2px; border-radius: 3px; cursor: default; }
+.hm-cell.above { box-shadow: inset 0 0 0 2px var(--ink); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+
+@media (max-width: 860px) {
+  .ch { padding: 12px; }
+}
+.ch-diag { stroke: #8a97a6; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.ch-cal { max-width: 380px; }

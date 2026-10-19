@@ -135,6 +135,14 @@ export default function Home() {
           </div>
         </article>
 
+        <Link to="/finnish_basketball" className="pextra">
+          <span className="pextra-tag">Side project</span>
+          <span className="pextra-text">Finnish basketball predictions: Korisliiga, I and II divisioona</span>
+          <span className="pextra-go" aria-hidden="true">
+            →
+          </span>
+        </Link>
+
         <article className="pblock">
           <Link to="/thesis" className="pb-visual chart" aria-label="Bachelor's thesis">
             <span className="f1mini" aria-hidden="true">

@@ -7,6 +7,7 @@ const links = [
   { to: "/", label: "Home" },
   { to: "/home_heating", label: "Heating" },
   { to: "/nba_prediction", label: "NBA" },
+  { to: "/finnish_basketball", label: "Finland" },
   { to: "/thesis", label: "Thesis" },
   { to: "/github", label: "Code" },
 ];

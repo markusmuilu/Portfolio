@@ -401,3 +401,55 @@
 .next-games .tv-table { color: var(--navy-ink); max-width: none; min-width: 560px; }
 .next-games .tv-table th { color: var(--navy-muted); }
 .next-games .tv-table td { border-top-color: rgba(255, 255, 255, 0.12); }
+
+/* ---------- Finland: four leagues ---------- */
+.fin-leagues { flex-wrap: wrap; }
+.fin-two { margin-top: 12px; }
+.fin-two .fixtures { margin-top: 0; }
+.fin-team-btn { appearance: none; border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
+.fin-team-btn:hover { text-decoration-color: var(--accent); }
+.tv-table tr.on td { background: rgba(31, 95, 176, 0.08); font-weight: 700; }
+
+@media (max-width: 860px) {
+  .fin-two { grid-template-columns: minmax(0, 1fr); }
+  .fin-two > *, .fin-team .tv-two > * { min-width: 0; }
+  .fin-two .tv-table, .fin-team .tv-table, .fin .fixtures { font-size: 14px; table-layout: auto; }
+  .fin .tv-table th, .fin .tv-table td, .fin .fixtures th, .fin .fixtures td { padding-right: 8px; }
+  .fin .fixtures .mono { white-space: normal; font-size: 12px; }
+  .fin .fixtures th.num { font-size: 12px; }
+}
+
+.season .charts { grid-template-columns: minmax(0, 1fr); }
+.season .charts > * { min-width: 0; }
+
+/* ---------- the player model, step by step ---------- */
+.pn-steps { list-style: none; counter-reset: pn; padding: 0; margin: 0; display: grid; gap: 0; }
+.pn-step { counter-increment: pn; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; padding: 22px 0; border-top: 2px solid var(--sky); }
+.pn-step:first-child { border-top: 0; padding-top: 4px; }
+.pn-vis { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.pn-shape { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.pn-text h3 { font-size: 18px; margin: 0 0 6px; }
+.pn-text h3::before { content: counter(pn) ". "; color: var(--accent); }
+.pn-text p { margin: 0; max-width: 62ch; }
+.pn-grid { display: block; overflow: visible; }
+.pn-in rect, .pn-grid.pn-in rect { fill: #a9c3e4; }
+.pn-mid rect, .pn-grid.pn-mid rect { fill: #6f98cf; }
+.pn-out rect, .pn-grid.pn-out rect { fill: #1f5fb0; }
+.pn-team rect, .pn-grid.pn-team rect { fill: #123f78; }
+.pn-pool { display: flex; align-items: center; gap: 10px; }
+.pn-arrow { color: var(--accent); font-size: 18px; }
+.pn-result { font-family: var(--mono); font-size: 22px; font-weight: 700; color: #123f78; display: inline-flex; flex-direction: column; line-height: 1.1; }
+.pn-result small { font-size: 11px; font-weight: 400; color: var(--muted); }
+.pn-facts { margin-top: 26px; display: grid; gap: 12px; max-width: 70ch; background: #ffffff; border-radius: 10px; padding: 18px 20px; }
+.pn-facts p { margin: 0; }
+@media (max-width: 860px) {
+  .pn-step { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
+.th-sort { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.th-sort.on { color: var(--ink); font-weight: 700; text-decoration: none; }
+.cap-note { font-weight: 400; font-size: 13px; color: var(--muted); margin-left: 6px; }
+.dec-list { margin: 0 0 16px; padding-left: 20px; max-width: 70ch; display: grid; gap: 6px; }
+@media (max-width: 860px) {
+  .fin-two { display: flex; flex-direction: column; }
+  .fin-two > .fixtures, .fin-two > .note { order: -1; margin-bottom: 24px; }
+}

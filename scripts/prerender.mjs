@@ -35,6 +35,12 @@ const pages = [
       "Replacement control system for a house's 24 heating zones: Raspberry Pi, Home Assistant and AppDaemon driving a Fidelix controller over Modbus RTU, shifting heating to cheaper spot-price hours.",
   },
   {
+    path: "/finnish_basketball",
+    title: "Finnish Basketball Predictions | Markus Muilu",
+    description:
+      "Win chances for every men's Korisliiga, I divisioona and southern II divisioona game, from point-margin team ratings tuned on ten seasons of results, with the modelling decisions shown.",
+  },
+  {
     path: "/github",
     title: "Repositories | Markus Muilu",
     description: "Public code by Markus Muilu: NBA game prediction, a building automation bridge over Modbus RTU, bachelor's thesis code and a training planner.",

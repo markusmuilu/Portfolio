@@ -7,6 +7,7 @@ import NbaPrediction from "./pages/NbaPrediction";
 import Github from "./pages/GitHub";
 import ThesisProject from "./pages/ThesisProject";
 import HomeHeating from "./pages/HomeHeating";
+import FinnishBasketball from "./pages/FinnishBasketball";
 import "./components/NavBar.css";
 import "./styles/ledger.css";
 
@@ -29,6 +30,7 @@ export function AppRoutes() {
           <Route path="/nba_prediction" element={<NbaPrediction />} />
           <Route path="/thesis" element={<ThesisProject />} />
           <Route path="/home_heating" element={<HomeHeating />} />
+          <Route path="/finnish_basketball" element={<FinnishBasketball />} />
           <Route path="/github" element={<Github />} />
         </Routes>
       </main>
