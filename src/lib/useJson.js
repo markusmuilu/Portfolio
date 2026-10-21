@@ -13,10 +13,15 @@ export default function useJson(...urls) {
   useEffect(() => {
     let live = true;
     const list = key.split("|");
-    const tryAt = (i) =>
-      fetch(list[i])
+    // A source that does not answer within 8 seconds counts as down, so the next one is tried instead of waiting.
+    const tryAt = (i) => {
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), 8000);
+      return fetch(list[i], { signal: ctl.signal })
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
+        .finally(() => clearTimeout(timer))
         .catch((e) => (i + 1 < list.length ? tryAt(i + 1) : Promise.reject(e)));
+    };
     tryAt(0)
       .then((d) => live && setData(d))
       .catch((e) => live && setData({ error: String(e) }));
