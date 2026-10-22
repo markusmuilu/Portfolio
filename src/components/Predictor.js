@@ -10,7 +10,8 @@ const teams = {
   SAS: "San Antonio Spurs", TOR: "Toronto Raptors", UTA: "Utah Jazz", WAS: "Washington Wizards",
 };
 
-// Asks the deployed service on Fly.io for a win probability between two teams.
+// Asks the player model on Fly.io for any two teams, with each team's latest roster minus the players ESPN lists as
+// out: the same inputs a real prediction uses.
 export default function Predictor() {
   const [home, setHome] = useState("");
   const [away, setAway] = useState("");
@@ -29,11 +30,11 @@ export default function Predictor() {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 60000);
     try {
-      const res = await fetch(`https://predicting-nba.fly.dev/predict?team1=${home}&team2=${away}`, { signal: controller.signal });
+      const res = await fetch(`https://predicting-nba.fly.dev/player/predict?home=${home}&away=${away}`, { signal: controller.signal });
       if (res.status === 429) throw new Error("rate_limited");
       if (!res.ok) throw new Error("not_ok");
       const data = await res.json();
-      if (!data.winner) throw new Error("not_ok");
+      if (data.p_home == null) throw new Error("not_ok");
       setResult(data);
     } catch (err) {
       if (err.name === "AbortError") setError("The service did not answer within a minute. It may be starting up; try again.");
@@ -48,8 +49,8 @@ export default function Predictor() {
   return (
     <form className="predictor" onSubmit={predict}>
       <p className="note">
-        Pick two teams and the service on Fly.io returns its probability. This calls the deployed regression, not the
-        player model. The first request can take a while if the machine is asleep.
+        Pick two teams and the player model on Fly.io answers with each team's latest roster, minus the players
+        ESPN lists as out right now. Not stored and not part of the record.
       </p>
       <div className="predictor-fields">
         <label>
@@ -84,10 +85,23 @@ export default function Predictor() {
         </p>
       )}
       {result && (
-        <p className="predictor-result" aria-live="polite">
-          <b>{teams[result.winner] || result.winner}</b>
-          {result.confidence != null && ` to win, ${Number(result.confidence).toFixed(1)}%`}
-        </p>
+        <div className="predictor-result" aria-live="polite">
+          <p>
+            <b>{teams[result.p_home >= 0.5 ? result.home : result.away]}</b> to win,{" "}
+            {Math.round(Math.max(result.p_home, 1 - result.p_home) * 100)}%
+            <span className="predictor-split">
+              {" "}
+              ({result.home} at home {Math.round(result.p_home * 100)}%, {result.away} {Math.round((1 - result.p_home) * 100)}%)
+            </span>
+          </p>
+          <p className="note">
+            Rosters from each team's game on {result.roster_from[result.home]} and {result.roster_from[result.away]}.{" "}
+            {[...result.out[result.home], ...result.out[result.away]].length
+              ? `Left out as injured: ${[...result.out[result.home], ...result.out[result.away]].join(", ")}.`
+              : "Nobody on either roster is listed as out."}{" "}
+            Injury list read {result.injuries_at}.
+          </p>
+        </div>
       )}
     </form>
   );

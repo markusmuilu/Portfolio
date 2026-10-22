@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Src from "./Src";
-import useJson, { LIVE_DATA } from "../lib/useJson";
+import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
 import { pct } from "../lib/ledger";
 
 // Four leagues to choose from. Korisliiga and both I divisioona groups share one rating pool (so a promoted team
@@ -25,8 +25,15 @@ const loggedBeforeTip = (r) => new Date(r.predicted_at) < new Date(`${r.when.rep
 function usePredictionLog() {
   const [log, setLog] = useState(null);
   useEffect(() => {
-    fetch(`${LIVE_DATA}/finland_predictions.jsonl`)
-      .then((r) => (r.ok ? r.text() : ""))
+    const get = (url) => {
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), 8000);
+      return fetch(url, { signal: ctl.signal })
+        .then((r) => (r.ok ? r.text() : Promise.reject(new Error(r.status))))
+        .finally(() => clearTimeout(timer));
+    };
+    get(`${NBA_LIVE}/finland_predictions.jsonl`)
+      .catch(() => get(`${LIVE_DATA}/finland_predictions.jsonl`))
       .then((t) => {
         const byGame = new Map();
         for (const line of t.split("\n")) {
@@ -47,11 +54,13 @@ function usePredictionLog() {
 const dayMonth = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
 export default function Finland() {
-  const data = useJson(`${LIVE_DATA}/finland.json`, "/data/finland.json");
+  const data = useJson(`${NBA_LIVE}/finland.json`, `${LIVE_DATA}/finland.json`, "/data/finland.json");
   const log = usePredictionLog();
   const [code, setCode] = useState("KL");
   const [team, setTeam] = useState(null);
   const [sortBy, setSortBy] = useState("rating");
+  const [allGames, setAllGames] = useState(false);
+  const [gameTeam, setGameTeam] = useState("");
 
   if (!data) return <p className="note">Loading the Finnish fixtures.</p>;
   if (data.error) return <p className="note">The Finnish fixtures could not be loaded.</p>;
@@ -78,6 +87,7 @@ export default function Finland() {
   // separately, the games that were logged before tip-off.
   const seen = new Set();
   let played = 0, right = 0, livePlayed = 0, liveRight = 0;
+  const games = [];
   for (const r of ratings) {
     for (const g of p.teams?.[r.team]?.games || []) {
       if (!inLeague.has(g.opp)) continue;
@@ -86,6 +96,19 @@ export default function Finland() {
       seen.add(key);
       played++;
       if (g.correct) right++;
+      const home = g.venue === "home";
+      const [mine, theirs] = (g.score || "-").split("-");
+      const entry = logged(r.team, g);
+      games.push({
+        when: g.when,
+        home: home ? r.team : g.opp,
+        away: home ? g.opp : r.team,
+        hs: home ? mine : theirs,
+        as: home ? theirs : mine,
+        homeWon: home ? g.won : !g.won,
+        replay: home ? g.p_win : 1 - g.p_win,
+        live: entry ? { p: entry.p_home, kind: entry.kind || "early" } : null,
+      });
       const c = liveCall(r.team, g);
       if (c) {
         livePlayed++;
@@ -95,6 +118,11 @@ export default function Finland() {
   }
   const leagueLog = log ? [...log.values()].filter((r) => r.league === code) : [];
   const logStart = leagueLog.length ? leagueLog.reduce((a, r) => (r.predicted_at < a ? r.predicted_at : a), leagueLog[0].predicted_at) : null;
+
+  games.sort((x, y) => y.when.localeCompare(x.when));
+  const lastDay = games.length ? games[0].when.slice(0, 10) : null;
+  const lastRound = games.filter((g) => g.when.slice(0, 10) === lastDay);
+  const listed = games.filter((g) => !gameTeam || g.home === gameTeam || g.away === gameTeam);
 
   const pick = team && inLeague.has(team) && p.teams?.[team] ? team : ratings[0]?.team;
   const t = p.teams?.[pick];
@@ -156,6 +184,13 @@ export default function Finland() {
           </li>
         )}
       </ul>
+
+      {lastRound.length > 0 && (
+        <div className="fin-round">
+          <h3 className="tv-h">Last round, {fiDate(lastDay)}</h3>
+          <FinGames games={lastRound} />
+        </div>
+      )}
 
       <div className="tv-two fin-two">
         <table className="tv-table">
@@ -316,10 +351,68 @@ export default function Finland() {
         </div>
       )}
 
+      <div className="drawers">
+        <button type="button" className="drawer-btn" aria-expanded={allGames} onClick={() => setAllGames(!allGames)}>
+          Every {name} game this season
+        </button>
+      </div>
+      {allGames && (
+        <div className="drawer">
+          <div className="gl-controls">
+            <label>
+              <span>Team</span>
+              <select value={gameTeam} onChange={(e) => setGameTeam(e.target.value)}>
+                <option value="">All teams</option>
+                {[...inLeague].sort().map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <FinGames games={listed} withDate />
+        </div>
+      )}
+
       <p className="note">
         Ratings move with each final score. Updated {data.generated_at.slice(0, 10)}. There are no betting prices for
         these leagues in any open data source, so nothing here is compared with a bookmaker.
       </p>
+    </div>
+  );
+}
+
+const fiDate = (d) => new Date(`${d}T12:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+
+// Played games: score, the chance the model gave the home team, whether it was right, and where the chance comes
+// from: the prediction stored before tip-off (pre-game) or today's model replayed over the season (backtest).
+function FinGames({ games, withDate = false }) {
+  if (!games.length) return <p className="note">No games played yet.</p>;
+  return (
+    <div className="fin-games">
+      {games.map((g) => {
+        const p = g.live ? g.live.p : g.replay;
+        const hit = (p >= 0.5) === g.homeWon;
+        return (
+          <div key={g.when + g.home} className="fin-game">
+            {withDate && <span className="fg-date">{fiDate(g.when.slice(0, 10))}</span>}
+            <span className="fg-match">
+              <span className={g.homeWon ? "" : "win"}>{g.away}</span> <span className="gl-score">{g.as}</span>
+              <span className="gl-at"> at </span>
+              <span className={g.homeWon ? "win" : ""}>{g.home}</span> <span className="gl-score">{g.hs}</span>
+            </span>
+            <span className="fg-call">
+              {p >= 0.5 ? g.home : g.away} {Math.round(Math.max(p, 1 - p) * 100)}%
+              <span className={`gl-mark ${hit ? "ok" : "miss"}`}>{hit ? "✓" : "✗"}</span>
+            </span>
+            <span className="fg-src">
+              <Src kind={g.live ? "live" : "backtest"} lead />
+              {g.live ? (g.live.kind === "gameday" ? "game day" : "early") : "replay"}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }

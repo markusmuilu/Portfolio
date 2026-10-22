@@ -91,3 +91,16 @@ export const signedPct = (x, digits = 1) => `${x > 0 ? "+" : x < 0 ? "−" : ""}
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthName = (d) => MONTHS[Number(d.slice(5, 7)) - 1];
 export const shortDate = (d) => `${Number(d.slice(8, 10))} ${monthName(d)}`;
+
+// F1 with "the home team wins" as the positive class: the balance between how many predicted home wins came true
+// (precision) and how many real home wins were predicted (recall). 1 is perfect.
+export function f1(games, prob) {
+  let tp = 0, fp = 0, fn = 0;
+  for (const g of games) {
+    const home = prob(g) >= 0.5;
+    if (home && g.hw === 1) tp++;
+    else if (home) fp++;
+    else if (g.hw === 1) fn++;
+  }
+  return tp ? (2 * tp) / (2 * tp + fp + fn) : 0;
+}

@@ -1,31 +1,50 @@
-import { useMemo, useState } from "react";
-import Row, { Head } from "../components/Row";
-import Tally from "../components/Tally";
-import LineChart from "../components/LineChart";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Row, { Head } from "../components/Row";
+import { GameLog, LastNight, NextGames } from "../components/SeasonLog";
+import { Betting, SeasonCards } from "../components/SeasonView";
+import { TeamView } from "../components/SeasonExplorer";
 import Decisions from "../components/Decisions";
 import Src, { SourceTable, SrcKey } from "../components/Src";
 import PlayerNet from "../components/PlayerNet";
 import Predictor from "../components/Predictor";
-import SeasonExplorer from "../components/SeasonExplorer";
 import RepoActivity from "../components/RepoActivity";
 import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
-import { MODELS, euro, flatLedger, kellyLedger, marketP, pct, played, priced, quality, shortDate, signedPct } from "../lib/ledger";
+import { isHit, pct, played, quality } from "../lib/ledger";
 import "./NbaPrediction.css";
 
+// Two levels: the top of the page is for following the season (tonight's games, last night's results, the season's
+// numbers), and everything for a deeper look sits behind a switch, a drawer or a tab.
+
+const SEASONS = ["2026-27", "2025-26"];
+const HOW = [
+  ["model", "The model"],
+  ["chosen", "How it was chosen"],
+  ["sources", "Pre-game or backtest"],
+  ["runs", "How it runs"],
+];
 
 export default function NbaPrediction() {
   const data = useJson(`${NBA_LIVE}/nba-season.json`, `${LIVE_DATA}/nba-season.json`, "/data/nba-season.json");
   const ok = data && !data.error;
-  const liveAll = data?.live?.games || [];
-  const liveGames = liveAll.filter((g) => g.pm != null && g.ps != null);
-  const hasLive = played(liveGames).length > 0;
-  const upcoming = liveAll.filter((g) => g.hw == null).slice(-15);
-  const last = ok ? data.backtest.games : [];
-  const both = last.filter((g) => g.pm != null);
-  const liveRecord = ok ? quality(played(last), (g) => g.ps) : null;
-  const fromJan = ok ? quality(played(last).filter((g) => g.d >= "2026-01-09"), (g) => g.ps) : null;
-  const days = ok ? Math.ceil((new Date(`${data.live.opens}T00:00:00`) - new Date()) / 86400000) : null;
+  const [season, setSeason] = useState("2026-27");
+  const [drawer, setDrawer] = useState({ games: false, betting: false });
+  const [how, setHow] = useState("model");
+
+  const liveAll = ok ? data.live.games || [] : [];
+  // The record counts final predictions only: games that got only their early prediction, and games reconstructed
+  // after the fact, are listed but not counted.
+  const liveGames = liveAll.filter((g) => g.pm != null && g.r !== "early" && g.r !== "reconstructed");
+  const last = ok ? data.backtest.games.filter((g) => g.pm != null) : [];
+  const lastLive = ok ? quality(played(data.backtest.games), (g) => g.ps) : null;
+
+  const backtest = season === "2025-26";
+  const seasonGames = backtest ? last : liveGames;
+  const logGames = backtest ? last : liveAll;
+
+  const now = played(liveGames);
+  const right = (k) => now.filter((g) => g[k] != null && isHit(g, k)).length;
+  const toggle = (k) => setDrawer((d) => ({ ...d, [k]: !d[k] }));
 
   return (
     <div className="page nba">
@@ -33,178 +52,121 @@ export default function NbaPrediction() {
         <div>
           <h1>NBA game prediction</h1>
           <p className="lede">
-            Predicts the winner of every NBA game before tip-off and keeps a record of each pick against the
-            bookmaker's price. For the 2026-27 season a PyTorch model built from each team's players becomes the main
-            model, and the logistic regression that predicted every game before tip-off last season keeps running beside it.
+            Predicts every NBA game before tip-off with a PyTorch model built from each team's players, keeps the
+            regression that ran last season beside it as a benchmark, and records every pick against the result and the
+            bookmaker's price.
           </p>
-          {liveRecord && (
+          {now.length > 0 ? (
             <p className="lede">
               <Src kind="live" lead />
-              Last season the regression called <b>{pct(liveRecord.accuracy)}</b> of{" "}
-              {liveRecord.n.toLocaleString("en")} regular-season games, and <b>{pct(fromJan.accuracy)}</b> of the{" "}
-              {fromJan.n} from 9 January on.
+              2026-27 so far: the main model has called <b>{right("pm")}</b> of {now.length} games right, the regression{" "}
+              <b>{right("ps")}</b> of {now.filter((g) => g.ps != null).length}.
             </p>
+          ) : (
+            lastLive && (
+              <p className="lede">
+                <Src kind="live" lead />
+                Last season the regression called <b>{pct(lastLive.accuracy)}</b> of {lastLive.n.toLocaleString("en")} games.
+              </p>
+            )
           )}
           <SrcKey />
           <p className="stack-line">Python, PyTorch, FastAPI, Docker, Fly.io, Cloudflare R2</p>
           <div className="actions">
-            <a className="btn" href="#season">
-              The 2026-27 season
+            <a className="btn" href="#tonight">
+              Tonight's games
             </a>
-            <a className="btn quiet" href="#decisions">
-              How it was chosen
+            <a className="btn quiet" href="#season">
+              Season numbers
             </a>
-            <Link className="btn quiet" to="/finnish_basketball">
-              Finnish leagues
-            </Link>
+            <a className="btn quiet" href="#how">
+              How it works
+            </a>
           </div>
         </div>
       </Head>
 
-      <Row label="2026-27 season" sub={days > 0 ? `opens in ${days} day${days === 1 ? "" : "s"}` : "in progress"} field="navy" id="season">
-        {upcoming.length > 0 && <Upcoming games={upcoming} />}
-        {hasLive ? (
-          <Season games={liveGames} backtest={false} />
-        ) : (
-          <div className="upcoming">
-            <p className="upcoming-lead">
-              {ok ? (
-                <>
-                  The regular season opens on <b>{shortDate(data.live.opens)}</b>. From the first game, both models
-                  predict every game before tip-off, and each pick is logged here with the price at that moment and the
-                  result.
-                </>
-              ) : (
-                "Loading the season."
-              )}
-            </p>
-            <ul className="upcoming-models">
-              <li>
-                <span className="um-tag">Main</span>
-                <h3>PyTorch player model</h3>
-                <p>
-                  Each player's recent box-score form goes through the same small network, and a team is the average of
-                  its players weighted by expected minutes. A head that is antisymmetric in the two teams turns the pair
-                  into a home-win probability. It uses the roster from each team's previous game, since that is what is
-                  known before tip-off.
-                </p>
-                {both.length > 0 && <p className="um-fig"><Src kind="backtest" lead />Last season: {pct(quality(both, (g) => g.pm).accuracy)} called right</p>}
-              </li>
-              <li>
-                <span className="um-tag">Shadow</span>
-                <h3>Logistic regression</h3>
-                <p>
-                  Team statistics from recent games. It ran in production through 2025-26 and predicted every game before tip-off,
-                  so it is the benchmark: the player model has to beat it on the same games to stay the main model.
-                </p>
-                {liveRecord && <p className="um-fig"><Src kind="live" lead />Last season: {pct(liveRecord.accuracy)} called right</p>}
-              </li>
-            </ul>
-            <ul className="upcoming-log">
-              <li><b>Before tip-off</b>both models' win probability for the home team</li>
-              <li><b>At the same moment</b>the bookmaker's price for both sides</li>
-              <li><b>After the game</b>the result, which model was right, and €1 and quarter-Kelly paper bets</li>
-            </ul>
+      <Row label="Tonight" sub="last night's results and the next games" field="navy" id="tonight">
+        {!data && <p className="note">Loading the games.</p>}
+        {data?.error && <p className="note">The games could not be loaded.</p>}
+        {ok && (
+          <div className="tonight">
+            <div>
+              <h3 className="tv-h">Last night</h3>
+              <LastNight games={liveAll} />
+            </div>
+            <div>
+              <h3 className="tv-h">Next games</h3>
+              <NextGames games={liveAll} schedule={data.live.schedule || []} firstDayOnly />
+            </div>
           </div>
         )}
       </Row>
 
-      <Row label="Pre-game or backtest" sub="what each number is" id="sources">
-        <SourceTable
-          rows={[
-            {
-              what: `Logistic regression, 2025-26${liveRecord ? `: ${pct(liveRecord.accuracy)} of ${liveRecord.n.toLocaleString("en")} games` : ""}`,
-              kind: "live",
-              detail:
-                "Predicted before each game from 10 November 2025 and stored. From 7 January the bookmaker's price at that moment was stored with it, which is where last season's money columns come from.",
-            },
-            {
-              what: `Player model, 2025-26${both.length ? `: ${pct(quality(both, (g) => g.pm).accuracy)} of ${both.length.toLocaleString("en")} games` : ""}`,
-              kind: "backtest",
-              detail:
-                "Trained on 2020-21 to 2023-24, with 2024-25 for choosing settings, so it never saw a 2025-26 game. It used each team's previous-game roster; the running version also removes players listed as out, which the injury test below shows helps.",
-            },
-            {
-              what: "How the model was chosen",
-              kind: "backtest",
-              detail: "Every chart there scores models on seasons they were not trained on.",
-            },
-            {
-              what: "2026-27 season",
-              kind: "live",
-              detail:
-                "Both models, predicted 60 to 75 minutes before tip-off with the price at that moment, stored, then scored against the result. The first games are on 20 October.",
-            },
-          ]}
-        >
-          <p>
-            A <b>pre-game</b> number comes from predictions made before each game and stored as they were. A{" "}
-            <b>backtest</b> scores a model afterwards, on games it was not trained on.
+      <Row label="Season" sub={backtest ? "2025-26: main model a backtest" : "2026-27, pre-game"} field="sky" id="season">
+        <div className="switch season-switch" role="group" aria-label="Season">
+          {SEASONS.map((s) => (
+            <button key={s} type="button" aria-pressed={season === s} onClick={() => setSeason(s)}>
+              {s}
+            </button>
+          ))}
+        </div>
+        {backtest && (
+          <p className="prose-line">
+            The main model did not run last season: its numbers are a backtest, trained only on earlier seasons. The
+            regression's are its real pre-game predictions from 10 November. Read the gap as a direction, not a precise
+            size.
           </p>
-          <p>
-            A backtest is the best test there is before a model goes live, but it can still flatter: the data was
-            cleaned after the fact, and the model was picked after seeing how earlier versions scored. A pre-game record has
-            neither advantage, so it counts for more. The player model has no pre-game record yet; it starts with the
-            2026-27 season.
-          </p>
-        </SourceTable>
-      </Row>
-
-      <Row label="Last season" sub="2025-26, pre-game and backtest" field="sky" id="results">
-        {!data && <p className="note">Loading the season.</p>}
-        {data?.error && <p className="note">The season data could not be loaded.</p>}
+        )}
+        {ok ? <SeasonCards games={seasonGames} backtest={backtest} /> : <p className="note">Loading the season.</p>}
         {ok && (
-          <>
-            <p className="prose-line">
-              The regression's numbers are its real predictions, made and stored before each game from 10 November. The player
-              model did not run last season: its numbers are a backtest on the same games, trained only on earlier
-              seasons. A pre-game record and a backtest are not quite the same test, so read the gap as a direction, not a precise size.
-            </p>
-            <Season games={both} backtest={true} />
-          </>
+          <div className="drawers">
+            <button type="button" className="drawer-btn" aria-expanded={drawer.games} onClick={() => toggle("games")}>
+              Every game
+            </button>
+            <button type="button" className="drawer-btn" aria-expanded={drawer.betting} onClick={() => toggle("betting")}>
+              Betting
+            </button>
+          </div>
+        )}
+        {ok && drawer.games && (
+          <div className="drawer">
+            <GameLog key={season} games={logGames} />
+          </div>
+        )}
+        {ok && drawer.betting && (
+          <div className="drawer">
+            <Betting key={season} games={seasonGames} backtest={backtest} />
+          </div>
         )}
       </Row>
 
-      <Row label="How the model works" sub="the main model, step by step" id="model">
-        <PlayerNet />
+      <Row label="Teams" sub={`${season}, the same switch as above`} id="teams">
+        {ok ? <TeamView key={season} games={logGames} backtest={backtest} /> : <p className="note">Loading the season.</p>}
       </Row>
 
-      <Row label="How the model was chosen" sub="backtests on past seasons" field="surface" id="decisions">
-        <Decisions />
+      <Row label="How it works" sub="for a closer look" field="surface" id="how">
+        <div className="switch how-tabs" role="group" aria-label="How it works">
+          {HOW.map(([k, label]) => (
+            <button key={k} type="button" aria-pressed={how === k} onClick={() => setHow(k)}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="how-panel">
+          {how === "model" && <PlayerNet />}
+          {how === "chosen" && <Decisions />}
+          {how === "sources" && <Sources data={ok ? data : null} />}
+          {how === "runs" && <Runs />}
+        </div>
       </Row>
 
-      <Row label="How it runs">
-        <ul className="entries">
-          <li className="entry">
-            <h3>Every 15 minutes</h3>
-            <p>
-              Records finished games and their box scores from ESPN. Any game starting within 75 minutes is predicted by
-              both models after reading the ESPN injury list, and stored with the price from The Odds API.
-            </p>
-          </li>
-          <li className="entry">
-            <h3>Storage and serving</h3>
-            <p>
-              A FastAPI service on Fly.io. All state lives in Cloudflare R2: training data, features, the model bundle,
-              predictions and history. There is no database.
-            </p>
-          </li>
-          <li className="entry">
-            <h3>This page</h3>
-            <p>
-              The ledger is computed in your browser from one row per game: the date, the teams, both models'
-              probabilities, the result and the stored prices.
-            </p>
-          </li>
-        </ul>
+      <Row label="Ask the model" sub="the player model, now" id="ask">
+        <Predictor />
       </Row>
 
       <Row label="The code" sub="live from GitHub">
         <RepoActivity repo="Predicting-Nba" />
-      </Row>
-
-      <Row label="Ask the model" sub="the deployed regression" field="surface">
-        <Predictor />
       </Row>
 
       <Row label="Finnish leagues" sub="a side project" field="sky" id="finland">
@@ -218,240 +180,85 @@ export default function NbaPrediction() {
           </Link>
         </div>
       </Row>
-
-      <Row label="Follow a team" sub="2025-26: main is a backtest, shadow was predicted pre-game" id="explore">
-        {ok ? <SeasonExplorer games={both} /> : <p className="note">Loading the season.</p>}
-      </Row>
     </div>
   );
 }
 
-function Season({ games, backtest }) {
-  const [model, setModel] = useState("pm");
-  const s = useMemo(() => {
-    const done = played(games);
-    const withPrice = priced(games);
-    const row = (key) => ({
-      all: quality(done, (g) => g[key]),
-      priced: quality(withPrice, (g) => g[key]),
-      flat: flatLedger(withPrice, key),
-      kelly: kellyLedger(withPrice, key),
-    });
-    return {
-      done,
-      withPrice,
-      pm: row("pm"),
-      ps: row("ps"),
-      market: quality(withPrice, marketP),
-      marketFlat: flatLedger(
-        withPrice.map((g) => ({ ...g, mk: marketP(g) })),
-        "mk"
-      ),
-    };
-  }, [games]);
-
-  const pricedSpan = s.withPrice.length ? `${shortDate(s.withPrice[0].d)} to ${shortDate(s.withPrice[s.withPrice.length - 1].d)}` : "";
-
+function Sources({ data }) {
+  const lastLive = data ? quality(played(data.backtest.games), (g) => g.ps) : null;
+  const both = data ? data.backtest.games.filter((g) => g.pm != null) : [];
   return (
-    <div className="season">
-      <p className="season-scope">
-        {s.done.length.toLocaleString("en")} {s.done.length === 1 ? "game" : "games"} played. {s.withPrice.length} have a stored price
-        {pricedSpan && ` (${pricedSpan})`}, and the money columns use only those.
+    <SourceTable
+      rows={[
+        {
+          what: "2026-27, both models",
+          kind: "live",
+          detail:
+            "Each game is predicted twice and both are stored: early, once both teams have played their previous game, and final, 60 to 75 minutes before tip-off after the injury report. The record counts the final prediction, with the price at that moment.",
+        },
+        {
+          what: "21 October 2026",
+          kind: "backtest",
+          detail:
+            "The prediction loop ran out of memory and missed all 11 games. They are shown with predictions computed afterwards from the history before that day, and not counted in the record.",
+        },
+        {
+          what: `Logistic regression, 2025-26${lastLive ? `: ${pct(lastLive.accuracy)} of ${lastLive.n.toLocaleString("en")} games` : ""}`,
+          kind: "live",
+          detail:
+            "Predicted before each game from 10 November 2025 and stored. From 7 January the bookmaker's price at that moment was stored with it.",
+        },
+        {
+          what: `Player model, 2025-26${both.length ? `: ${pct(quality(both, (g) => g.pm).accuracy)} of ${both.length.toLocaleString("en")} games` : ""}`,
+          kind: "backtest",
+          detail:
+            "Trained on 2020-21 to 2023-24, with 2024-25 for choosing settings, so it never saw a 2025-26 game. It used each team's previous-game roster.",
+        },
+        {
+          what: "How it was chosen",
+          kind: "backtest",
+          detail: "Every chart there scores models on seasons they were not trained on.",
+        },
+      ]}
+    >
+      <p>
+        A <b>pre-game</b> number comes from predictions made before each game and stored as they were. A <b>backtest</b>{" "}
+        scores a model afterwards, on games it was not trained on.
       </p>
-
-      <div className="scroll-x">
-        <table className="scoreboard">
-          <thead>
-            <tr>
-              <th scope="col" />
-              <th scope="col" className="num">
-                Called right
-              </th>
-              <th scope="col" className="num">
-                Log loss
-              </th>
-              <th scope="col" className="num">
-                €1 on every pick
-              </th>
-              <th scope="col" className="num">
-                Quarter Kelly, €100
-              </th>
-              <th scope="col" className="num">
-                Worst drop
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {["pm", "ps"].map((k) => (
-              <tr key={k} className={k}>
-                <th scope="row">
-                  <span className="swatch" aria-hidden="true" />
-                  {MODELS[k].name}
-                  <Src kind={backtest ? MODELS[k].last : "live"} />
-                  <span className="sub">{MODELS[k].long}</span>
-                </th>
-                <td className="num">
-                  {pct(s[k].all.accuracy)}
-                  <span className="sub">priced {pct(s[k].priced.accuracy)}</span>
-                </td>
-                <td className="num">
-                  {s[k].all.logLoss.toFixed(3)}
-                  <span className="sub">priced {s[k].priced.logLoss.toFixed(3)}</span>
-                </td>
-                <td className={`num ${s[k].flat.profit < 0 ? "neg" : ""}`}>
-                  {euro(s[k].flat.profit, true)}
-                  <span className="sub">
-                    ROI {signedPct(s[k].flat.roi)}
-                    {s[k].flat.interval && `, 95% ${signedPct(s[k].flat.interval[0], 0)} to ${signedPct(s[k].flat.interval[1], 0)}`}
-                  </span>
-                </td>
-                <td className={`num ${s[k].kelly.final < s[k].kelly.start ? "neg" : ""}`}>
-                  {euro(s[k].kelly.final)}
-                  <span className="sub">{s[k].kelly.bets} bets</span>
-                </td>
-                <td className="num neg">{pct(s[k].kelly.maxDrawdown, 0)}</td>
-              </tr>
-            ))}
-            <tr className="mk">
-              <th scope="row">
-                <span className="swatch" aria-hidden="true" />
-                Market
-                <span className="sub">Pinnacle price, margin removed</span>
-              </th>
-              <td className="num">
-                <span className="na">n/a</span>
-                <span className="sub">priced {pct(s.market.accuracy)}</span>
-              </td>
-              <td className="num">
-                <span className="na">n/a</span>
-                <span className="sub">priced {s.market.logLoss.toFixed(3)}</span>
-              </td>
-              <td className={`num ${s.marketFlat.profit < 0 ? "neg" : ""}`}>
-                {euro(s.marketFlat.profit, true)}
-                <span className="sub">€1 on every favourite</span>
-              </td>
-              <td className="num">
-                <span className="na">no bets</span>
-              </td>
-              <td className="num" />
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div className="tally-wrap">
-        <div className="tally-top">
-          <h3>
-            Every game, one square
-            <Src kind={backtest ? MODELS[model].last : "live"} />
-          </h3>
-          <div className="switch" role="group" aria-label="Model">
-            {["pm", "ps"].map((k) => (
-              <button key={k} type="button" aria-pressed={model === k} onClick={() => setModel(k)}>
-                {MODELS[k].name}
-              </button>
-            ))}
-          </div>
-        </div>
-        <Tally games={games} modelKey={model} />
-      </div>
-
-      {s.withPrice.length > 1 && (
-        <div className="charts">
-          <LineChart
-            title="€1 on every pick: running profit"
-            dates={s.withPrice.map((g) => g.d)}
-            base={0}
-            format={(v) => `${v < 0 ? "−" : ""}€${Math.abs(v).toFixed(0)}`}
-            series={[
-              { label: backtest ? "Main, backtest" : "Main", values: s.pm.flat.path, className: "pm" },
-              { label: backtest ? "Shadow, pre-game" : "Shadow", values: s.ps.flat.path, className: "ps" },
-            ]}
-          />
-          <LineChart
-            title="Quarter Kelly: bankroll from €100"
-            dates={s.withPrice.map((g) => g.d)}
-            base={100}
-            format={(v) => `€${v.toFixed(0)}`}
-            series={[
-              { label: backtest ? "Main, backtest" : "Main", values: s.pm.kelly.path, className: "pm" },
-              { label: backtest ? "Shadow, pre-game" : "Shadow", values: s.ps.kelly.path, className: "ps" },
-            ]}
-          />
-        </div>
-      )}
-
-      <div className="reading">
-        <h3>Reading these numbers</h3>
-        <ul>
-          <li>
-            <b>Log loss</b> scores the probability, not only the pick. Lower is better, and 0.693 is a coin flip.
-          </li>
-          <li>
-            <b>Quarter Kelly</b> stakes a quarter of the Kelly fraction of the bankroll, only on a side the model rates
-            above the price. Flat staking puts €1 on the model's pick in every priced game.
-          </li>
-          {backtest && (
-            <>
-              <li>
-                The prices were stored when the daily job ran, around midday Finnish time, not at closing. They are
-                the only prices that exist for this season.
-              </li>
-              <li>
-                The market called these games better than either model. Where the models disagreed with it, they were
-                mostly backing underdogs the market had rated correctly, which is why Kelly staking loses faster than
-                flat stakes.
-              </li>
-              <li>
-                Confirming a 1% edge would take tens of thousands of bets. {s.withPrice.length} games can only rule out
-                large ones.
-              </li>
-            </>
-          )}
-        </ul>
-      </div>
-    </div>
+      <p>
+        A backtest is the best test there is before a model goes live, but it can still flatter: the data was cleaned
+        after the fact, and the model was picked after seeing how earlier versions scored. A pre-game record has neither
+        advantage, so it counts for more.
+      </p>
+    </SourceTable>
   );
 }
 
-// Games predicted but not played yet: both models' pick, and the price when the prediction was made.
-function Upcoming({ games }) {
-  const tip = (g) =>
-    g.t
-      ? new Date(g.t).toLocaleString("en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Helsinki" })
-      : shortDate(g.d);
-  const side = (g, p) => (p == null ? "n/a" : p >= 0.5 ? `${g.h} ${pct(p, 0)}` : `${g.a} ${pct(1 - p, 0)}`);
+function Runs() {
   return (
-    <div className="next-games">
-      <h3 className="tv-h">Predicted, not played yet</h3>
-      <div className="scroll-x">
-        <table className="tv-table next-table">
-          <thead>
-            <tr>
-              <th scope="col">Tip-off (Finnish time)</th>
-              <th scope="col">Game</th>
-              <th scope="col">Main pick</th>
-              <th scope="col">Shadow pick</th>
-              <th scope="col" className="num">
-                Price home / away
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {games.map((g) => (
-              <tr key={g.d + g.h}>
-                <td>{tip(g)}</td>
-                <td>
-                  {g.a} at {g.h}
-                </td>
-                <td>{side(g, g.pm)}</td>
-                <td>{side(g, g.ps)}</td>
-                <td className="num">{g.oh ? `${g.oh.toFixed(2)} / ${g.oa.toFixed(2)}` : "not priced"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <ul className="entries">
+      <li className="entry">
+        <h3>Every 15 minutes</h3>
+        <p>
+          Records finished games and their box scores from ESPN. A game gets its early prediction as soon as both teams
+          have played their previous game, and its final one 60 to 75 minutes before tip-off, after reading the ESPN
+          injury list. Both models predict each time, and the price from The Odds API is stored with them.
+        </p>
+      </li>
+      <li className="entry">
+        <h3>Storage and serving</h3>
+        <p>
+          A FastAPI service on Fly.io with 1 GB of memory. All state lives in Cloudflare R2: training data, the player
+          history, the model weights, predictions and results. There is no database.
+        </p>
+      </li>
+      <li className="entry">
+        <h3>This page</h3>
+        <p>
+          Every number is computed in your browser from one row per game: the date, the teams, both models'
+          probabilities, the result and the stored prices.
+        </p>
+      </li>
+    </ul>
   );
 }

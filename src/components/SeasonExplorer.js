@@ -23,46 +23,61 @@ export default function SeasonExplorer({ games }) {
   );
 }
 
-function TeamView({ games }) {
+export function TeamView({ games, backtest = true }) {
   const done = useMemo(() => played(games), [games]);
   const [team, setTeam] = useState("BOS");
   const [model, setModel] = useState("pm");
   const [showAll, setShowAll] = useState(false);
 
-  // Every team: games, real record, how often the model called its games right.
+  // A game counts for a model only if that model predicted it before tip-off: reconstructed games, and games that only
+  // got their early prediction, are listed but not counted.
+  const counts = (g, k) => g.r !== "reconstructed" && g.r !== "early" && g[k] != null;
+
+  // Every team: all its games and real record, and how often the model called the counted ones right.
   const table = useMemo(() => {
     const t = {};
     for (const g of done) {
       for (const side of [g.h, g.a]) {
-        const r = (t[side] ||= { team: side, n: 0, w: 0, hits: { pm: 0, ps: 0 } });
+        const r = (t[side] ||= { team: side, n: 0, w: 0, hits: { pm: 0, ps: 0 }, m: { pm: 0, ps: 0 } });
         r.n++;
         if ((side === g.h) === (g.hw === 1)) r.w++;
-        for (const k of ["pm", "ps"]) if (isHit(g, k)) r.hits[k]++;
+        for (const k of ["pm", "ps"]) {
+          if (!counts(g, k)) continue;
+          r.m[k]++;
+          if (isHit(g, k)) r.hits[k]++;
+        }
       }
     }
     return Object.values(t);
   }, [done]);
-  const ranked = [...table].sort((x, y) => y.hits[model] / y.n - x.hits[model] / x.n);
+  const share = (r) => (r.m[model] ? r.hits[model] / r.m[model] : 0);
+  const ranked = [...table].sort((x, y) => share(y) - share(x) || x.team.localeCompare(y.team));
 
-  const rows = done.filter((g) => g.h === team || g.a === team);
+  const all = done.filter((g) => g.h === team || g.a === team);
+  const rows = all.filter((g) => counts(g, model));
+  const callOf = (g) =>
+    counts(g, model) ? (isHit(g, model) ? "Right" : "Wrong") : g.r === "reconstructed" ? "Backtest" : g.r === "early" ? "Early only" : "Not predicted";
   const won = (g) => (g.h === team ? g.hw === 1 : g.hw === 0);
   const opp = (g) => (g.h === team ? g.a : g.h);
   const pTeam = (g) => (g.h === team ? g[model] : 1 - g[model]);
   const right = rows.filter((g) => isHit(g, model)).length;
   const predictedWins = rows.filter((g) => pTeam(g) >= 0.5).length;
   const record = [rows.filter(won).length, rows.filter((g) => !won(g)).length];
-  const last10 = rows.slice(-10);
   const h2h = Object.values(
-    rows.reduce((acc, g) => {
+    all.reduce((acc, g) => {
       const o = opp(g);
-      const r = (acc[o] ||= { opp: o, n: 0, w: 0, hits: 0 });
+      const r = (acc[o] ||= { opp: o, n: 0, w: 0, hits: 0, m: 0 });
       r.n++;
       if (won(g)) r.w++;
-      if (isHit(g, model)) r.hits++;
+      if (counts(g, model)) {
+        r.m++;
+        if (isHit(g, model)) r.hits++;
+      }
       return acc;
     }, {})
   ).sort((x, y) => y.n - x.n || x.opp.localeCompare(y.opp));
-  const list = showAll ? [...rows].reverse() : rows.slice(-12).reverse();
+  const list = showAll ? [...all].reverse() : all.slice(-12).reverse();
+  const allRecord = [all.filter(won).length, all.filter((g) => !won(g)).length];
 
   return (
     <div className="tv">
@@ -72,7 +87,7 @@ function TeamView({ games }) {
           <select value={model} onChange={(e) => setModel(e.target.value)}>
             {Object.entries(MODELS).map(([k, m]) => (
               <option key={k} value={k}>
-                {m.name}: {m.long}, {m.last === "live" ? "pre-game" : m.last}
+                {m.name}: {m.long}, {backtest && m.last !== "live" ? m.last : "pre-game"}
               </option>
             ))}
           </select>
@@ -81,20 +96,20 @@ function TeamView({ games }) {
 
       <h3 className="tv-h">
         How well each team's games were called
-        <Src kind={MODELS[model].last} />
+        <Src kind={backtest ? MODELS[model].last : "live"} />
       </h3>
       <p className="note">Tap a team to follow it below. Sorted by the share of its games the {MODELS[model].name.toLowerCase()} model called right.</p>
       <ol className="tv-rank">
         {ranked.map((r) => {
-          const share = r.hits[model] / r.n;
+          const sh = share(r);
           return (
             <li key={r.team}>
               <button type="button" className={r.team === team ? "on" : ""} aria-pressed={r.team === team} onClick={() => setTeam(r.team)}>
                 <span className="tr-team">{r.team}</span>
                 <span className="tr-bar">
-                  <span style={{ width: `${share * 100}%` }} />
+                  <span style={{ width: `${sh * 100}%` }} />
                 </span>
-                <span className="tr-val">{pct(share, 0)}</span>
+                <span className="tr-val">{r.m[model] ? `${r.hits[model]}/${r.m[model]}` : "none"}</span>
               </button>
             </li>
           );
@@ -103,18 +118,18 @@ function TeamView({ games }) {
 
       <div className="tv-focus" id="team-focus">
         <h3 className="tv-h">
-          {team}, {rows.length} games
+          {team}, {all.length} {all.length === 1 ? "game" : "games"}, {rows.length} predicted before tip-off
         </h3>
         <ul className="tv-stats four">
           <li>
-            <b>{pct(right / rows.length)}</b>
-            of {team} games called right
+            <b>
+              {allRecord[0]}-{allRecord[1]}
+            </b>
+            real record, all {all.length} games
           </li>
           <li>
-            <b>
-              {record[0]}-{record[1]}
-            </b>
-            actual record in these games
+            <b>{rows.length ? `${right}/${rows.length}` : "none"}</b>
+            model record: games called right{rows.length ? `, ${pct(right / rows.length, 0)}` : ""}
           </li>
           <li>
             <b>
@@ -123,27 +138,29 @@ function TeamView({ games }) {
             record the model predicted
           </li>
           <li>
-            <b>{pct(rows.reduce((s2, g) => s2 + pTeam(g), 0) / rows.length, 0)}</b>
-            average win chance given
+            <b>
+              {record[0]}-{record[1]}
+            </b>
+            real record in the predicted games
           </li>
         </ul>
 
         <p className="tv-sub">Last 10 games</p>
         <ol className="form">
-          {last10.map((g, i) => (
+          {all.slice(-10).map((g, i) => (
             <li key={i} className={won(g) ? "w" : "l"} title={`${shortDate(g.d)} ${g.h === team ? "vs" : "at"} ${opp(g)}`}>
               <span className="form-r">{won(g) ? "W" : "L"}</span>
               <span className="form-o">{opp(g)}</span>
-              <span className={`form-c ${isHit(g, model) ? "ok" : "miss"}`}>{isHit(g, model) ? "right" : "wrong"}</span>
+              <span className={`form-c ${counts(g, model) ? (isHit(g, model) ? "ok" : "miss") : "nr"}`}>{callOf(g).toLowerCase()}</span>
             </li>
           ))}
         </ol>
 
         <div className="tv-strip" role="img" aria-label={`Win chance the model gave ${team} in each game, and the result`}>
-          {rows.map((g, i) => (
+          {all.filter((g) => g[model] != null).map((g, i) => (
             <span
               key={i}
-              className={`tv-bar ${won(g) ? "w" : "l"}`}
+              className={`tv-bar ${won(g) ? "w" : "l"}${counts(g, model) ? "" : " nr"}`}
               style={{ height: `${pTeam(g) * 100}%` }}
               title={`${shortDate(g.d)} ${g.h === team ? "vs" : "at"} ${opp(g)}: ${pct(pTeam(g), 0)}, ${won(g) ? "won" : "lost"}`}
             />
@@ -179,9 +196,7 @@ function TeamView({ games }) {
                   <td className="num">
                     {r.w}-{r.n - r.w}
                   </td>
-                  <td className="num">
-                    {r.hits}/{r.n}
-                  </td>
+                  <td className="num">{r.m ? `${r.hits}/${r.m}` : "none"}</td>
                 </tr>
               ))}
             </tbody>
@@ -207,16 +222,19 @@ function TeamView({ games }) {
                   <td>
                     {g.h === team ? "vs" : "at"} {opp(g)}
                   </td>
-                  <td className="num">{pct(pTeam(g), 0)}</td>
-                  <td>{won(g) ? "Won" : "Lost"}</td>
-                  <td className={isHit(g, model) ? "ok" : "miss"}>{isHit(g, model) ? "Right" : "Wrong"}</td>
+                  <td className="num">{g[model] != null ? pct(pTeam(g), 0) : "n/a"}</td>
+                  <td>
+                    {won(g) ? "Won" : "Lost"}
+                    {g.hs != null && ` ${g.h === team ? g.hs : g.as}-${g.h === team ? g.as : g.hs}`}
+                  </td>
+                  <td className={counts(g, model) ? (isHit(g, model) ? "ok" : "miss") : "nr"}>{callOf(g)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <button type="button" className="link-button" onClick={() => setShowAll((v) => !v)}>
-          {showAll ? "Show the last 12 only" : `Show all ${rows.length} games`}
+          {showAll ? "Show the last 12 only" : `Show all ${all.length} games`}
         </button>
       </div>
     </div>
@@ -248,7 +266,7 @@ function simulate(games, key, { stake, fraction, minEdge }) {
   return { path, bank, bets, wins, staked, worst };
 }
 
-function BetView({ games }) {
+export function BetView({ games }) {
   const withPrice = useMemo(() => priced(games), [games]);
   const [stake, setStake] = useState("kelly");
   const [fraction, setFraction] = useState(0.25);
