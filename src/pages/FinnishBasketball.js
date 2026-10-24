@@ -41,7 +41,7 @@ export default function FinnishBasketball() {
         </div>
       </Head>
 
-      <Row label="Games" sub="next three weeks" field="sky" id="games">
+      <Row label="Games" sub="next three weeks" field="navy" id="games">
         <Finland />
       </Row>
 

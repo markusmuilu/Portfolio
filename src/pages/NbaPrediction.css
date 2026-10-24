@@ -555,3 +555,16 @@
   .fin-game, .fin-game:has(.fg-date) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .fg-match, .fg-date { grid-column: 1 / -1; }
 }
+
+/* ---------- Finland on navy, matching the NBA page's Tonight ---------- */
+.field-navy .src-live { color: var(--navy); }
+.field-navy .fin-game { background: rgba(255, 255, 255, 0.06); }
+.field-navy .fg-call .gl-mark.ok { color: #6fdc9d; }
+.field-navy .fg-call .gl-mark.miss { color: #ff8a80; }
+.field-navy .fixtures tbody tr:nth-child(odd) td { background: rgba(255, 255, 255, 0.06); }
+.field-navy .tv-table td { border-top-color: rgba(255, 255, 255, 0.12); }
+.field-navy .tv-table tr.on td { background: rgba(156, 195, 230, 0.16); }
+.field-navy .fin-team { background: var(--navy-surface); }
+.field-navy .fin-team .tv-stats li { background: rgba(255, 255, 255, 0.06); }
+.field-navy .tv-stats li { background: var(--navy-surface); }
+.field-navy .drawer-btn[aria-expanded="true"] { color: var(--navy); }
