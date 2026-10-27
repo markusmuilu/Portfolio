@@ -28,7 +28,7 @@ const experience = [
     ],
   },
   {
-    title: "Electronic Mechanician, Vaisala",
+    title: "Electronics Mechanician, Vaisala",
     when: "May 2024 to Feb 2025",
     lead: "Built and tested weather and air quality measurement devices in production.",
     items: ["Assembled devices and installed their software", "Tested components under different conditions", "Learned six production processes"],
@@ -250,7 +250,7 @@ export default function Home() {
           <li className="entry">
             <h3>Basketball</h3>
             <span className="when">youth national teams</span>
-            <p>Played in the U20 European Championships and the U18 Nordic Championships.</p>
+            <p>Played in the U18 Nordic Championships (2021) and the U20 European Championships (2022).</p>
           </li>
           <li className="entry">
             <h3>Huawei Seeds for the Future</h3>
