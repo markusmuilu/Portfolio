@@ -67,6 +67,8 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g
 
 for (const page of pages) {
   const url = site + (page.path === "/" ? "/" : page.path);
+  // Link previews (LinkedIn and others) use a 1200x630 screenshot of the page's own banner.
+  const image = `${site}/og/${page.path === "/" ? "home" : page.path.slice(1)}.png`;
   const head =
     `<title>${esc(page.title)}</title>` +
     `<meta name="description" content="${esc(page.description)}"/>` +
@@ -74,7 +76,11 @@ for (const page of pages) {
     `<meta property="og:title" content="${esc(page.title)}"/>` +
     `<meta property="og:description" content="${esc(page.description)}"/>` +
     `<meta property="og:url" content="${url}"/>` +
-    `<meta property="og:type" content="website"/>`;
+    `<meta property="og:type" content="website"/>` +
+    `<meta property="og:image" content="${image}"/>` +
+    `<meta property="og:image:width" content="1200"/>` +
+    `<meta property="og:image:height" content="630"/>` +
+    `<meta name="twitter:card" content="summary_large_image"/>`;
   let html = template
     .replace(/<title>.*?<\/title>/s, "")
     .replace(/<meta name="description"[^>]*>/s, "")
