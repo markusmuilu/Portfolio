@@ -63,7 +63,7 @@ export default function Home() {
             <br />
             Muilu
           </h1>
-          <img src="/CV_kuva.jpeg" alt="Markus Muilu" className="home-photo" width="168" height="210" />
+          <img src="/CV_kuva.jpeg" alt="Markus Muilu" className="home-photo" width="176" height="220" />
           <p className="lede">
             I build machine learning systems and the pipelines that keep them running. At Elo I build production ML
             pipelines in Azure and Databricks. I graduated from Aalto in June 2026 and am now studying for the M.Sc. in
@@ -106,7 +106,7 @@ export default function Home() {
             </p>
             <ul className="pb-stats">
               <li><b>24</b>heating zones back under control</li>
-              <li><b>11%</b>less per kWh than the day's average price</li>
+              <li><b>11%</b>less per kWh than the day's average price, in the first full week</li>
               <li><b>2x</b>more accurate solar forecast than "same as yesterday"</li>
             </ul>
             <Link to="/home_heating" className="pb-more">See the build</Link>
@@ -182,14 +182,10 @@ export default function Home() {
 
         <article className="pblock small">
           <div className="pb-text">
-            <h3>
-              <a href="https://github.com/markusmuilu/training-planner" target="_blank" rel="noopener noreferrer">
-                Training planner
-              </a>
-            </h3>
+            <h3>Training planner</h3>
             <p>
               A web app that reads recovery data from Oura and activities from Strava, and has Claude draft the week's
-              training plan through tool calls. In personal use.
+              training plan through tool calls. In personal use. The code is in a private repository.
             </p>
           </div>
         </article>

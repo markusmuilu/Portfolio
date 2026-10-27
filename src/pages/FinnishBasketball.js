@@ -4,14 +4,14 @@ import Row, { Head } from "../components/Row";
 import Finland from "../components/Finland";
 import { SourceTable, SrcKey } from "../components/Src";
 import { Calibration, DotPlot } from "../components/charts/charts";
-import useJson, { LIVE_DATA } from "../lib/useJson";
+import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
 
 const REPO = "https://github.com/markusmuilu/nba-dashboard/tree/static-site/finland";
 const FAMILY = { elo: "Elo", margin: "Point margin" };
 const MODE = { final: "final score", q3: "after 3 quarters", half: "half-time", mix: "final and 3 quarters" };
 
 export default function FinnishBasketball() {
-  const data = useJson(`${LIVE_DATA}/finland.json`, "/data/finland.json");
+  const data = useJson(`${NBA_LIVE}/finland.json`, `${LIVE_DATA}/finland.json`, "/data/finland.json");
   const decisions = useJson("/data/decisions.json");
   const [pool, setPool] = useState("national");
   const ok = data && !data.error;
@@ -29,7 +29,7 @@ export default function FinnishBasketball() {
             update after each result. A side project next to the NBA model, built on the federation's own results.
           </p>
           <SrcKey />
-          <p className="stack-line">Python, pandas, GitHub Actions. Updated every morning around 11:00. The ratings learn from results only; rosters are not used yet.</p>
+          <p className="stack-line">Python, pandas, Fly.io. Updated every morning around 11:00. The ratings learn from results only; rosters are not used yet.</p>
           <div className="actions">
             <a className="btn" href="#games">
               Next games

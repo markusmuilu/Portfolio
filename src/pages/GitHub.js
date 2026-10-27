@@ -24,12 +24,6 @@ const repos = [
     internal: "/thesis",
   },
   {
-    name: "training-planner",
-    description:
-      "A training planner that reads Oura and Strava data and has Claude draft the week's plan through tool calls. In personal use.",
-    tags: "React, Vite, Tailwind, Supabase, Claude API",
-  },
-  {
     name: "Portfolio",
     description: "This site. React, with each page prerendered to static HTML at build time.",
     tags: "React, JavaScript, CSS",

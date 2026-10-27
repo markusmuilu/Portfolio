@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // Live data, read first, with the copy bundled with the site as the fallback:
 // NBA_LIVE: the prediction service on Fly.io, updated every 15 minutes by the player model's loop.
-// LIVE_DATA: the Predicting-Nba repository's `data` branch, where the Finnish leagues Action publishes twice a day.
+// LIVE_DATA: the Predicting-Nba repository's `data` branch, a copy that is no longer updated (the Finnish leagues moved to Fly on 22 Oct 2026), kept as a second source.
 export const NBA_LIVE = "https://predicting-nba.fly.dev/portfolio";
 export const LIVE_DATA = "https://raw.githubusercontent.com/markusmuilu/Predicting-Nba/data";
 
