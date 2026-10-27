@@ -192,12 +192,15 @@ export function GameLog({ games, perPage = 7 }) {
   const rows = games
     .filter((g) => g.hw === 0 || g.hw === 1)
     .filter((g) => !team || g.h === team || g.a === team)
-    .filter((g) => !disagree || (g.pm >= 0.5) !== (g.ps >= 0.5))
+    .filter((g) => !disagree || (g.pm != null && g.ps != null && (g.pm >= 0.5) !== (g.ps >= 0.5)))
     .slice()
     .reverse();
   const groups = groupBy(rows, (g) => g.d);
   // Games outside the record (reconstructed, or only the early prediction) are listed but not counted.
-  const right = (k) => rows.filter((g) => g.r !== "reconstructed" && g.r !== "early" && g[k] != null && isHit(g, k)).length;
+  const counted = rows.filter((g) => g.r !== "reconstructed" && g.r !== "early");
+  const right = (k) => counted.filter((g) => g[k] != null && isHit(g, k)).length;
+  const of = (k) => counted.filter((g) => g[k] != null).length;
+  const outside = rows.length - counted.length;
 
   return (
     <div className="gl">
@@ -219,8 +222,8 @@ export function GameLog({ games, perPage = 7 }) {
         </label>
         {rows.length > 0 && (
           <p className="gl-count">
-            {rows.length} {rows.length === 1 ? "game" : "games"}: {MODELS.pm.name} {right("pm")} right, {MODELS.ps.name}{" "}
-            {right("ps")} right
+            {MODELS.pm.name} {right("pm")} of {of("pm")} right, {MODELS.ps.name} {right("ps")} of {of("ps")}
+            {outside > 0 && `, plus ${outside} ${outside === 1 ? "game" : "games"} listed but not in the record`}
           </p>
         )}
       </div>

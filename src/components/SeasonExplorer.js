@@ -247,6 +247,10 @@ function simulate(games, key, { stake, fraction, minEdge }) {
   const path = [];
   for (const g of games) {
     const p = g[key];
+    if (p == null) {
+      path.push(bank);
+      continue;
+    }
     const evH = p * g.oh - 1, evA = (1 - p) * g.oa - 1;
     const home = evH >= evA;
     const edge = home ? evH : evA;

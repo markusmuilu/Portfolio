@@ -280,8 +280,12 @@ export default function Finland() {
               expected points against an average team
             </li>
             <li>
-              <b>{t.games.length ? `${t.games.filter((g) => g.correct).length}/${t.games.length}` : "none yet"}</b>
-              of its games called right in the replay
+              <b>
+                {t.games.length
+                  ? `${t.games.filter((g) => { const c = liveCall(pick, g); return c ? c.correct : g.correct; }).length}/${t.games.length}`
+                  : "none yet"}
+              </b>
+              of its games called right, pre-game where logged
             </li>
           </ul>
           <div className="tv-two">

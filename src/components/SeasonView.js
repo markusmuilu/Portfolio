@@ -114,16 +114,24 @@ export function SeasonCards({ games, backtest }) {
   );
 }
 
-// Share called right so far, game by game, on the games both models predicted.
+// Share called right so far, game by game. Each series counts the games it predicted, so it ends on its card's number.
 function RunningAccuracy({ games, backtest }) {
-  const rows = games.filter((g) => g.pm != null && g.ps != null);
+  const rows = games;
   if (rows.length < 2) return null;
   const run = (key) => {
-    let hits = 0;
-    return rows.map((g, i) => {
-      if (isHit(g, key)) hits++;
-      return hits / (i + 1);
+    let hits = 0, n = 0;
+    return rows.map((g) => {
+      if (g[key] != null) {
+        n++;
+        if (isHit(g, key)) hits++;
+      }
+      return n ? hits / n : null;
     });
+  };
+  // The chart has no gaps, so a series that starts late takes its first value from the start.
+  const filled = (values) => {
+    const first = values.find((v) => v != null) ?? 0;
+    return values.map((v) => (v == null ? first : v));
   };
   let home = 0;
   return (
@@ -134,8 +142,8 @@ function RunningAccuracy({ games, backtest }) {
         base={0.5}
         format={(v) => `${Math.round(v * 100)}%`}
         series={[
-          { label: `Main${backtest ? ", backtest" : ""}`, values: run("pm"), className: "pm" },
-          { label: `Shadow${backtest ? ", pre-game" : ""}`, values: run("ps"), className: "ps" },
+          { label: `Main${backtest ? ", backtest" : ""}`, values: filled(run("pm")), className: "pm" },
+          { label: `Shadow${backtest ? ", pre-game" : ""}`, values: filled(run("ps")), className: "ps" },
           {
             label: "Always home",
             values: rows.map((g, i) => {

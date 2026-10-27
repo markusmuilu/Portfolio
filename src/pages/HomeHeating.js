@@ -118,9 +118,9 @@ export default function HomeHeating() {
             be worked out against the live panel.
           </p>
           <p>
-            On top of that sits a Raspberry Pi running Home Assistant, and eleven AppDaemon apps in Python: the bridge
-            itself, the thermostats, the price optimiser, the mode selector, and a watchdog that checks every signal is
-            still arriving.
+            On top of that sits a Raspberry Pi running Home Assistant, and eighteen AppDaemon apps in Python: the bridge
+            itself, the thermostats, the price optimiser, the mode selector, the solar forecast, cost tracking, data
+            loggers, and a watchdog that checks every signal is still arriving.
           </p>
         </div>
       </Row>

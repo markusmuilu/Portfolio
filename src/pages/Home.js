@@ -116,7 +116,7 @@ export default function Home() {
         <article className="pblock flip">
           <Link to="/nba_prediction" className="pb-visual chart" aria-label="NBA game prediction">
             {games ? <MonthBars games={games} modelKey="pm" /> : <span />}
-            <span className="pb-cap">Share of games the player model called right, by month, 2025-26</span>
+            <span className="pb-cap">Share of games the player model called right, by month, 2025-26 backtest</span>
           </Link>
           <div className="pb-text">
             <h3>
@@ -127,9 +127,9 @@ export default function Home() {
               PyTorch player model is the main model for 2026-27, with a logistic regression as the shadow.
             </p>
             <ul className="pb-stats">
-              <li><b>1,084</b>games predicted live last season</li>
-              <li><b>64.0%</b>called right live</li>
-              <li><b>68.4%</b>player model on the same games</li>
+              <li><b>1,079</b>games of last season</li>
+              <li><b>64.0%</b>called right by the regression, pre-game</li>
+              <li><b>68.4%</b>by the player model, backtest on the same games</li>
             </ul>
             <Link to="/nba_prediction" className="pb-more">See the results</Link>
           </div>
