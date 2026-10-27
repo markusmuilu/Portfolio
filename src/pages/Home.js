@@ -68,7 +68,7 @@ export default function Home() {
           <img src="/CV_kuva.jpeg" alt="Markus Muilu" className="home-photo" width="176" height="220" />
           <p className="lede">
             I build machine learning systems and the pipelines that keep them running. At Elo I build production ML
-            pipelines in Azure and Databricks. I graduated from Aalto in June 2026 and am now studying for the M.Sc. in
+            pipelines in Azure and Databricks. I finished my bachelor's at Aalto in June 2026 and am now studying for the M.Sc. in
             Machine Learning, Data Science and Artificial Intelligence there.
           </p>
           <div className="actions">
