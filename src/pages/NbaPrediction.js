@@ -212,7 +212,7 @@ function Sources({ data }) {
           what: `Player model, 2025-26${both.length ? `: ${pct(quality(both, (g) => g.pm).accuracy)} of ${both.length.toLocaleString("en")} games` : ""}`,
           kind: "backtest",
           detail:
-            "Trained on 2020-21 to 2023-24, with 2024-25 for choosing settings, so it never saw a 2025-26 game. It used each team's previous-game roster.",
+            "Trained on 2020-21 to 2023-24, with 2024-25 for choosing settings, so it never saw a 2025-26 game. It used each team's previous-game roster. The season numbers compare the two models on these games, the ones the regression also predicted.",
         },
         {
           what: "How it was chosen",

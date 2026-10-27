@@ -108,7 +108,7 @@ export default function PlayerNet() {
           <b>Which model runs.</b> The set: all five copies, every day. They were trained in PyTorch on 2020-21 to
           2024-25, each stopped at the epoch where its 2025-26 log loss was lowest (between 9 and 16 epochs), and
           retrained on 16 October 2026. On the server the same weights run in NumPy, which keeps
-          PyTorch out of the 512 MB container; the two agree to within 0.0000002.
+          PyTorch out of the 1 GB container; the two agree to within 0.0000002.
         </p>
         <p>
           <b>Why the backtest is still clean.</b> The 2025-26 backtest on this page comes from an earlier copy, trained

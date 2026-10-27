@@ -6,7 +6,7 @@ import { SourceTable, SrcKey } from "../components/Src";
 import { Calibration, DotPlot } from "../components/charts/charts";
 import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
 
-const REPO = "https://github.com/markusmuilu/nba-dashboard/tree/static-site/finland";
+const REPO = "https://github.com/markusmuilu/Predicting-Nba/tree/main/src/predict_nba/finland";
 const FAMILY = { elo: "Elo", margin: "Point margin" };
 const MODE = { final: "final score", q3: "after 3 quarters", half: "half-time", mix: "final and 3 quarters" };
 
@@ -204,7 +204,7 @@ export default function FinnishBasketball() {
         <p className="prose-line">
           The data pipeline, models and tests are in the{" "}
           <a className="link" href={REPO} target="_blank" rel="noopener noreferrer">
-            finland folder of the dashboard repository
+            finland folder of the Predicting-Nba repository
           </a>
           . There are no betting prices for these leagues in any open data source yet, so nothing here is compared with a
           bookmaker.

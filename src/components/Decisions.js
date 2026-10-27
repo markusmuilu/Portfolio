@@ -75,7 +75,7 @@ export default function Decisions() {
         <h3 className="row-title">Which model</h3>
         <p className="prose-line">
           Seven ways to predict a game, each using only what is known before tip-off, scored once on the{" "}
-          {n.test_games.toLocaleString("en")} games of {n.test_season}, all as backtests. Lower log loss is better.
+          {n.test_games.toLocaleString("en")} games of {n.test_season}, all as backtests. Lower log loss is better. This is the whole season, so it covers more games than the season numbers, which start on 10 November.
         </p>
         <LogLossNote />
         <DotPlot

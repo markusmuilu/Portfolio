@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Src from "./Src";
 import useJson, { LIVE_DATA, NBA_LIVE } from "../lib/useJson";
-import { pct } from "../lib/ledger";
+import { pct, shortDate } from "../lib/ledger";
 
 // Four leagues to choose from. Korisliiga and both I divisioona groups share one rating pool (so a promoted team
 // keeps its rating); the II divisioona is its own model, learning from every region, shown for the southern group.
@@ -380,7 +380,7 @@ export default function Finland() {
       )}
 
       <p className="note">
-        Ratings move with each final score. Updated {data.generated_at.slice(0, 10)}. There are no betting prices for
+        Ratings move with each final score. Updated {shortDate(data.generated_at.slice(0, 10))} {data.generated_at.slice(0, 4)}. There are no betting prices for
         these leagues in any open data source, so nothing here is compared with a bookmaker.
       </p>
     </div>
