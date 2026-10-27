@@ -60,24 +60,24 @@ export default function HomeHeating() {
             <h3 className="row-title">Heating in the cheaper hours</h3>
             <CompareBars
               rows={[
-                { label: "Day's average electricity price", value: 6.21 },
-                { label: "Average price the heating paid", value: 5.52, strong: true },
+                { label: "Day's average electricity price", value: 6.83 },
+                { label: "Average price the heating paid", value: 5.44, strong: true },
               ]}
-              max={6.5}
+              max={7}
               format={(v) => `${v.toFixed(2)} c/kWh`}
-              caption="6 to 11 October, the first week with every room on price control: 168 kWh of heating, 11 % cheaper per kWh than buying the same energy at each day's average price, a saving of €1.15. Prices are spot plus transfer, without tax and the retailer's margin, which are the same in every hour. One mild week, so not a yearly figure."
+              caption="6 to 26 October, the first three weeks with the rooms on price control: 659 kWh of heating, 20 % cheaper per kWh than buying the same energy at each day's average price, a saving of €9.18. Prices are spot plus transfer, without tax and the retailer's margin, which are the same in every hour. Three autumn weeks, so not a yearly figure."
             />
           </div>
           <div>
             <h3 className="row-title">Solar forecast for the next day</h3>
             <CompareBars
               rows={[
-                { label: "Same as yesterday", value: 0.49 },
-                { label: "My forecast", value: 0.24, strong: true },
+                { label: "Same as yesterday", value: 0.62 },
+                { label: "My forecast", value: 0.28, strong: true },
               ]}
-              max={0.5}
+              max={0.65}
               format={(v) => `${v.toFixed(2)} kW`}
-              caption="Average hourly error against what the panels actually produced, over 75 daylight hours since 5 October. The forecast averages two weather models."
+              caption="Average hourly error against what the panels actually produced, over 203 daylight hours from 5 to 26 October. The forecast averages two weather models."
             />
           </div>
         </div>

@@ -87,13 +87,13 @@ export default function Home() {
           <Link to="/home_heating" className="pb-visual chart" aria-label="Building automation bridge">
             <CompareBars
               rows={[
-                { label: "Day's average electricity price", value: 6.21 },
-                { label: "Average price the heating paid", value: 5.52, strong: true },
+                { label: "Day's average electricity price", value: 6.83 },
+                { label: "Average price the heating paid", value: 5.44, strong: true },
               ]}
-              max={6.5}
+              max={7}
               format={(v) => `${v.toFixed(2)} c`}
             />
-            <span className="pb-cap">Cents per kWh, 6 to 11 October, all rooms on price control</span>
+            <span className="pb-cap">Cents per kWh, 6 to 26 October, rooms on price control</span>
           </Link>
           <div className="pb-text">
             <h3>
@@ -106,7 +106,7 @@ export default function Home() {
             </p>
             <ul className="pb-stats">
               <li><b>24</b>heating zones back under control</li>
-              <li><b>11%</b>less per kWh than the day's average price, in the first full week</li>
+              <li><b>20%</b>less per kWh than the day's average price, over the first three weeks</li>
               <li><b>2x</b>more accurate solar forecast than "same as yesterday"</li>
             </ul>
             <Link to="/home_heating" className="pb-more">See the build</Link>
