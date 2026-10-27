@@ -24,6 +24,12 @@ const repos = [
     internal: "/thesis",
   },
   {
+    name: "basketball-cv",
+    description:
+      "Player, ball and event detection on NBA broadcast footage: RF-DETR fine-tuned, with ByteTrack following players across frames. 0.561 mAP on a held-out split; the ball and jersey numbers are the weakest classes. Unfinished.",
+    tags: "Python, PyTorch, RF-DETR, ByteTrack, Jupyter",
+  },
+  {
     name: "Portfolio",
     description: "This site. React, with each page prerendered to static HTML at build time.",
     tags: "React, JavaScript, CSS",

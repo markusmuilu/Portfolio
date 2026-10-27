@@ -43,7 +43,7 @@ const pages = [
   {
     path: "/github",
     title: "Repositories | Markus Muilu",
-    description: "Public code by Markus Muilu: NBA game prediction, a building automation bridge over Modbus RTU, bachelor's thesis code and the code for this site.",
+    description: "Public code by Markus Muilu: NBA game prediction, a building automation bridge over Modbus RTU, bachelor's thesis code, basketball computer vision and the code for this site.",
   },
 ];
 
