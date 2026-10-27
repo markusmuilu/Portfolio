@@ -34,6 +34,9 @@ export default function FinnishBasketball() {
             <a className="btn" href="#games">
               Next games
             </a>
+            <a className="btn quiet" href="#how">
+              How it works
+            </a>
             <Link className="btn quiet" to="/nba_prediction">
               The NBA model
             </Link>
@@ -80,7 +83,7 @@ export default function FinnishBasketball() {
         </SourceTable>
       </Row>
 
-      <Row label="How it works">
+      <Row label="How it works" id="how">
         <ul className="entries">
           <li className="entry">
             <h3>One rating per team</h3>
