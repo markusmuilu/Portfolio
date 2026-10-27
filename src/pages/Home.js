@@ -10,10 +10,11 @@ const experience = [
     title: "Junior Data Scientist, Elo",
     when: "May 2026 to present",
     items: [
-      "Building a recommendation model",
-      "Build and deploy production ML model training pipelines in Azure and Databricks",
-      "Built a customer activity score and a workability index and put them into daily production through Azure Data Factory",
-      "Moved existing Power BI DAX logic into Azure Data Factory pipelines",
+      "Building a recommendation model as the responsible data scientist",
+      "Building and deploying production ML model pipelines in Azure and Databricks",
+      "Built a customer activity score and put it into daily production through Azure Data Factory",
+      "Rebuilt a service coverage index from its Power BI DAX logic as a Databricks pipeline, scheduled through Azure Data Factory",
+      "Presented results to business stakeholders",
     ],
   },
   {
